@@ -1,0 +1,56 @@
+<?php echo $this->doctype(); ?>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <?php echo $this->headTitle('ZF2 '. $this->translate('Skeleton Application'))->setSeparator(' - ')->setAutoEscape(false) ?>
+
+        <?php echo $this->headMeta()
+            ->appendName('viewport', 'width=device-width, initial-scale=1.0')
+            ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
+        ?>
+
+        <!-- Le styles -->
+        <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))
+                        ->prependStylesheet($this->basePath('css/style.css')) ?>
+
+        <!-- Scripts -->
+        <?php echo $this->headScript()
+            ->prependFile($this->basePath('js/bootstrap.min.js'))
+            ->prependFile($this->basePath('js/jquery.min.js'))
+            ->prependFile($this->basePath('js/respond.min.js'), 'text/javascript', array('conditional' => 'lt IE 9',))
+            ->prependFile($this->basePath('js/html5shiv.min.js'),   'text/javascript', array('conditional' => 'lt IE 9',))
+        ; ?>
+    </head>
+    <body>
+        <nav class="nbar">
+            <ul class="nbar-list">
+                <li class="nbar-link">
+                    <a href="">Home</a>
+                </li>
+                <li class="nbar-link">
+                    <a href="">Profile</a>
+                </li>
+                <li class="nbar-link">
+                   <a href="">Schedule</a>
+                </li>
+                <li class="nbar-link">
+                    <a href="">Students</a>
+                </li>
+                <li class="nbar-link">
+                    <a href="">Attendance</a>
+                </li>
+                <li class="nbar-link">
+                    <a href="">Grades</a>
+                </li>
+            </ul>
+        </nav>
+        <div class="teachercontainer">
+            <?php echo $this->content; ?>
+        </div> <!-- /container -->
+        <footer>
+            <center><p>&copy; 2015 Injaz Fujairah</p></center>
+        </footer>
+        <?php echo $this->inlineScript() ?>
+    </body>
+</html>

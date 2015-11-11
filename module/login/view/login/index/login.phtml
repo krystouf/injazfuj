@@ -1,0 +1,45 @@
+<div id="tabs">
+    <a href="#" onclick="tab_click(0);">Student</a>
+    <a href="#" onclick="tab_click(1);">Teacher</a>
+    <a href="#" onclick="tab_click(2);">Admin</a>
+</div>
+<div id="tabs_data">
+    <fieldset>
+        <form method="post">
+            <input type="text" name="u" placeholder="Student ID" required="required" />
+            <input type="password" name="p" placeholder="Password" required="required" />
+            <input value="Login" name="student_log_but" type="submit" class="btn btn-primary btn-block btn-large" />
+        </form>
+    </fieldset>
+    <fieldset>
+        <form method="post">
+            <input type="text" name="u" placeholder="Teacher ID" required="required" />
+            <input type="password" name="p" placeholder="Password" required="required" />
+            <input value="Login" name="teacher_log_but" type="submit" class="btn btn-primary btn-block btn-large" />
+        </form>
+    </fieldset>
+    <fieldset>
+        <form method="post">
+            <input type="text" name="u" placeholder="Admin ID" required="required" />
+            <input type="password" name="p" placeholder="Password" required="required" />
+            <input value="Login" name="admin_log_but" type="submit" class="btn btn-primary btn-block btn-large" />
+        </form>
+    </fieldset>
+</div>
+<script>
+    var tabActive=1, tabs=document.getElementById('tabs').getElementsByTagName('A'), tabs_data=document.getElementById('tabs_data').getElementsByTagName('fieldset');
+    function tab_click(x){
+        if(x > -1 && x < tabs.length && x < tabs_data.length){
+            tabs[tabActive].setAttribute('class','');
+            tabs_data[tabActive].style.display='none';
+            tabActive=x;
+            tabs[tabActive].setAttribute('class','active');
+            tabs_data[tabActive].style.display='block';
+        } return false;
+    }tab_click(0);
+    document.onkeydown=function (evnt){ 
+        if(evnt.keyCode==37 || evnt.keyCode==39) 
+        tab_click(tabActive+evnt.keyCode-38); 
+    }
+</script>
+
