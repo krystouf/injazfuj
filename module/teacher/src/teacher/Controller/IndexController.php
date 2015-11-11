@@ -19,4 +19,11 @@ class IndexController extends AbstractActionController
         return new ViewModel();
     }
 
+    public function attendanceAction()
+    {
+        return new ViewModel();
+        
+    }
+    
+    
 }
