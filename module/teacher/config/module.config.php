@@ -23,6 +23,17 @@ return array(
                     ),
                 ),
             ),
+            'teacherHome' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route'    => '/teacher',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'teacher\Controller',
+                        'controller'    => 'Index',
+                        'action'        => 'index',
+                    ),
+                ),
+            ),
             // The following is a route to simplify getting started creating
             // new controllers and actions without needing to create a new
             // module. Simply drop new controllers in, and you can access them
