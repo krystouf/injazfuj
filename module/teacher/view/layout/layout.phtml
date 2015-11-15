@@ -22,7 +22,7 @@
             ->prependFile($this->basePath('js/html5shiv.min.js'),   'text/javascript', array('conditional' => 'lt IE 9',))
         ; ?>
     </head>
-    <body>
+    <body onload="startTime()">
         <nav class="nbar">
             <ul class="nbar-list">
                 <li class="nbar-link">
