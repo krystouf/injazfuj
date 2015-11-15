@@ -21,8 +21,21 @@ class IndexController extends AbstractActionController
 
     public function attendanceAction()
     {
-        return new ViewModel();
-        
+        if($this->getRequest()->getPost('test-but')){
+            $TName = $this->getRequest()->getPost('Tname');
+            $this->_view = new ViewModel();
+            return new ViewModel(array(
+                'TeacherName' => $TName,
+            ));
+            
+            //return $this->redirect()->toRoute('login',
+           // array('controller'=>'index',
+            //      'action' => 'login'));
+        }else{
+            return new ViewModel(array(
+                'TeacherName' => "",
+            ));
+        }
     }
     
     

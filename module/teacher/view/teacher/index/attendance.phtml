@@ -1,2 +1,12 @@
-Attendance
-<h1> hi </h1>
+<?php
+if ($this->TeacherName == ""){
+?>
+    <form action ="" method="post" style="width: 50%; margin: auto;">
+        <input type="text" name="Tname" placeholder="Name">
+        <input type="submit" value="submit" name="test-but">
+    </form>
+<?php 
+}else{ 
+    echo 'Welcome ' . $this->TeacherName;
+}
+?>
