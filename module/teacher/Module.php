@@ -12,6 +12,11 @@ namespace teacher;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
 use Zend\ModuleManager\ModuleManager;
+ use teacher\Model\Section;
+ use teacher\Model\SectionTable;
+ use Zend\Db\ResultSet\ResultSet;
+ use Zend\Db\TableGateway\TableGateway;
+
 
 class Module
 {
@@ -45,4 +50,26 @@ class Module
             ),
         );
     }
+    
+    public function getServiceConfig()
+     {
+         return array(
+             'factories' => array(
+                 'teacher\Model\SectionTable' =>  function($sm) {
+                     $tableGateway = $sm->get('SectionTableGateway');
+                     $table = new SectionTable($tableGateway);
+                     return $table;
+                 },
+                 'SectionTableGateway' => function ($sm) {
+                     $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+                     $resultSetPrototype = new ResultSet();
+                     $resultSetPrototype->setArrayObjectPrototype(new Section());
+                     return new TableGateway('Section', $dbAdapter, null, $resultSetPrototype);
+                 },
+             ),
+         );
+     }
+
+
+
 }
