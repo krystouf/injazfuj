@@ -26,4 +26,6 @@
                      => 'Zend\Db\Adapter\AdapterServiceFactory',
          ),
      ),
+     
+     'static_salt' => 'aFGQ475SDsdfsaf2342',
  );
