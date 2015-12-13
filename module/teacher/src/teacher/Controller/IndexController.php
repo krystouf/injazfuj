@@ -22,10 +22,10 @@ class IndexController extends AbstractActionController
     public function attendanceAction()
     {
         if($this->getRequest()->getPost('test-but')){
-            $TName = $this->getRequest()->getPost('Tname');
-            $this->_view = new ViewModel();
             return new ViewModel(array(
-                'TeacherName' => $TName,
+                'TeacherName' => $this->getRequest()->getPost('Tname'),
+                'STattendance' => $this->getRequest()->getPost('attendance'),
+                'STattendance1' => $this->getRequest()->getPost('attendance1'),
             ));
             
             //return $this->redirect()->toRoute('login',

@@ -1,12 +1,82 @@
 <?php
+$att ="";
+$starr =array ("mariam", "aisha");
 if ($this->TeacherName == ""){
-?>
-    <form action ="" method="post" style="width: 50%; margin: auto;">
-        <input type="text" name="Tname" placeholder="Name">
+ 
+    ?>
+<div id ="att_header">
+ 
+    <?php echo date("l jS \of F Y "); ?>
+     <input list="browsers" name="browser">
+  <datalist id="browsers">
+    <option value="Section 1">
+    <option value="Section 2">
+    <option value="Section 3">
+    <option value="Section 4">
+    <option value="Section 5">
+    <option value="Section 6">
+  </datalist>
+    
+   
+    
+</div> <!-- att_header -->
+
+    <form action ="" method="post" style="width: 25%; margin: auto;">
+       
+        
+        <table border="1" style="width:100%">
+            <tr>
+                <th>Name</th>
+                <th> P </th>
+                <th> L </th>
+                <th> AL </th>
+                <th> A </th>
+            </tr>
+            
+            <tr>
+             
+                <th> <?php echo '' . $starr[0] ; ?> </th>
+                <th> <input type ="radio" name ="attendance" value="0" checked="checked"> </th>
+                <th> <input type ="radio" name ="attendance" value="1" > </th>
+                <th> <input type ="radio" name ="attendance" value="2" > </th>
+                <th> <input type ="radio" name ="attendance" value="3" > </th>
+            </tr>
+            
+              <tr>
+                <th>Aisha </th>
+                <th> <input type ="radio" name ="attendance1" value="0" checked="checked"> </th>
+                <th> <input type ="radio" name ="attendance1" value="1" > </th>
+                <th> <input type ="radio" name ="attendance1" value="2" > </th>
+                <th> <input type ="radio" name ="attendance1" value="3" > </th>
+            </tr>
+            
+        </table>
         <input type="submit" value="submit" name="test-but">
     </form>
 <?php 
 }else{ 
-    echo 'Welcome ' . $this->TeacherName;
+  echo 'Student  ' . $this->TeacherName;
+  if ($this->STattendance == 1){
+      echo ' was late';
+  }else if($this->STattendance == 2){
+      echo ' was absent/late';
+  }else if($this->STattendance == 3){
+      echo ' was absent';
+  }else{
+      echo ' was present';
+  }
+    
+  echo ' <br> Student mariam  ' ;
+  if ($this->STattendance1 == 1){
+      echo ' was late';
+  }else if($this->STattendance1 == 2){
+      echo ' was absent/late';
+  }else if($this->STattendance1 == 3){
+      echo ' was absent';
+  }else{
+      echo ' was present';
+  }
+  
+  
 }
 ?>
