@@ -14,10 +14,23 @@ use Zend\View\Model\ViewModel;
 
 class IndexController extends AbstractActionController
 {
+    protected $SectionTable;
+    
     public function indexAction()
     {
-        return new ViewModel();
+        return new ViewModel(array(
+             'sections' => $this->getSectionTable()->fetchAll(),
+         ));
     }
+    
+    public function getSectionTable()
+     {
+         if (!$this->SectionTable) {
+             $sm = $this->getServiceLocator();
+             $this->SectionTable = $sm->get('teacher\Model\SectionTable');
+         }
+         return $this->SectionTable;
+     }
 
     public function attendanceAction()
     {
