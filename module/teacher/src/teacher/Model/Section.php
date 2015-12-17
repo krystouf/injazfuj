@@ -15,7 +15,7 @@
 
      public function exchangeArray($data)
      {
-         $this->Section_id     = (!empty($data['Section_id'])) ? $data['Section_id'] : null;
+         $this->Section_id   = (!empty($data['Section_id'])) ? $data['Section_id'] : null;
          $this->Section_Name = (!empty($data['Section_Name'])) ? $data['Section_Name'] : null;
      }
  }
