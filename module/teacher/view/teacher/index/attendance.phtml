@@ -1,7 +1,28 @@
+<script>
+function startTime() {
+    var today = new Date();
+    var h = today.getHours();
+    var m = today.getMinutes();
+    var s = today.getSeconds();
+    m = checkTime(m);
+    s = checkTime(s);
+    document.getElementById('clock').innerHTML =
+    h + ":" + m + ":" + s;
+    var t = setTimeout(startTime, 500);
+}
+function checkTime(i) {
+    if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+    return i;
+}
+</script>
+
 <?php
 $count=0; 
 echo date("l jS \of F Y ");
- 
+ echo '<span id="clock"></span>';
+ if ($this->Step != "3"){
+ echo '<br/>Period '.$this->period;
+ }
 if ($this->Step == "1"){
  
 ?>
@@ -52,13 +73,14 @@ foreach ($this->students as $student){
  }
  ?>
       </table>
-            <input type="hidden" value="<?php $count?>" name="stcount">
-            <?php echo $count?>
+            <input type="hidden" value="<?php echo $count?>" name="stcount">
+           
             <input type="submit" value="submit" name="submit-but">
         </form>
     </div>
-<?php }else if ($this->Step == "3"){ ?>
+<?php }else if ($this->Step == "3"){
     
-    
-    
-<?php }?>
+   // $temp = $this->att ; 
+    echo ' <hr>';
+    echo ' <br> <b> Attendance table updated successfully </b> ' ;
+ }?>
