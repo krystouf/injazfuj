@@ -12,7 +12,28 @@ namespace admin;
 return array(
     'router' => array(
         'routes' => array(
-            
+            'aminAtt' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route'    => '/admin_attenance',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'admin\Controller',
+                        'controller'    => 'Index',
+                        'action'        => 'attendance',
+                    ),
+                ),
+            ),
+            'adminHome' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route'    => '/admin',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'admin\Controller',
+                        'controller'    => 'Index',
+                        'action'        => 'index',
+                    ),
+                ),
+            ),
             // The following is a route to simplify getting started creating
             // new controllers and actions without needing to create a new
             // module. Simply drop new controllers in, and you can access them
