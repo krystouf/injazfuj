@@ -26,10 +26,10 @@ class IndexController extends AbstractActionController
     public function indexAction()
     {
         $auth = new AuthenticationService();
-        if ($auth->hasIdentity()) {
-             $sm =$this->getServiceLocator();
+        $container = new Container('username');
+        if ($auth->hasIdentity() && $container->type == 1) {
+            $sm =$this->getServiceLocator();
             $dbAdpater = $sm->get('Zend\Db\Adapter\Adapter');
-            $container = new Container('username');
             $username = $container->id;
             $sql ="SELECT section FROM teacher_section WHERE computer_teacher=".$username." OR wk_teacher=".$username." OR english_teacher=".$username." OR math_teacher=".$username." OR arabic_teacher=".$username;
             $statement = $dbAdpater->query($sql, array(5));
@@ -90,7 +90,8 @@ class IndexController extends AbstractActionController
     public function attendanceAction()
     {
         $auth = new AuthenticationService();
-        if ($auth->hasIdentity()) {
+        $container = new Container('username');
+        if ($auth->hasIdentity() && $container->type == 1) {
             $activeSec = null;
             if($this->getRequest()->getPost('submit-but')){
                 $count = (int) $this->getRequest()->getPost('stcount');

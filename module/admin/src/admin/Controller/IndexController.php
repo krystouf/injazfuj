@@ -10,13 +10,28 @@
 namespace admin\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
+use Zend\Db\Sql\Sql;
 use Zend\View\Model\ViewModel;
+use Zend\Db\ResultSet\ResultSet;
+use Zend\Db\TableGateway\TableGateway;
+use Zend\Db\Sql\Select;
+use Zend\Session\Container;
+use Zend\Authentication\AuthenticationService;
+use Zend\Authentication\Storage\Session as SessionStorage;
 
 class IndexController extends AbstractActionController
 {
     public function indexAction()
     {
-        return new ViewModel();
+        $auth = new AuthenticationService();
+        $container = new Container('username');
+        if ($auth->hasIdentity() && $container->type == 0) {
+            return new ViewModel();
+        }else{
+            return $this->redirect()->toRoute('login',
+            array('controller'=>'index',
+                'action' => 'login'));
+        }
     }
     
     public function attendanceAction()
