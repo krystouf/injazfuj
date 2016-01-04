@@ -15,6 +15,9 @@ use Zend\View\Model\ViewModel;
 use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\TableGateway\TableGateway;
 use Zend\Db\Sql\Select;
+use Zend\Session\Container;
+use Zend\Authentication\AuthenticationService;
+use Zend\Authentication\Storage\Session as SessionStorage;
 
 class IndexController extends AbstractActionController
 {
@@ -22,9 +25,24 @@ class IndexController extends AbstractActionController
     
     public function indexAction()
     {
-        return new ViewModel(array(
-             'sections' => $this->getSectionTable()->fetchAll(),
-         ));
+        $auth = new AuthenticationService();
+        if ($auth->hasIdentity()) {
+             $sm =$this->getServiceLocator();
+            $dbAdpater = $sm->get('Zend\Db\Adapter\Adapter');
+            $container = new Container('username');
+            $username = $container->id;
+            $sql ="SELECT section FROM teacher_section WHERE computer_teacher=".$username." OR wk_teacher=".$username." OR english_teacher=".$username." OR math_teacher=".$username." OR arabic_teacher=".$username;
+            $statement = $dbAdpater->query($sql, array(5));
+            $resultSet = new ResultSet;
+            $resultSet->initialize($statement);
+            return new ViewModel(array(
+                 'sections' => $resultSet,
+             ));   
+        }else{
+            return $this->redirect()->toRoute('login',
+            array('controller'=>'index',
+                  'action' => 'login'));
+        }
     }
     
     public function getSectionTable()
@@ -71,73 +89,61 @@ class IndexController extends AbstractActionController
 
     public function attendanceAction()
     {
-        // INSERT INTO `injaz`.`attendance` (`St_Id`, `Abs_Day`, `Abs_period`, `Abs_value`) VALUES ('', '', '', '');
-        $activeSec = null;
-        if($this->getRequest()->getPost('submit-but')){
-           $count = (int) $this->getRequest()->getPost('stcount');
-         
-       
-         
-        //   echo $count; 
-        //   $starray = $this->getRequest()->getPost('attendance1');
-            
-            $sm =$this->getServiceLocator();
-                $dbAdpater = $sm->get('Zend\Db\Adapter\Adapter');
-              
-                  $starray = $count;   
-         for ($i =1 ; $i <= $count; $i++)
-         {
-         //   echo ' <br> ' .$i; 
-            $statt= $this->getRequest()->getPost('attendance'.$i);
-            $stid= $this->getRequest()->getPost('student'.$i);
-                if ($statt != "0") {
-                
-                
-                    $sql = new Sql($dbAdpater);
-                    $insert = $sql->insert('attendance');
-                    $newData = array('St_Id'=> $stid ,
-                                // 'Abs_Day'=> 1,
-                                 'Abs_period'=> $this->getPeriod(),
-                                 'Abs_value'=> $statt
-                                 );
-                    $insert->values($newData);
-                    $Query = $sql->getSqlStringForSqlObject($insert);
-                    $statement = $dbAdpater->query($Query);
-                    $statement->execute();
-                }
-                 
-            } // for
-            
-            return new ViewModel(array(
-                 'att' => $starray,
-                 'Step' => "3",
-                ));
-        }else{
-            if($this->getRequest()->getPost('next-but')){
+        $auth = new AuthenticationService();
+        if ($auth->hasIdentity()) {
+            $activeSec = null;
+            if($this->getRequest()->getPost('submit-but')){
+                $count = (int) $this->getRequest()->getPost('stcount');
                 $sm =$this->getServiceLocator();
                 $dbAdpater = $sm->get('Zend\Db\Adapter\Adapter');
-                $tablegetaway = new TableGateway('students', $dbAdpater);
-                $rowset = $tablegetaway->select(function(Select $select){
-                    $select->where(array('Student_Section'=> (int)$this->getRequest()->getPost('section')));
-                });
-                $students = $rowset->toArray();
+                $starray = $count;   
+                for ($i =1 ; $i <= $count; $i++)
+                {
+                    $statt= $this->getRequest()->getPost('attendance'.$i);
+                    $stid= $this->getRequest()->getPost('student'.$i);
+                    if ($statt != "0") {
+                        $sql = new Sql($dbAdpater);
+                        $insert = $sql->insert('attendance');
+                        $newData = array('St_Id'=> $stid ,
+                             'Abs_period'=> $this->getPeriod(),
+                             'Abs_value'=> $statt
+                             );
+                        $insert->values($newData);
+                        $Query = $sql->getSqlStringForSqlObject($insert);
+                        $statement = $dbAdpater->query($Query);
+                        $statement->execute();
+                    }
+                } // for
                 return new ViewModel(array(
-                    'students' => $students,
-                    'Step' => "2",
-                    'period' => $this->getPeriod(),
+                    'att' => $starray,
+                    'Step' => "3",
                 ));
             }else{
-                return new ViewModel(array(
-                    'sections' => $this->getSectionTable()->fetchAll(),
-                    'Step' => "1",
-                    'period' => $this->getPeriod(),
-                ));
-            }
+                if($this->getRequest()->getPost('next-but')){
+                    $sm =$this->getServiceLocator();
+                    $dbAdpater = $sm->get('Zend\Db\Adapter\Adapter');
+                    $tablegetaway = new TableGateway('students', $dbAdpater);
+                    $rowset = $tablegetaway->select(function(Select $select){
+                        $select->where(array('Student_Section'=> (int)$this->getRequest()->getPost('section')));
+                    });
+                    $students = $rowset->toArray();
+                    return new ViewModel(array(
+                        'students' => $students,
+                        'Step' => "2",
+                        'period' => $this->getPeriod(),
+                    ));
+                }else{
+                    return new ViewModel(array(
+                        'sections' => $this->getSectionTable()->fetchAll(),
+                        'Step' => "1",
+                        'period' => $this->getPeriod(),
+                    ));
+                }
+            }    
+        }else{
+            return $this->redirect()->toRoute('login',
+            array('controller'=>'index',
+                  'action' => 'login'));
         }
-        
-        
-        
     }
-    
-    
 }

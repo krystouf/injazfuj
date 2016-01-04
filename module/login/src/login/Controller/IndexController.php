@@ -14,6 +14,7 @@ use Zend\View\Model\ViewModel;
 use Zend\Authentication\Result;
 use Zend\Authentication\AuthenticationService;
 use Zend\Authentication\Storage\Session as SessionStorage;
+use Zend\Session\Container;
 
 use Zend\Db\Adapter\Adapter as DbAdapter;
 
@@ -74,6 +75,8 @@ class IndexController extends AbstractActionController
                     break;
 
             case Result::SUCCESS:
+                    $container = new Container('username');
+                    $container->id = $username;
                     $storage = $auth->getStorage();
                     $storage->write($authAdapter->getResultRowObject(
                             null,
@@ -91,6 +94,26 @@ class IndexController extends AbstractActionController
                     break;
         }						
         
+    }
+    
+    public function logoutAction()
+    {
+        $auth = new AuthenticationService();
+        // or prepare in the globa.config.php and get it from there
+        // $auth = $this->getServiceLocator()->get('Zend\Authentication\AuthenticationService');
+
+        if ($auth->hasIdentity()) {
+                $identity = $auth->getIdentity();
+        }			
+
+        $auth->clearIdentity();
+//		$auth->getStorage()->session->getManager()->forgetMe(); // no way to get the sessionmanager from storage
+        $sessionManager = new \Zend\Session\SessionManager();
+        $sessionManager->forgetMe();
+
+        return $this->redirect()->toRoute('login',
+            array('controller'=>'index',
+                  'action' => 'login'));		
     }
 
 }
