@@ -15,6 +15,7 @@ use Zend\View\Model\ViewModel;
 use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\TableGateway\TableGateway;
 use Zend\Db\Sql\Select;
+use Zend\Session\Container;
 
 class IndexController extends AbstractActionController
 {
@@ -68,37 +69,49 @@ class IndexController extends AbstractActionController
 
             return $period;
      }
+     
+     public function getUsername(){
+        $container = new Container('user');
+        return $container->username;
+     }
+     
+     public function getSubject(){
+        $sm =$this->getServiceLocator();
+        $dbAdpater = $sm->get('Zend\Db\Adapter\Adapter');
+        $tablegetaway = new TableGateway('teacher', $dbAdpater);
+        $rowset = $tablegetaway->select(function(Select $select){
+        $select->where(array('Teacher_id'=> $this->getUsername()));
+        });
+        return $rowset->toArray();
+     }
 
     public function attendanceAction()
     {
         // INSERT INTO `injaz`.`attendance` (`St_Id`, `Abs_Day`, `Abs_period`, `Abs_value`) VALUES ('', '', '', '');
         $activeSec = null;
+        $sm =$this->getServiceLocator();
+        $dbAdpater = $sm->get('Zend\Db\Adapter\Adapter');
+        $username = $this->getUsername();
+        $subject = $this->getSubject();
         if($this->getRequest()->getPost('submit-but')){
-           $count = (int) $this->getRequest()->getPost('stcount');
-         
-       
-         
-        //   echo $count; 
-        //   $starray = $this->getRequest()->getPost('attendance1');
             
-            $sm =$this->getServiceLocator();
-                $dbAdpater = $sm->get('Zend\Db\Adapter\Adapter');
-              
-                  $starray = $count;   
+            $count = (int) $this->getRequest()->getPost('stcount');
+            $starray = $count;   
          for ($i =1 ; $i <= $count; $i++)
          {
          //   echo ' <br> ' .$i; 
+            
             $statt= $this->getRequest()->getPost('attendance'.$i);
             $stid= $this->getRequest()->getPost('student'.$i);
                 if ($statt != "0") {
-                
-                
                     $sql = new Sql($dbAdpater);
                     $insert = $sql->insert('attendance');
                     $newData = array('St_Id'=> $stid ,
                                 // 'Abs_Day'=> 1,
                                  'Abs_period'=> $this->getPeriod(),
-                                 'Abs_value'=> $statt
+                                 'Abs_value'=> $statt,
+                                 'teacher' => $username,
+                                 'subject' => $subject[0]['Teacher_Subject'],
                                  );
                     $insert->values($newData);
                     $Query = $sql->getSqlStringForSqlObject($insert);
@@ -114,8 +127,7 @@ class IndexController extends AbstractActionController
                 ));
         }else{
             if($this->getRequest()->getPost('next-but')){
-                $sm =$this->getServiceLocator();
-                $dbAdpater = $sm->get('Zend\Db\Adapter\Adapter');
+                
                 $tablegetaway = new TableGateway('students', $dbAdpater);
                 $rowset = $tablegetaway->select(function(Select $select){
                     $select->where(array('Student_Section'=> (int)$this->getRequest()->getPost('section')));

@@ -14,6 +14,7 @@ use Zend\View\Model\ViewModel;
 use Zend\Authentication\Result;
 use Zend\Authentication\AuthenticationService;
 use Zend\Authentication\Storage\Session as SessionStorage;
+use Zend\Session\Container;
 
 use Zend\Db\Adapter\Adapter as DbAdapter;
 
@@ -74,6 +75,8 @@ class IndexController extends AbstractActionController
                     break;
 
             case Result::SUCCESS:
+                    $container = new Container('user');
+                    $container->username = $username;
                     $storage = $auth->getStorage();
                     $storage->write($authAdapter->getResultRowObject(
                             null,
