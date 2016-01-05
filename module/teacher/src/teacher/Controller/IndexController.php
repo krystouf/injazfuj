@@ -107,7 +107,7 @@ class IndexController extends AbstractActionController
                         $insert = $sql->insert('attendance');
                         $newData = array('St_Id'=> $stid ,
                              'Abs_period'=> $this->getPeriod(),
-                             'Abs_value'=> $statt
+                             'Abs_value'=> $statt   
                              );
                         $insert->values($newData);
                         $Query = $sql->getSqlStringForSqlObject($insert);
