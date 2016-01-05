@@ -33,7 +33,7 @@ if ($this->Step == "1"){
             <?php 
                 foreach ($this->sections as $section) :
             ?>
-                    <option  value="<?php echo $this->escapeHtml($section->Section_id) ?>">
+                    <option  value="<?php echo $section['section'] ?>">
             <?php
                 endforeach; 
             ?>
