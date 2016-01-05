@@ -86,6 +86,20 @@ class IndexController extends AbstractActionController
 
             return $period;
      }
+     
+     public function getSubject($username){
+        $sm =$this->getServiceLocator();
+        $dbAdpater = $sm->get('Zend\Db\Adapter\Adapter');
+        $sql ="SELECT Teacher_Subject FROM teacher WHERE Teacher_id=".$username;
+        $statement = $dbAdpater->query($sql, array(5));
+        $resultSet = new ResultSet;
+        $resultSet->initialize($statement);
+        $sub = "";
+        foreach ($resultSet as $res){
+            $sub = $res['Teacher_Subject'];
+        }
+        return $sub ;
+     }
 
     public function attendanceAction()
     {
@@ -107,7 +121,9 @@ class IndexController extends AbstractActionController
                         $insert = $sql->insert('attendance');
                         $newData = array('St_Id'=> $stid ,
                              'Abs_period'=> $this->getPeriod(),
-                             'Abs_value'=> $statt   
+                             'Abs_value'=> $statt,  
+                             'teacher' => $container->id,
+                             'subject' => $this->getSubject($container->id),
                              );
                         $insert->values($newData);
                         $Query = $sql->getSqlStringForSqlObject($insert);
@@ -134,8 +150,15 @@ class IndexController extends AbstractActionController
                         'period' => $this->getPeriod(),
                     ));
                 }else{
+                    $sm =$this->getServiceLocator();
+                    $dbAdpater = $sm->get('Zend\Db\Adapter\Adapter');
+                    $username = $container->id;
+                    $sql ="SELECT section FROM teacher_section WHERE computer_teacher=".$username." OR wk_teacher=".$username." OR english_teacher=".$username." OR math_teacher=".$username." OR arabic_teacher=".$username;
+                    $statement = $dbAdpater->query($sql, array(5));
+                    $resultSet = new ResultSet;
+                    $resultSet->initialize($statement);
                     return new ViewModel(array(
-                        'sections' => $this->getSectionTable()->fetchAll(),
+                        'sections' => $resultSet,
                         'Step' => "1",
                         'period' => $this->getPeriod(),
                     ));
