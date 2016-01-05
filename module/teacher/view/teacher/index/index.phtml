@@ -50,11 +50,11 @@ function checkTime(i) {
         </div>
     </div>
     <div class="teacher-bright">
-        <h1 class="box-title">SECTIONS</h1>
+        <h1 class="box-title">MY SECTIONS</h1>
         <div class="boxcontent" style="overflow-y: scroll;">
             <?php 
                 foreach ($this->sections as $section) :
-                    echo '<br/>'.$this->escapeHtml($section->Section_Name);
+                    echo 'Section '.$section['section'].'<br/>';
                 endforeach; 
             ?>
         </div>
