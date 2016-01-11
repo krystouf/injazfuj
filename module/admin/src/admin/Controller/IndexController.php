@@ -33,7 +33,7 @@ class IndexController extends AbstractActionController
                 'action' => 'login'));
         }
     }
-    
+
     public function attendanceAction()
     {
         $auth = new AuthenticationService();
@@ -60,4 +60,38 @@ class IndexController extends AbstractActionController
         }
     }
 
+    public function studentsAction()
+    {
+        $auth = new AuthenticationService();
+        $container = new Container('username');
+        if ($auth->hasIdentity() && $container->type == 0){
+            $sm =$this->getServiceLocator();
+            $dbAdpater = $sm->get('Zend\Db\Adapter\Adapter');
+            $username = $container->id;
+            $sql ="SELECT section FROM teacher_section";
+            $statement = $dbAdpater->query($sql, array(5));
+            $statement2 = $dbAdpater->query($sql, array(5));
+            
+            $resultSet = new ResultSet;
+            $resultSet->initialize($statement);
+            $resultSet2 = new ResultSet;
+            $resultSet2->initialize($statement2);
+            
+            $sql = "SELECT students.* FROM students";
+            
+            $statement3 = $dbAdpater->query($sql, array(5));
+            $resultSet3 = new ResultSet;
+            $resultSet3->initialize($statement3);
+            $resultSet3->buffer();
+            return new ViewModel(array(
+                'sections' => $resultSet,
+                'sections2' => $resultSet2,
+                'students' => $resultSet3,
+             ));
+        }else{
+            return $this->redirect()->toRoute('login',
+            array('controller'=>'index',
+                'action' => 'login'));
+        }
+    }
 }
