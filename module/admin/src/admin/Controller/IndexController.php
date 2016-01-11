@@ -36,7 +36,25 @@ class IndexController extends AbstractActionController
 
     public function attendanceAction()
     {
-        return new ViewModel();
+        $auth = new AuthenticationService();
+        $container = new Container('username');
+        if ($auth->hasIdentity() && $container->type == 0) {
+            $sm =$this->getServiceLocator();
+            $dbAdpater = $sm->get('Zend\Db\Adapter\Adapter');
+            $username = $container->id;
+            $sql ="SELECT * FROM attendance";
+            $statement = $dbAdpater->query($sql, array(5));
+            $resultSet = new ResultSet;
+            $resultSet->initialize($statement);
+            return new ViewModel(array(
+                 'attendance' => $resultSet,
+            
+            ));
+        }else{
+            return $this->redirect()->toRoute('login',
+            array('controller'=>'index',
+                'action' => 'login'));
+        }
     }
 
     public function studentsAction()

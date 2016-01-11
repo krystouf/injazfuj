@@ -1,4 +1,36 @@
-Admin Attendance page
-<?php
-echo ' <br> '. $this->name;
+
+<!-- begin of my code -->
+ <div id ="att_header">
+     <form action ="" method="post" style="width: 25%; margin: auto;">
+
+        </div> <!-- att_header -->    
+            <table border="1" style="width:100%">
+                <tr>
+                    <th> ID       </th>
+                    <th> Name     </th>
+                    <th> Period   </th>
+                    <th> Counted  </th>
+                    <th> Comments </th>
+    <?php
+    $count=0;
+    foreach ($this->attendance as $student){
+     ?>   
+      <tr>
+        <td><input type ="text" name =st_id" value=" <?php echo $student['St_Id'] ?>" </td>
+        <td><?php  echo 'student name '  ?>  </td>
+        <td><?php  echo $student['Abs_period']  ?>  </td>
+        <td> <input type ="checkbox" name ="<?php echo 'attendance'.$count ?>" value="1" checked="checked"> </td>
+      
+        <td><input type ="text" name ="<?php echo 'student'.$count ?>" value="" </td>
+    </tr>               
+ <?php
+}
 ?>
+      </table>
+            <input type="hidden" value="0" name="stcount">
+           
+            <input type="submit" value="submit" name="submit-but">
+        </form>
+    </div>
+ <!-- end of my code -->
+ 
