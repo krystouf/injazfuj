@@ -42,7 +42,10 @@ class IndexController extends AbstractActionController
             $sm =$this->getServiceLocator();
             $dbAdpater = $sm->get('Zend\Db\Adapter\Adapter');
             $username = $container->id;
-            $sql ="SELECT * FROM attendance";
+     //       $sql ="SELECT * FROM attendance";
+           $sql = "SELECT * FROM attendance,students
+            WHERE attendance.St_Id LIKE students.Student_id";
+             
             $statement = $dbAdpater->query($sql, array(5));
             $resultSet = new ResultSet;
             $resultSet->initialize($statement);
