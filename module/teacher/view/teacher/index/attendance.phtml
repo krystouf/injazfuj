@@ -63,7 +63,7 @@ foreach ($this->students as $student){
   $count= $count + 1;
 ?>
     <tr>
-        <th><input type ="text" name ="<?php echo 'student'.$count ?>" value=" <?php echo $student['Student_id'] ?>" </th>
+        <th><input type ="text" name ="<?php echo 'student'.$count ?>" value="<?php echo $student['Student_id'] ?>" </th>
         <th><?php echo $student['Student_FirstName']  . '  ' .$student['Student_MiddleName'] . '  ' .$student['Student_LastName']; ?>  </th>
         <th> <input type ="radio" name ="<?php echo 'attendance'.$count ?>" value="0" checked="checked"> </th>
         <th> <input type ="radio" name ="<?php echo 'attendance'.$count ?>" value="1" > </th>

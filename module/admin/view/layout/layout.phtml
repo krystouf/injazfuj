@@ -21,6 +21,21 @@
             ->prependFile($this->basePath('js/respond.min.js'), 'text/javascript', array('conditional' => 'lt IE 9',))
             ->prependFile($this->basePath('js/html5shiv.min.js'),   'text/javascript', array('conditional' => 'lt IE 9',))
         ; ?>
+        <script>
+            jQuery(document).ready(function() {
+                jQuery('.sttabs .sttab-links a').on('click', function(e)  {
+                    var currentAttrValue = jQuery(this).attr('href');
+
+                    // Show/Hide Tabs
+                    jQuery('.sttabs ' + currentAttrValue).show().siblings().hide();
+
+                    // Change/remove current tab to active
+                    jQuery(this).parent('li').addClass('active').siblings().removeClass('active');
+
+                    e.preventDefault();
+                });
+            });
+        </script>
     </head>
     <body onload="startTime()">
         <nav class="nbar">
@@ -29,16 +44,16 @@
                     <a href="<?php echo $this->url('adminHome') ?>">Home</a>
                 </li>
                 <li class="nbar-link">
-                   <a href="">Sections</a>
-                </li>
-                <li class="nbar-link">
-                    <a href="">Students</a>
+                    <a href="<?php echo $this->url('adminstudents') ?>">Students</a>
                 </li>
                 <li class="nbar-link">
                     <a href="<?php echo $this->url('aminAtt') ?>">Attendance</a>
                 </li>
                 <li class="nbar-link">
                     <a href="">Grades</a>
+                </li>
+                <li class="nbar-link">
+                    <a href="<?php echo $this->url('teacherLogout') ?>">Logout</a>
                 </li>
             </ul>
         </nav>

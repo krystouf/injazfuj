@@ -23,6 +23,17 @@ return array(
                     ),
                 ),
             ),
+            'adminstudents' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route'    => '/admin_students',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'admin\Controller',
+                        'controller'    => 'Index',
+                        'action'        => 'students',
+                    ),
+                ),
+            ),
             'adminHome' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
