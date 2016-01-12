@@ -113,6 +113,7 @@ class IndexController extends AbstractActionController
                         $sql = new Sql($dbAdpater);
                         $insert = $sql->insert('attendance');
                         $newData = array('St_Id'=> $stid ,
+                            'Abs_Day' => date('Y-m-d'),
                             'Abs_period'=> $this->getPeriod(),
                             'Abs_value'=> $statt,  
                             'teacher' => $container->id,
