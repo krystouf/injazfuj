@@ -56,21 +56,21 @@ class IndexController extends AbstractActionController
         date_default_timezone_set('Asia/Dubai');
         $time = strtotime("now");
         $period =1;
-        if ($time >= strtotime("8:30") && $time <= strtotime("9:15")){
+        if ($time >= strtotime("8:20") && $time <= strtotime("9:05")){
                 $period = 1;
-        }else if ($time >= strtotime("9:20") && $time <= strtotime("10:05")){
+        }else if ($time >= strtotime("9:10") && $time <= strtotime("9:55")){
                 $period = 2;
-        }else if ($time >= strtotime("10:10") && $time <= strtotime("10:55")){
+        }else if ($time >= strtotime("10:00") && $time <= strtotime("10:45")){
                 $period = 3;
         }else if ($time >= strtotime("11:25") && $time <= strtotime("12:10")){
                 $period = 4;
         }else if ($time >= strtotime("12:11") && $time <= strtotime("12:55")){
                 $period = 5;
-        }else if ($time >= strtotime("13:30") && $time <= strtotime("14:15")){
+        }else if ($time >= strtotime("13:20") && $time <= strtotime("14:05")){
                 $period = 1;
-        }else if ($time >= strtotime("14:20") && $time <= strtotime("15:05")){
+        }else if ($time >= strtotime("14:10") && $time <= strtotime("14:55")){
                 $period = 2;
-        }else if ($time >= strtotime("15:10") && $time <= strtotime("15:55")){
+        }else if ($time >= strtotime("15:00") && $time <= strtotime("15:45")){
                 $period = 3;
         }else if ($time >= strtotime("16:25") && $time <= strtotime("17:10")){
                 $period = 4;
@@ -113,6 +113,7 @@ class IndexController extends AbstractActionController
                         $sql = new Sql($dbAdpater);
                         $insert = $sql->insert('attendance');
                         $newData = array('St_Id'=> $stid ,
+                            'Abs_Day' => date('Y-m-d'),
                             'Abs_period'=> $this->getPeriod(),
                             'Abs_value'=> $statt,  
                             'teacher' => $container->id,

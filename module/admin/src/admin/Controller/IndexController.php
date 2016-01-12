@@ -39,20 +39,26 @@ class IndexController extends AbstractActionController
         $auth = new AuthenticationService();
         $container = new Container('username');
         if ($auth->hasIdentity() && $container->type == 0) {
-            $sm =$this->getServiceLocator();
-            $dbAdpater = $sm->get('Zend\Db\Adapter\Adapter');
-            $username = $container->id;
-     //       $sql ="SELECT * FROM attendance";
-           $sql = "SELECT * FROM attendance,students
-            WHERE attendance.St_Id LIKE students.Student_id";
-             
-            $statement = $dbAdpater->query($sql, array(5));
-            $resultSet = new ResultSet;
-            $resultSet->initialize($statement);
-            return new ViewModel(array(
-                 'attendance' => $resultSet,
-            
-            ));
+            if($this->getRequest()->getPost('submit-update')){
+                return new ViewModel(array(
+                     'step' => 2,
+                ));
+            }else{
+                $sm =$this->getServiceLocator();
+                $dbAdpater = $sm->get('Zend\Db\Adapter\Adapter');
+                $username = $container->id;
+         //       $sql ="SELECT * FROM attendance";
+                $sql = "SELECT * FROM attendance,students
+                WHERE attendance.St_Id=students.Student_id AND CAST(attendance.Abs_Day AS DATE)=CAST(CURRENT_TIMESTAMP AS DATE)";
+
+                $statement = $dbAdpater->query($sql, array(5));
+                $resultSet = new ResultSet;
+                $resultSet->initialize($statement);
+                return new ViewModel(array(
+                     'attendance' => $resultSet,
+                     'step' => 1,
+                ));
+            }
         }else{
             return $this->redirect()->toRoute('login',
             array('controller'=>'index',
