@@ -46,25 +46,26 @@ class IndexController extends AbstractActionController
                         $statement = $sql->prepareStatementForSqlObject($update);
                         $statement->execute();
                 }
-                return $this->redirect()->toRoute('admin',
-                array('controller'=>'index',
-                    'action' => 'index'));
-            }else{
-                $sm =$this->getServiceLocator();
-                $dbAdpater = $sm->get('Zend\Db\Adapter\Adapter');
-                
-                $sql = "SELECT * 
-                FROM attendance, students
-                WHERE attendance.St_Id=students.sid
-                AND CAST(attendance.Abs_Day AS DATE)=CAST(CURRENT_TIMESTAMP AS DATE)
-                ORDER BY students.Student_Section ASC, students.Student_Name ASC, attendance.Abs_period ASC";
-
-                $statement = $dbAdpater->query($sql, array(5));
-                $resultSet = new ResultSet;
-                $resultSet->initialize($statement);
+                $day = $this->getRequest()->getPost('date-filter');
+                $your_date = date("Y-m-d", strtotime($day));
                 return new ViewModel(array(
-                     'attendance' => $resultSet,
-                     'step' => 1,
+                     'attendance' => $this->getRepport($your_date),
+                     'message' => "Attendance report updated",
+                     'day' => $day,
+                ));
+            }else if($this->getRequest()->getPost('submit-date')){
+                $day = $this->getRequest()->getPost('date-filter');
+                $your_date = date("Y-m-d", strtotime($day));
+                return new ViewModel(array(
+                     'attendance' => $this->getRepport($your_date),
+                     'message' => "",
+                     'day' => $day,
+                ));
+            }else{
+                return new ViewModel(array(
+                     'attendance' => $this->getRepport(date('Y-m-d')),
+                     'message' => "",
+                     'day' => date('m/d/Y'),
                 ));
             }
         }else{
@@ -72,6 +73,22 @@ class IndexController extends AbstractActionController
             array('controller'=>'index',
                 'action' => 'login'));
         }
+    }
+    
+    public function getRepport($day){
+        $sm =$this->getServiceLocator();
+        $dbAdpater = $sm->get('Zend\Db\Adapter\Adapter');
+        $sql = "SELECT * 
+        FROM attendance, students
+        WHERE attendance.St_Id=students.sid
+        AND attendance.Abs_Day='".$day."'
+        ORDER BY students.Student_Section ASC, students.Student_Name ASC, attendance.Abs_period ASC";
+
+        $statement = $dbAdpater->query($sql, array(5));
+        $resultSet = new ResultSet;
+        $resultSet->initialize($statement);
+        
+        return $resultSet;
     }
 
     public function attendanceAction()

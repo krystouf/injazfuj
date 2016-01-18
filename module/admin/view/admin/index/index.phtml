@@ -14,20 +14,27 @@ function ActivateCommment(i){
 }
 </script>
 <?php 
-if ($this->step == 1){
+if ($this->message != ""){
+    echo $this->message;
+}
 ?>
 <!-- begin of my code -->
  <div id ="att_header">
     
-    <h2>Attendance report for <?php echo date("l jS \of F Y ") ?></h2>
-    </div> <!-- att_header -->    
+    <h2>Attendance report for <?php echo date("l jS \of F Y ", strtotime($this->day)) ?></h2>
+    </div> <!-- att_header -->   
     <form method="post">
+        <br/>
+        <input style="width:25%;" type="text" id="datepicker" name="date-filter" value="<?php echo $this->day ?>" placeholder="Pick a date" />
+        <input style="width:10%;" type="submit" value="Filter" name="submit-date">
+        <br/><br/>
        <table border="1" style="width:100%">
            <tr>
                <th> ID       </th>
                <th> Section  </th>
                <th> Name     </th>
                <th> Period   </th>
+               <th> Status   </th>
                <th> Counted  </th>
                <th> Comments </th>
     <?php
@@ -37,10 +44,17 @@ if ($this->step == 1){
      ?>   
       <input type="hidden" value="<?php echo $student['Att_id'] ?>" name="<?php echo 'rid'.$count ?>">
       <tr>
-        <td><?php echo $student['Student_id'] ?></td>
-        <td><?php echo $student['Student_Section']?></td>
+        <td style="text-align: center;"><?php echo $student['Student_id'] ?></td>
+        <td style="text-align: center;"><?php echo $student['Student_Section']?></td>
         <td><?php echo $student['Student_Name']?> </td>
-        <td><?php echo $student['Abs_period']?> </td>
+        <td style="text-align: center;"><?php echo $student['Abs_period']?> </td>
+        <?php if ($student['Abs_value'] == 1){ ?>
+            <td style="text-align: center;">Late</td>
+        <?php }else if ($student['Abs_value'] == 2){ ?>
+            <td style="text-align: center;">Absent/Late</td>
+        <?php }else if ($student['Abs_value'] == 3){ ?>
+            <td style="text-align: center;">Absent</td>
+        <?php } ?>
         <?php if ($student['counted'] == 1){ ?>
             <td><input type ="checkbox" name ="<?php echo 'rattendance'.$count ?>" id ="<?php echo 'rattendance'.$count ?>" value="1" checked onchange="ActivateCommment(<?php echo $count ?>)"></td>
             <td><input type ="text" name ="<?php echo 'rcomment'.$count ?>" id ="<?php echo 'rcomment'.$count ?>" value="<?php echo $student['comment']; ?>" disabled></td>
@@ -56,9 +70,3 @@ if ($this->step == 1){
         </form>
     </div>
  <!-- end of my code -->
-
-<?php 
-}else if ($this->step == 2){
-    echo 'hi';
-}
-?>

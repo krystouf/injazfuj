@@ -3,8 +3,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <?php echo $this->headTitle('ZF2 '. $this->translate('Skeleton Application'))->setSeparator(' - ')->setAutoEscape(false) ?>
-
+        <title>Injaz Fujairah</title>
         <?php echo $this->headMeta()
             ->appendName('viewport', 'width=device-width, initial-scale=1.0')
             ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
@@ -21,6 +20,14 @@
             ->prependFile($this->basePath('js/respond.min.js'), 'text/javascript', array('conditional' => 'lt IE 9',))
             ->prependFile($this->basePath('js/html5shiv.min.js'),   'text/javascript', array('conditional' => 'lt IE 9',))
         ; ?>
+        
+        <!-- Load jQuery UI CSS  -->
+        <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+
+        <!-- Load jQuery JS -->
+        <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+        <!-- Load jQuery UI Main JS  -->
+        <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
         <script>
             jQuery(document).ready(function() {
                 jQuery('.sttabs .sttab-links a').on('click', function(e)  {
@@ -35,6 +42,17 @@
                     e.preventDefault();
                 });
             });
+            
+            $(document).ready(
+                /* This is the function that will get executed after the DOM is fully loaded */
+                function () {
+                  $( "#datepicker" ).datepicker({
+                    changeMonth: true,//this option for allowing user to select month
+                    changeYear: true //this option for allowing user to select from year range
+                  });
+                }
+
+            );
         </script>
     </head>
     <body onload="startTime()">
