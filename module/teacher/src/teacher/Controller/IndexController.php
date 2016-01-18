@@ -43,7 +43,7 @@ class IndexController extends AbstractActionController
                 'action' => 'login'));
         }
     }
-    
+
     public function getSectionTable(){
         if (!$this->SectionTable){
             $sm = $this->getServiceLocator();
@@ -51,7 +51,7 @@ class IndexController extends AbstractActionController
         }
         return $this->SectionTable;
      }
-     
+
     public function getPeriod(){
         date_default_timezone_set('Asia/Dubai');
         $time = strtotime("now");
@@ -81,7 +81,7 @@ class IndexController extends AbstractActionController
         }
         return $period;
     }
-     
+
     public function getSubject($username){
         $sm =$this->getServiceLocator();
         $dbAdpater = $sm->get('Zend\Db\Adapter\Adapter');
@@ -108,13 +108,14 @@ class IndexController extends AbstractActionController
                 $starray = $count;
                 for ($i =1 ; $i <= $count; $i++){
                     $statt= $this->getRequest()->getPost('attendance'.$i);
-                    $stid= $this->getRequest()->getPost('student'.$i);
-                    if ($statt != "0") {
+                    $stid= $this->getRequest()->getPost('idstudent'.$i);
+                    $period = $this->getPeriod();
+                    if ($period != "Break" && $statt != 0) {
                         $sql = new Sql($dbAdpater);
                         $insert = $sql->insert('attendance');
-                        $newData = array('St_Id'=> $stid ,
+                        $newData = array('St_Id'=> $stid,
                             'Abs_Day' => date('Y-m-d'),
-                            'Abs_period'=> $this->getPeriod(),
+                            'Abs_period'=> $period,
                             'Abs_value'=> $statt,  
                             'teacher' => $container->id,
                             'subject' => $this->getSubject($container->id),

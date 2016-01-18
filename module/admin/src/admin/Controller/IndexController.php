@@ -26,30 +26,38 @@ class IndexController extends AbstractActionController
         $auth = new AuthenticationService();
         $container = new Container('username');
         if ($auth->hasIdentity() && $container->type == 0) {
-            return new ViewModel();
-        }else{
-            return $this->redirect()->toRoute('login',
-            array('controller'=>'index',
-                'action' => 'login'));
-        }
-    }
-
-    public function attendanceAction()
-    {
-        $auth = new AuthenticationService();
-        $container = new Container('username');
-        if ($auth->hasIdentity() && $container->type == 0) {
             if($this->getRequest()->getPost('submit-update')){
-                return new ViewModel(array(
-                     'step' => 2,
-                ));
+                $count = (int) $this->getRequest()->getPost('rcount');
+                $sm =$this->getServiceLocator();
+                $dbAdpater = $sm->get('Zend\Db\Adapter\Adapter');
+                for ($i =1 ; $i <= $count; $i++){
+                        $id= $this->getRequest()->getPost('rid'.$i);
+                        $att= $this->getRequest()->getPost('rattendance'.$i);
+                        $com= $this->getRequest()->getPost('rcomment'.$i);
+                        $data = array(
+                            'counted'  => $att,
+                            'comment'  => $com
+                        );
+                        $sql = new Sql($dbAdpater);
+                        $update = $sql->update();
+                        $update->table('attendance');
+                        $update->set($data);
+                        $update->where(array('Att_id' => $id));
+                        $statement = $sql->prepareStatementForSqlObject($update);
+                        $statement->execute();
+                }
+                return $this->redirect()->toRoute('admin',
+                array('controller'=>'index',
+                    'action' => 'index'));
             }else{
                 $sm =$this->getServiceLocator();
                 $dbAdpater = $sm->get('Zend\Db\Adapter\Adapter');
-                $username = $container->id;
-         //       $sql ="SELECT * FROM attendance";
-                $sql = "SELECT * FROM attendance,students
-                WHERE attendance.St_Id=students.Student_id AND CAST(attendance.Abs_Day AS DATE)=CAST(CURRENT_TIMESTAMP AS DATE)";
+                
+                $sql = "SELECT * 
+                FROM attendance, students
+                WHERE attendance.St_Id=students.sid
+                AND CAST(attendance.Abs_Day AS DATE)=CAST(CURRENT_TIMESTAMP AS DATE)
+                ORDER BY students.Student_Section ASC, students.Student_Name ASC, attendance.Abs_period ASC";
 
                 $statement = $dbAdpater->query($sql, array(5));
                 $resultSet = new ResultSet;
@@ -64,6 +72,11 @@ class IndexController extends AbstractActionController
             array('controller'=>'index',
                 'action' => 'login'));
         }
+    }
+
+    public function attendanceAction()
+    {
+        return new ViewModel();
     }
 
     public function studentsAction()

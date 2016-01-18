@@ -1,1 +1,64 @@
-Admin index page
+<script>
+function ActivateCommment(i){
+    var box = document.getElementById("rattendance"+i);
+    var comment = document.getElementById("rcomment"+i);
+    if (box.checked){
+        box.value = 1;
+        comment.value = "";
+        comment.disabled = true;
+    }else{
+        box.value = 0;
+        comment.value = "";
+        comment.disabled = false;
+    }
+}
+</script>
+<?php 
+if ($this->step == 1){
+?>
+<!-- begin of my code -->
+ <div id ="att_header">
+    
+    <h2>Attendance report for <?php echo date("l jS \of F Y ") ?></h2>
+    </div> <!-- att_header -->    
+    <form method="post">
+       <table border="1" style="width:100%">
+           <tr>
+               <th> ID       </th>
+               <th> Section  </th>
+               <th> Name     </th>
+               <th> Period   </th>
+               <th> Counted  </th>
+               <th> Comments </th>
+    <?php
+    $count=0;
+    foreach ($this->attendance as $student){
+     $count++;
+     ?>   
+      <input type="hidden" value="<?php echo $student['Att_id'] ?>" name="<?php echo 'rid'.$count ?>">
+      <tr>
+        <td><?php echo $student['Student_id'] ?></td>
+        <td><?php echo $student['Student_Section']?></td>
+        <td><?php echo $student['Student_Name']?> </td>
+        <td><?php echo $student['Abs_period']?> </td>
+        <?php if ($student['counted'] == 1){ ?>
+            <td><input type ="checkbox" name ="<?php echo 'rattendance'.$count ?>" id ="<?php echo 'rattendance'.$count ?>" value="1" checked onchange="ActivateCommment(<?php echo $count ?>)"></td>
+            <td><input type ="text" name ="<?php echo 'rcomment'.$count ?>" id ="<?php echo 'rcomment'.$count ?>" value="<?php echo $student['comment']; ?>" disabled></td>
+        <?php }else{ ?>
+            <td><input type ="checkbox" name ="<?php echo 'rattendance'.$count ?>" id ="<?php echo 'rattendance'.$count ?>" value="0" onchange="ActivateCommment(<?php echo $count ?>)"></td>
+            <td><input type ="text" name ="<?php echo 'rcomment'.$count ?>" id ="<?php echo 'rcomment'.$count ?>" value="<?php echo $student['comment']; ?>"></td>
+        <?php } ?>
+    </tr>               
+    <?php } ?>
+      </table>
+            <input type="hidden" value="<?php echo $count?>" name="rcount">
+            <input type="submit" value="submit" name="submit-update">
+        </form>
+    </div>
+ <!-- end of my code -->
+
+<?php 
+}else if ($this->step == 2){
+    echo 'hi';
+}
+?>

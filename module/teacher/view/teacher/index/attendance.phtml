@@ -17,28 +17,28 @@ function checkTime(i) {
 </script>
 
 <?php
-$count=0; 
-echo $this->username;
-echo date("l jS \of F Y ");
- echo '<span id="clock"></span>';
- if ($this->Step != "3"){
- echo '<br/>Period '.$this->period;
- }
+
 if ($this->Step == "1"){
  
 ?>
- <form action ="" method="post" style="width: 25%; margin: auto;">
-    <input list="sections" name="section">
-        <datalist id="sections">
-            <?php 
-                foreach ($this->sections as $section) :
-            ?>
-                    <option  value="<?php echo $section['section'] ?>">
-            <?php
-                endforeach; 
-            ?>
-        </datalist>
-    </input>
+ <form method="post" style="width: 25%; margin: auto;">
+     <?php
+    $count=0; 
+    echo $this->username;
+    echo date("l jS \of F Y ");
+     echo '<span id="clock"></span>';
+     if ($this->Step != "3"){
+     echo '<br/>Period '.$this->period;
+     }?>
+    <select id="sections" name="section" style="width:100%;">
+        <?php 
+            foreach ($this->sections as $section) :
+        ?>
+        <option  value="<?php echo $section['section'] ?>">Section <?php echo $section['section'] ?></option>
+        <?php
+            endforeach; 
+        ?>
+    </select>
     <input type="submit" value="Next" name="next-but">
  </form>   
 <?php 
@@ -46,29 +46,39 @@ if ($this->Step == "1"){
 
 ?>
     <div id ="att_header">
-     <form action ="" method="post" style="width: 25%; margin: auto;">
+     
 
         </div> <!-- att_header -->    
+        <form action ="" method="post" style="width: 75%; margin: auto;">
+             <?php
+            $count=0; 
+            echo $this->username;
+            echo date("l jS \of F Y ");
+             echo '<span id="clock"></span>';
+             if ($this->Step != "3"){
+             echo '<br/>Period '.$this->period;
+             }?>
             <table border="1" style="width:100%">
                 <tr>
                     <th>ID</th>
                     <th>Name</th>
-                    <th> P </th>
-                    <th> L </th>
-                    <th> AL </th>
-                    <th> A </th>
+                    <th> Present </th>
+                    <th> Late </th>
+                    <th> Absent / Late </th>
+                    <th> Absent </th>
                 </tr>
 <?php
 foreach ($this->students as $student){
   $count= $count + 1;
 ?>
+    <input type="hidden" value="<?php echo $student['sid'] ?>" name="<?php echo 'idstudent'.$count ?>">
     <tr>
-        <th><input type ="text" name ="<?php echo 'student'.$count ?>" value="<?php echo $student['Student_id'] ?>" </th>
-        <th><?php echo $student['Student_FirstName']  . '  ' .$student['Student_MiddleName'] . '  ' .$student['Student_LastName']; ?>  </th>
-        <th> <input type ="radio" name ="<?php echo 'attendance'.$count ?>" value="0" checked="checked"> </th>
-        <th> <input type ="radio" name ="<?php echo 'attendance'.$count ?>" value="1" > </th>
-        <th> <input type ="radio" name ="<?php echo 'attendance'.$count ?>" value="2" > </th>
-        <th> <input type ="radio" name ="<?php echo 'attendance'.$count ?>" value="3" > </th>
+        <th><?php echo $student['Student_id'] ?></th>
+        <th style="text-align: left;"><?php echo $student['Student_Name']; ?>  </th>
+        <th><input type ="radio" name ="<?php echo 'attendance'.$count ?>" value="0" checked="checked"> </th>
+        <th><input type ="radio" name ="<?php echo 'attendance'.$count ?>" value="1" ></th>
+        <th><input type ="radio" name ="<?php echo 'attendance'.$count ?>" value="2" ></th>
+        <th><input type ="radio" name ="<?php echo 'attendance'.$count ?>" value="3" ></th>
     </tr>   
  <?php
  }
