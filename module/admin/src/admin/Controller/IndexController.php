@@ -23,6 +23,7 @@ class IndexController extends AbstractActionController
 {
     public function indexAction()
     {
+        date_default_timezone_set('Asia/Dubai');
         $auth = new AuthenticationService();
         $container = new Container('username');
         if ($auth->hasIdentity() && $container->type == 0) {
@@ -79,8 +80,9 @@ class IndexController extends AbstractActionController
         $sm =$this->getServiceLocator();
         $dbAdpater = $sm->get('Zend\Db\Adapter\Adapter');
         $sql = "SELECT * 
-        FROM attendance, students
+        FROM attendance, students, teacher
         WHERE attendance.St_Id=students.sid
+        AND attendance.teacher=teacher.Teacher_id
         AND attendance.Abs_Day='".$day."'
         ORDER BY students.Student_Section ASC, students.Student_Name ASC, attendance.Abs_period ASC";
 

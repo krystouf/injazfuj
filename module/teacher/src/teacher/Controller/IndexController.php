@@ -30,12 +30,17 @@ class IndexController extends AbstractActionController
             $sm =$this->getServiceLocator();
             $dbAdpater = $sm->get('Zend\Db\Adapter\Adapter');
             $username = $container->id;
-            $sql ="SELECT section FROM teacher_section WHERE computer_teacher=".$username." OR wk_teacher=".$username." OR english_teacher=".$username." OR math_teacher=".$username." OR arabic_teacher=".$username;
+            $sql ="SELECT section FROM teacher_section WHERE computer_teacher=".$username." OR wk_teacher=".$username." OR english_teacher=".$username." OR math_teacher=".$username." OR arabic_teacher=".$username." ORDER BY section ASC";
             $statement = $dbAdpater->query($sql, array(5));
             $resultSet = new ResultSet;
             $resultSet->initialize($statement);
+            $sql2 ="SELECT * from teacher Where Teacher_id=".$username;
+            $statement2 = $dbAdpater->query($sql2, array(5));
+            $resultSet2 = new ResultSet;
+            $resultSet2->initialize($statement2);
             return new ViewModel(array(
                 'sections' => $resultSet,
+                'teacher' => $resultSet2,
              ));   
         }else{
             return $this->redirect()->toRoute('login',
@@ -110,6 +115,8 @@ class IndexController extends AbstractActionController
                     $statt= $this->getRequest()->getPost('attendance'.$i);
                     $stid= $this->getRequest()->getPost('idstudent'.$i);
                     $period = $this->getPeriod();
+                    date_default_timezone_set('Asia/Dubai');
+                    $timestamp = date('H:i:s');
                     if ($period != "Break" && $statt != 0) {
                         $sql = new Sql($dbAdpater);
                         $insert = $sql->insert('attendance');
@@ -117,6 +124,7 @@ class IndexController extends AbstractActionController
                             'Abs_Day' => date('Y-m-d'),
                             'Abs_period'=> $period,
                             'Abs_value'=> $statt,  
+                            'att_time'=> $timestamp,
                             'teacher' => $container->id,
                             'subject' => $this->getSubject($container->id),
                         );
@@ -148,7 +156,7 @@ class IndexController extends AbstractActionController
                     $sm =$this->getServiceLocator();
                     $dbAdpater = $sm->get('Zend\Db\Adapter\Adapter');
                     $username = $container->id;
-                    $sql ="SELECT section FROM teacher_section WHERE computer_teacher=".$username." OR wk_teacher=".$username." OR english_teacher=".$username." OR math_teacher=".$username." OR arabic_teacher=".$username;
+                    $sql ="SELECT section FROM teacher_section WHERE computer_teacher=".$username." OR wk_teacher=".$username." OR english_teacher=".$username." OR math_teacher=".$username." OR arabic_teacher=".$username." ORDER BY section ASC";
                     $statement = $dbAdpater->query($sql, array(5));
                     $resultSet = new ResultSet;
                     $resultSet->initialize($statement);

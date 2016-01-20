@@ -64,7 +64,6 @@ if ($this->Step == "1"){
                     <th>Name</th>
                     <th> Present </th>
                     <th> Late </th>
-                    <th> Absent / Late </th>
                     <th> Absent </th>
                 </tr>
 <?php
@@ -77,7 +76,6 @@ foreach ($this->students as $student){
         <th style="text-align: left;"><?php echo $student['Student_Name']; ?>  </th>
         <th><input type ="radio" name ="<?php echo 'attendance'.$count ?>" value="0" checked="checked"> </th>
         <th><input type ="radio" name ="<?php echo 'attendance'.$count ?>" value="1" ></th>
-        <th><input type ="radio" name ="<?php echo 'attendance'.$count ?>" value="2" ></th>
         <th><input type ="radio" name ="<?php echo 'attendance'.$count ?>" value="3" ></th>
     </tr>   
  <?php

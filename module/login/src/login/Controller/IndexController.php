@@ -15,6 +15,10 @@ use Zend\Authentication\Result;
 use Zend\Authentication\AuthenticationService;
 use Zend\Authentication\Storage\Session as SessionStorage;
 use Zend\Session\Container;
+use Zend\Db\Sql\Sql;
+use Zend\Db\ResultSet\ResultSet;
+use Zend\Db\TableGateway\TableGateway;
+use Zend\Db\Sql\Select;
 
 use Zend\Db\Adapter\Adapter as DbAdapter;
 
@@ -42,14 +46,21 @@ class IndexController extends AbstractActionController
     public function fauth($username, $pass, $table){
         $sm = $this->getServiceLocator();
         $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
-
+        $sql = "Select Teacher_id from teacher where username='".$username."'";
+        $statement = $dbAdapter->query($sql, array(5));
+        $resultSet = new ResultSet;
+        $resultSet->initialize($statement);
+        $tid = 0;
+        foreach ($resultSet as $row){
+            $tid = $row['Teacher_id'];
+        }
         $config = $this->getServiceLocator()->get('Config');
         $staticSalt = $config['static_salt'];
         
         if ($table == "teacher"){
             $authAdapter = new AuthAdapter($dbAdapter,
                 $table, // there is a method setTableName to do the same
-                'Teacher_id', // there is a method setIdentityColumn to do the same
+                'username', // there is a method setIdentityColumn to do the same
                 'Teacher_pass', // there is a method setCredentialColumn to do the same
                 "MD5(CONCAT('$staticSalt', Teacher_salt))" // setCredentialTreatment(parametrized string) 'MD5(?)'
            );
@@ -85,7 +96,7 @@ class IndexController extends AbstractActionController
             case Result::SUCCESS:
                     if ($table == "teacher"){
                         $container = new Container('username');
-                        $container->id = $username;
+                        $container->id = $tid;
                         $container->type= 1;
                         $storage = $auth->getStorage();
                         $storage->write($authAdapter->getResultRowObject(

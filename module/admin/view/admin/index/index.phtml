@@ -34,9 +34,11 @@ if ($this->message != ""){
                <th> Section  </th>
                <th> Name     </th>
                <th> Period   </th>
+               <th> Teacher   </th>
+               <th> Time   </th>
                <th> Status   </th>
                <th> Counted  </th>
-               <th> Comments </th>
+               <th> Comment </th>
     <?php
     $count=0;
     foreach ($this->attendance as $student){
@@ -48,6 +50,8 @@ if ($this->message != ""){
         <td style="text-align: center;"><?php echo $student['Student_Section']?></td>
         <td><?php echo $student['Student_Name']?> </td>
         <td style="text-align: center;"><?php echo $student['Abs_period']?> </td>
+            <td style="text-align: center;"><?php echo $student['Teacher_FirstName']?> </td>
+        <td style="text-align: center;"><?php echo $student['att_time']?></td>
         <?php if ($student['Abs_value'] == 1){ ?>
             <td style="text-align: center;">Late</td>
         <?php }else if ($student['Abs_value'] == 2){ ?>

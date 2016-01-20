@@ -20,7 +20,9 @@ function checkTime(i) {
     <div class="teacher-tleft">
         <h1 class="box-title">PROFILE</h1>
         <div class="boxcontent">
-            Under Construction
+            <?php foreach ($this->teacher as $t) :
+                    echo 'Welcome '.$t['Teacher_FirstName'];
+            endforeach; ?>
         </div>
     </div>
     <div class="teacher-tright">
