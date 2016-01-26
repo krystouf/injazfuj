@@ -60,6 +60,7 @@ if ($this->Step == "1"){
              }?>
             <table border="1" style="width:100%">
                 <tr>
+                    <th>#</th>
                     <th>ID</th>
                     <th>Name</th>
                     <th> Present </th>
@@ -72,6 +73,7 @@ foreach ($this->students as $student){
 ?>
     <input type="hidden" value="<?php echo $student['sid'] ?>" name="<?php echo 'idstudent'.$count ?>">
     <tr>
+        <th><?php echo $count ?></th>
         <th><?php echo $student['Student_id'] ?></th>
         <th style="text-align: left;"><?php echo $student['Student_Name']; ?>  </th>
         <th><input type ="radio" name ="<?php echo 'attendance'.$count ?>" value="0" checked="checked"> </th>

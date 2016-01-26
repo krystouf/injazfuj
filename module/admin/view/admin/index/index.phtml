@@ -20,13 +20,88 @@ if ($this->message != ""){
 ?>
 <!-- begin of my code -->
  <div id ="att_header">
-    
-    <h2>Attendance report for <?php echo date("l jS \of F Y ", strtotime($this->day)) ?></h2>
+    <h3><?php echo $this->filter ?></h3>
     </div> <!-- att_header -->   
     <form method="post">
-        <br/>
-        <input style="width:25%;" type="text" id="datepicker" name="date-filter" value="<?php echo $this->day ?>" placeholder="Pick a date" />
-        <input style="width:10%;" type="submit" value="Filter" name="submit-date">
+        <table style="width: 60%;">
+            <tr>
+                <td>
+                    <input type="text" id="stidpicker" name="stid-filter" value="<?php echo $this->stid ?>" placeholder="Student ID" />
+                </td>
+                <td>
+                    <select id="secpicker" name="sec-filter" style="width:100%;">
+                        <option  value=0>All sections</option>
+                        <?php 
+                            foreach ($this->sections as $section) :
+                                if($section['Section_id']==$this->secid){
+                        ?>
+                                <option selected="selected" value="<?php echo $section['Section_id'] ?>">Section <?php echo $section['Section_id'] ?></option>
+                        <?php
+                                }else{
+                        ?>
+                                <option value="<?php echo $section['Section_id'] ?>">Section <?php echo $section['Section_id'] ?></option>
+                        <?php
+                                }
+                            endforeach; 
+                        ?>
+                    </select>
+                </td>
+                <td>
+                    <select id="teapicker" name="tea-filter" style="width:100%;">
+                        <option  value=0>All teachers</option>
+                        <?php 
+                            foreach ($this->teachers as $teacher) :
+                                if ($teacher['Teacher_id']==$this->tid){
+                        ?>
+                                    <option selected="selected" value="<?php echo $teacher['Teacher_id'] ?>"><?php echo $teacher['Teacher_FirstName'].' '.$teacher['Teacher_LastName'] ?></option>
+                        <?php
+                                }else{
+                        ?>
+                                    <option value="<?php echo $teacher['Teacher_id'] ?>"><?php echo $teacher['Teacher_FirstName'].' '.$teacher['Teacher_LastName'] ?></option>
+                        <?php
+                                }
+                            endforeach; 
+                        ?>
+                    </select>
+                </td>
+                <td>
+                    <select id="perpicker" name="p-filter" style="width:100%;">
+                        <option  value=0>All periods</option>
+                        <?php 
+                            for ($i=1; $i<=5; $i++){
+                                if($i == $this->pid){
+                        ?>
+                                    <option selected="selected" value="<?php echo $i ?>"><?php echo 'Period '.$i ?></option>
+                        <?php
+                                }else{
+                        ?>
+                                    <option value="<?php echo $i ?>"><?php echo 'Period '.$i ?></option>
+                        <?php                        
+                                }
+                            }
+                        ?>
+                    </select>                
+                </td>
+                <td>
+                    
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <br/>From: <input type="text" id="sdatepicker" name="sdate-filter" value="<?php echo $this->sday ?>" placeholder="Pick a start date" />
+                </td>
+                <td>
+                    <br/>To: <input type="text" id="edatepicker" name="edate-filter" value="<?php echo $this->eday ?>" placeholder="Pick an end date" />
+                </td>
+                <td>
+                    
+                </td>
+                <td>
+                    <br/><br/>
+                    <input type="submit" value="Filter" name="submit-date">
+                </td>
+            </tr>
+        </table>
         <br/><br/>
        <table border="1" style="width:100%">
            <tr>
