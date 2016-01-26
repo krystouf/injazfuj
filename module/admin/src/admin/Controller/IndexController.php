@@ -63,7 +63,7 @@ class IndexController extends AbstractActionController
                 $syour_date = date("Y-m-d", strtotime($sday));
                 $eyour_date = date("Y-m-d", strtotime($eday));
                 return new ViewModel(array(
-                     'attendance' => $this->getRepport($syour_date, $eyour_date, $this->getRequest()->getPost('stid-filter'), $this->getRequest()->getPost('tea-filter'), $this->getRequest()->getPost('sec-filter'), $this->getRequest()->getPost('p-filter')),
+                     'attendance' => $this->getRepport($syour_date, $eyour_date, $this->getRequest()->getPost('stid-filter'), $this->getRequest()->getPost('tea-filter'), $this->getRequest()->getPost('sec-filter'), $this->getRequest()->getPost('p-filter'), $this->getRequest()->getPost('status-filter')),
                      'sections' => $section,
                      'teachers' => $teacher,
                      'message' => "Attendance report updated",
@@ -73,6 +73,7 @@ class IndexController extends AbstractActionController
                      'tid' => $this->getRequest()->getPost('tea-filter'),
                      'secid' => $this->getRequest()->getPost('sec-filter'),
                      'pid' => $this->getRequest()->getPost('p-filter'),
+                     'status' => $this->getRequest()->getPost('status-filter'),
                      'filter' => "Attendance report for ".$this->getRequest()->getPost('stid-filter')." from ".date("l jS \of F Y ", strtotime($sday))." to ".date("l jS \of F Y ", strtotime($eday)),
                 ));
             }else if($this->getRequest()->getPost('submit-date')){
@@ -81,7 +82,7 @@ class IndexController extends AbstractActionController
                 $syour_date = date("Y-m-d", strtotime($sday));
                 $eyour_date = date("Y-m-d", strtotime($eday));
                 return new ViewModel(array(
-                     'attendance' => $this->getRepport($syour_date, $eyour_date, $this->getRequest()->getPost('stid-filter'), $this->getRequest()->getPost('tea-filter'), $this->getRequest()->getPost('sec-filter'), $this->getRequest()->getPost('p-filter')),
+                     'attendance' => $this->getRepport($syour_date, $eyour_date, $this->getRequest()->getPost('stid-filter'), $this->getRequest()->getPost('tea-filter'), $this->getRequest()->getPost('sec-filter'), $this->getRequest()->getPost('p-filter'), $this->getRequest()->getPost('status-filter')),
                      'sections' => $section,
                      'teachers' => $teacher,
                      'message' => "",
@@ -91,11 +92,12 @@ class IndexController extends AbstractActionController
                      'tid' => $this->getRequest()->getPost('tea-filter'),
                      'secid' => $this->getRequest()->getPost('sec-filter'),
                      'pid' => $this->getRequest()->getPost('p-filter'),
+                     'status' => $this->getRequest()->getPost('status-filter'),
                      'filter' => "Attendance report for ".$this->getRequest()->getPost('stid-filter')." from ".date("l jS \of F Y ", strtotime($sday))." to ".date("l jS \of F Y ", strtotime($eday)),
                 ));
             }else{
                 return new ViewModel(array(
-                     'attendance' => $this->getRepport(date('Y-m-d'), date('Y-m-d'), "", 0, 0, 0),
+                     'attendance' => $this->getRepport(date('Y-m-d'), date('Y-m-d'), "", 0, 0, 0, 0),
                      'sections' => $section,
                      'teachers' => $teacher,
                      'message' => "",
@@ -105,6 +107,7 @@ class IndexController extends AbstractActionController
                      'tid' => 0,
                      'secid' => 0,
                      'pid' => 0,
+                     'status' => 0,
                      'filter' => "Attendance report for ". date("l jS \of F Y ", strtotime(date('m/d/Y'))),
                 ));
             }
@@ -115,7 +118,7 @@ class IndexController extends AbstractActionController
         }
     }
     
-    public function getRepport($sday, $eday, $sid, $tid, $secid, $pid){
+    public function getRepport($sday, $eday, $sid, $tid, $secid, $pid, $status){
         $sm =$this->getServiceLocator();
         $dbAdpater = $sm->get('Zend\Db\Adapter\Adapter');
         $sql = "SELECT * 
@@ -136,6 +139,10 @@ class IndexController extends AbstractActionController
         
         if($pid != 0){
             $sql=$sql." AND attendance.Abs_period='".$pid."'";
+        }
+        
+        if($status != 0){
+            $sql=$sql." AND attendance.Abs_value='".$status."'";
         }
         $sql=$sql." AND attendance.Abs_Day BETWEEN '".$sday."' AND '".$eday."' ORDER BY students.Student_Section ASC, students.Student_Name ASC, attendance.Abs_period ASC";
 

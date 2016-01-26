@@ -26,7 +26,30 @@ if ($this->message != ""){
         <table style="width: 60%;">
             <tr>
                 <td>
-                    <input type="text" id="stidpicker" name="stid-filter" value="<?php echo $this->stid ?>" placeholder="Student ID" />
+                    <select id="statuspicker" name="status-filter" style="width:100%;">
+                        <?php 
+                            if($this->status == 1){
+                        ?>
+                                <option value=0>All status</option>
+                                <option value="3">Absent</option>
+                                <option selected="selected" value="1">Late</option>
+                        <?php
+                            }else if($this->status == 3){
+                        ?>
+                                <option value=0>All status</option>
+                                <option selected="selected" value="3">Absent</option>
+                                <option value="1">Late</option>
+                        <?php                        
+                            }else{
+                        ?>
+                                <option selected="selected" value=0>All status</option>
+                                <option value="3">Absent</option>
+                                <option value="1">Late</option>
+                                    
+                        <?php
+                            }
+                        ?>
+                    </select>  
                 </td>
                 <td>
                     <select id="secpicker" name="sec-filter" style="width:100%;">
@@ -88,13 +111,14 @@ if ($this->message != ""){
             </tr>
             <tr>
                 <td>
+                    <br/><br/>
+                    <input type="text" id="stidpicker" name="stid-filter" value="<?php echo $this->stid ?>" placeholder="Student ID" />
+                </td>
+                <td>
                     <br/>From: <input type="text" id="sdatepicker" name="sdate-filter" value="<?php echo $this->sday ?>" placeholder="Pick a start date" />
                 </td>
                 <td>
                     <br/>To: <input type="text" id="edatepicker" name="edate-filter" value="<?php echo $this->eday ?>" placeholder="Pick an end date" />
-                </td>
-                <td>
-                    
                 </td>
                 <td>
                     <br/><br/>
@@ -110,6 +134,7 @@ if ($this->message != ""){
                <th> Name     </th>
                <th> Period   </th>
                <th> Teacher   </th>
+               <th> Date </th>
                <th> Time   </th>
                <th> Status   </th>
                <th> Counted  </th>
@@ -125,7 +150,8 @@ if ($this->message != ""){
         <td style="text-align: center;"><?php echo $student['Student_Section']?></td>
         <td><?php echo $student['Student_Name']?> </td>
         <td style="text-align: center;"><?php echo $student['Abs_period']?> </td>
-            <td style="text-align: center;"><?php echo $student['Teacher_FirstName']?> </td>
+        <td style="text-align: center;"><?php echo $student['Teacher_FirstName']?> </td>
+        <td style="text-align: center;"><?php echo $student['Abs_Day']?> </td>
         <td style="text-align: center;"><?php echo $student['att_time']?></td>
         <?php if ($student['Abs_value'] == 1){ ?>
             <td style="text-align: center;">Late</td>
