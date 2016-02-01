@@ -26,18 +26,32 @@ class IndexController extends AbstractActionController
         date_default_timezone_set('Asia/Dubai');
         $auth = new AuthenticationService();
         $container = new Container('username');
+        $sm =$this->getServiceLocator();
+        $dbAdpater = $sm->get('Zend\Db\Adapter\Adapter');
+        
+        $secsql ="SELECT * FROM section";
+        $secstatement = $dbAdpater->query($secsql, array(5));
+        $section = new ResultSet;
+        $section->initialize($secstatement);
+        
+        $teasql ="SELECT * FROM teacher";
+        $teastatement = $dbAdpater->query($teasql, array(5));
+        $teacher = new ResultSet;
+        $teacher->initialize($teastatement);
+        
         if ($auth->hasIdentity() && $container->type == 0) {
             if($this->getRequest()->getPost('submit-update')){
                 $count = (int) $this->getRequest()->getPost('rcount');
-                $sm =$this->getServiceLocator();
-                $dbAdpater = $sm->get('Zend\Db\Adapter\Adapter');
                 for ($i =1 ; $i <= $count; $i++){
-                        $id= $this->getRequest()->getPost('rid'.$i);
-                        $att= $this->getRequest()->getPost('rattendance'.$i);
-                        $com= $this->getRequest()->getPost('rcomment'.$i);
+                    $id= $this->getRequest()->getPost('rid'.$i);
+                    $att= $this->getRequest()->getPost('rattendance'.$i);
+                    $com= $this->getRequest()->getPost('rcomment'.$i);
+                    $stup= $this->getRequest()->getPost('status-update'.$i);
+                    if ($stup != 0){
                         $data = array(
                             'counted'  => $att,
-                            'comment'  => $com
+                            'comment'  => $com,
+                            'Abs_value' => $stup
                         );
                         $sql = new Sql($dbAdpater);
                         $update = $sql->update();
@@ -46,27 +60,65 @@ class IndexController extends AbstractActionController
                         $update->where(array('Att_id' => $id));
                         $statement = $sql->prepareStatementForSqlObject($update);
                         $statement->execute();
+                    }else{
+                        $id= $this->getRequest()->getPost('rid'.$i);
+                        $sql = new Sql($dbAdpater);
+                        $delete = $sql->delete('attendance')->where(array('Att_id' => $id));
+                        $statement = $sql->prepareStatementForSqlObject($delete);
+                        $statement->execute();
+                    }
                 }
-                $day = $this->getRequest()->getPost('date-filter');
-                $your_date = date("Y-m-d", strtotime($day));
+                $sday = $this->getRequest()->getPost('sdate-filter');
+                $eday = $this->getRequest()->getPost('edate-filter');
+                $syour_date = date("Y-m-d", strtotime($sday));
+                $eyour_date = date("Y-m-d", strtotime($eday));
                 return new ViewModel(array(
-                     'attendance' => $this->getRepport($your_date),
+                     'attendance' => $this->getRepport($syour_date, $eyour_date, $this->getRequest()->getPost('stid-filter'), $this->getRequest()->getPost('tea-filter'), $this->getRequest()->getPost('sec-filter'), $this->getRequest()->getPost('p-filter'), $this->getRequest()->getPost('status-filter')),
+                     'sections' => $section,
+                     'teachers' => $teacher,
                      'message' => "Attendance report updated",
-                     'day' => $day,
+                     'sday' => $sday,
+                     'eday' => $eday,
+                     'stid' => $this->getRequest()->getPost('stid-filter'),
+                     'tid' => $this->getRequest()->getPost('tea-filter'),
+                     'secid' => $this->getRequest()->getPost('sec-filter'),
+                     'pid' => $this->getRequest()->getPost('p-filter'),
+                     'status' => $this->getRequest()->getPost('status-filter'),
+                     'filter' => "Attendance report for ".$this->getRequest()->getPost('stid-filter')." from ".date("l jS \of F Y ", strtotime($sday))." to ".date("l jS \of F Y ", strtotime($eday)),
                 ));
             }else if($this->getRequest()->getPost('submit-date')){
-                $day = $this->getRequest()->getPost('date-filter');
-                $your_date = date("Y-m-d", strtotime($day));
+                $sday = $this->getRequest()->getPost('sdate-filter');
+                $eday = $this->getRequest()->getPost('edate-filter');
+                $syour_date = date("Y-m-d", strtotime($sday));
+                $eyour_date = date("Y-m-d", strtotime($eday));
                 return new ViewModel(array(
-                     'attendance' => $this->getRepport($your_date),
+                     'attendance' => $this->getRepport($syour_date, $eyour_date, $this->getRequest()->getPost('stid-filter'), $this->getRequest()->getPost('tea-filter'), $this->getRequest()->getPost('sec-filter'), $this->getRequest()->getPost('p-filter'), $this->getRequest()->getPost('status-filter')),
+                     'sections' => $section,
+                     'teachers' => $teacher,
                      'message' => "",
-                     'day' => $day,
+                     'sday' => $sday,
+                     'eday' => $eday,
+                     'stid' => $this->getRequest()->getPost('stid-filter'),
+                     'tid' => $this->getRequest()->getPost('tea-filter'),
+                     'secid' => $this->getRequest()->getPost('sec-filter'),
+                     'pid' => $this->getRequest()->getPost('p-filter'),
+                     'status' => $this->getRequest()->getPost('status-filter'),
+                     'filter' => "Attendance report for ".$this->getRequest()->getPost('stid-filter')." from ".date("l jS \of F Y ", strtotime($sday))." to ".date("l jS \of F Y ", strtotime($eday)),
                 ));
             }else{
                 return new ViewModel(array(
-                     'attendance' => $this->getRepport(date('Y-m-d')),
+                     'attendance' => $this->getRepport(date('Y-m-d'), date('Y-m-d'), "", 0, 0, 0, 0),
+                     'sections' => $section,
+                     'teachers' => $teacher,
                      'message' => "",
-                     'day' => date('m/d/Y'),
+                     'sday' => date('m/d/Y'),
+                     'eday' => date('m/d/Y'),
+                     'stid' => "",
+                     'tid' => 0,
+                     'secid' => 0,
+                     'pid' => 0,
+                     'status' => 0,
+                     'filter' => "Attendance report for ". date("l jS \of F Y ", strtotime(date('m/d/Y'))),
                 ));
             }
         }else{
@@ -76,15 +128,33 @@ class IndexController extends AbstractActionController
         }
     }
     
-    public function getRepport($day){
+    public function getRepport($sday, $eday, $sid, $tid, $secid, $pid, $status){
         $sm =$this->getServiceLocator();
         $dbAdpater = $sm->get('Zend\Db\Adapter\Adapter');
         $sql = "SELECT * 
         FROM attendance, students, teacher
         WHERE attendance.St_Id=students.sid
-        AND attendance.teacher=teacher.Teacher_id
-        AND attendance.Abs_Day='".$day."'
-        ORDER BY students.Student_Section ASC, students.Student_Name ASC, attendance.Abs_period ASC";
+        AND attendance.teacher=teacher.Teacher_id";
+        if($sid != ""){
+            $sql=$sql." AND students.Student_id='".$sid."'";
+        }
+        
+        if($tid != 0){
+            $sql=$sql." AND attendance.teacher='".$tid."'";
+        }
+        
+        if($secid != 0){
+            $sql=$sql." AND students.Student_Section='".$secid."'";
+        }
+        
+        if($pid != 0){
+            $sql=$sql." AND attendance.Abs_period='".$pid."'";
+        }
+        
+        if($status != 0){
+            $sql=$sql." AND attendance.Abs_value='".$status."'";
+        }
+        $sql=$sql." AND attendance.Abs_Day BETWEEN '".$sday."' AND '".$eday."' ORDER BY students.Student_Section ASC, students.Student_Name ASC, attendance.Abs_period ASC";
 
         $statement = $dbAdpater->query($sql, array(5));
         $resultSet = new ResultSet;

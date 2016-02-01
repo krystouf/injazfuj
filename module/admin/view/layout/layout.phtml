@@ -46,7 +46,11 @@
             $(document).ready(
                 /* This is the function that will get executed after the DOM is fully loaded */
                 function () {
-                  $( "#datepicker" ).datepicker({
+                  $( "#sdatepicker" ).datepicker({
+                    changeMonth: true,//this option for allowing user to select month
+                    changeYear: true //this option for allowing user to select from year range
+                  });
+                  $( "#edatepicker" ).datepicker({
                     changeMonth: true,//this option for allowing user to select month
                     changeYear: true //this option for allowing user to select from year range
                   });
@@ -58,9 +62,6 @@
     <body onload="startTime()">
         <nav class="nbar">
             <ul class="nbar-list">
-                <li class="nbar-link">
-                    <a href=""></a>
-                </li>
                 <li class="nbar-link">
                     <a href="<?php echo $this->url('adminHome') ?>">Attendance</a>
                 </li>
