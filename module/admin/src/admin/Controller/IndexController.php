@@ -105,8 +105,7 @@ class IndexController extends AbstractActionController
         if ($auth->hasIdentity() && $container->type == 0){
             $sm =$this->getServiceLocator();
             $dbAdpater = $sm->get('Zend\Db\Adapter\Adapter');
-            $username = $container->id;
-            $sql ="SELECT section FROM teacher_section";
+            $sql ="SELECT * FROM section";
             $statement = $dbAdpater->query($sql, array(5));
             $statement2 = $dbAdpater->query($sql, array(5));
             
@@ -115,9 +114,9 @@ class IndexController extends AbstractActionController
             $resultSet2 = new ResultSet;
             $resultSet2->initialize($statement2);
             
-            $sql = "SELECT students.* FROM students";
+            $sql2 = "SELECT students.* FROM students";
             
-            $statement3 = $dbAdpater->query($sql, array(5));
+            $statement3 = $dbAdpater->query($sql2, array(5));
             $resultSet3 = new ResultSet;
             $resultSet3->initialize($statement3);
             $resultSet3->buffer();

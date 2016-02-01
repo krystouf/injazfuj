@@ -6,12 +6,12 @@
                 if($i==0){
                     $i++;
         ?>
-                    <li class="active"><a href="#<?php echo $i ?>"><?php echo 'Section '.$section['section'] ?></a></li>
+                    <li class="active"><a href="#<?php echo $i ?>"><?php echo 'Section '.$section['Section_id'] ?></a></li>
         <?php
                 }else{
                     $i++;
         ?>          
-                    <li><a href="#<?php echo $i ?>"><?php echo 'Section '.$section['section'] ?></a></li>
+                    <li><a href="#<?php echo $i ?>"><?php echo 'Section '.$section['Section_id'] ?></a></li>
         <?php
                 }
             endforeach; 
@@ -34,7 +34,7 @@
                             </tr>
                         <?php 
                         foreach ($this->students as $student){
-                            if ($section2['section'] == $student['Student_Section']){
+                            if ($section2['Section_id'] == $student['Student_Section']){
                         ?>
                             
                             <tr>
@@ -62,7 +62,7 @@
                             </tr>
                         <?php 
                         foreach ($this->students as $student){
-                            if ($section2['section'] == $student['Student_Section']){
+                            if ($section2['Section_id'] == $student['Student_Section']){
                         ?>
                             
                             <tr>
