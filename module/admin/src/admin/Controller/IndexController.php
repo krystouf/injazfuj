@@ -43,12 +43,15 @@ class IndexController extends AbstractActionController
             if($this->getRequest()->getPost('submit-update')){
                 $count = (int) $this->getRequest()->getPost('rcount');
                 for ($i =1 ; $i <= $count; $i++){
-                        $id= $this->getRequest()->getPost('rid'.$i);
-                        $att= $this->getRequest()->getPost('rattendance'.$i);
-                        $com= $this->getRequest()->getPost('rcomment'.$i);
+                    $id= $this->getRequest()->getPost('rid'.$i);
+                    $att= $this->getRequest()->getPost('rattendance'.$i);
+                    $com= $this->getRequest()->getPost('rcomment'.$i);
+                    $stup= $this->getRequest()->getPost('status-update'.$i);
+                    if ($stup != 0){
                         $data = array(
                             'counted'  => $att,
-                            'comment'  => $com
+                            'comment'  => $com,
+                            'Abs_value' => $stup
                         );
                         $sql = new Sql($dbAdpater);
                         $update = $sql->update();
@@ -57,6 +60,13 @@ class IndexController extends AbstractActionController
                         $update->where(array('Att_id' => $id));
                         $statement = $sql->prepareStatementForSqlObject($update);
                         $statement->execute();
+                    }else{
+                        $id= $this->getRequest()->getPost('rid'.$i);
+                        $sql = new Sql($dbAdpater);
+                        $delete = $sql->delete('attendance')->where(array('Att_id' => $id));
+                        $statement = $sql->prepareStatementForSqlObject($delete);
+                        $statement->execute();
+                    }
                 }
                 $sday = $this->getRequest()->getPost('sdate-filter');
                 $eday = $this->getRequest()->getPost('edate-filter');

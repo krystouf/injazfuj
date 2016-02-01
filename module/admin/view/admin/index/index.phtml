@@ -153,13 +153,26 @@ if ($this->message != ""){
         <td style="text-align: center;"><?php echo $student['Teacher_FirstName']?> </td>
         <td style="text-align: center;"><?php echo $student['Abs_Day']?> </td>
         <td style="text-align: center;"><?php echo $student['att_time']?></td>
-        <?php if ($student['Abs_value'] == 1){ ?>
-            <td style="text-align: center;">Late</td>
-        <?php }else if ($student['Abs_value'] == 2){ ?>
-            <td style="text-align: center;">Absent/Late</td>
-        <?php }else if ($student['Abs_value'] == 3){ ?>
-            <td style="text-align: center;">Absent</td>
-        <?php } ?>
+ 
+        <td>
+            <select id="statusupdate" name="<?php echo 'status-update'.$count ?>" style="width:100%;">
+                <?php 
+                    if($student['Abs_value'] == 1){
+                ?>
+                        <option value=0>Present</option>
+                        <option value="3">Absent</option>
+                        <option selected="selected" value="1">Late</option>
+                <?php
+                    }else if($student['Abs_value'] == 3){
+                ?>
+                        <option value=0>Present</option>
+                        <option selected="selected" value="3">Absent</option>
+                        <option value="1">Late</option>
+                <?php                        
+                    }
+                ?>
+            </select>  
+        </td>
         <?php if ($student['counted'] == 1){ ?>
             <td><input type ="checkbox" name ="<?php echo 'rattendance'.$count ?>" id ="<?php echo 'rattendance'.$count ?>" value="1" checked onchange="ActivateCommment(<?php echo $count ?>)"></td>
             <td><input type ="text" name ="<?php echo 'rcomment'.$count ?>" id ="<?php echo 'rcomment'.$count ?>" value="<?php echo $student['comment']; ?>" disabled></td>
