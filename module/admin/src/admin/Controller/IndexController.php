@@ -201,4 +201,58 @@ class IndexController extends AbstractActionController
                 'action' => 'login'));
         }
     }
+    
+    public function streportAction()
+    {
+     
+        $data = $this->params()->fromQuery('id');
+        
+        
+         $sm =$this->getServiceLocator();
+            $dbAdpater = $sm->get('Zend\Db\Adapter\Adapter');
+            $sql ="SELECT students.*, 
+                    count(case when attendance.subject=1 and attendance.Abs_value=3 and attendance.counted=1  then 1 else null end) as wk_counted, 
+                    count(case when attendance.subject=2 and attendance.Abs_value=3 and attendance.counted=1 then 1 else null end) as en_counted, 
+                    count(case when attendance.subject=3 and attendance.Abs_value=3 and attendance.counted=1 then 1 else null end) as co_counted, 
+                    count(case when attendance.subject=4 and attendance.Abs_value=3 and attendance.counted=1 then 1 else null end) as ma_counted, 
+                    count(case when attendance.subject=5 and attendance.Abs_value=3 and attendance.counted=1 then 1 else null end) as ar_counted,
+                    count(case when attendance.subject=1 and attendance.Abs_value=3 and attendance.counted=0  then 1 else null end) as wk_removed, 
+                    count(case when attendance.subject=2 and attendance.Abs_value=3 and attendance.counted=0 then 1 else null end) as en_removed, 
+                    count(case when attendance.subject=3 and attendance.Abs_value=3 and attendance.counted=0 then 1 else null end) as co_removed, 
+                    count(case when attendance.subject=4 and attendance.Abs_value=3 and attendance.counted=0 then 1 else null end) as ma_removed, 
+                    count(case when attendance.subject=5 and attendance.Abs_value=3 and attendance.counted=0 then 1 else null end) as ar_removed,
+                     count(case when attendance.subject=1 and attendance.Abs_value=1 and attendance.counted=1 then 1 else null end) as wk_countedl, 
+                    count(case when attendance.subject=2 and attendance.Abs_value=1 and attendance.counted=1 then 1 else null end) as en_countedl, 
+                    count(case when attendance.subject=3 and attendance.Abs_value=1 and attendance.counted=1 then 1 else null end) as co_countedl, 
+                    count(case when attendance.subject=4 and attendance.Abs_value=1 and attendance.counted=1 then 1 else null end) as ma_countedl, 
+                    count(case when attendance.subject=5 and attendance.Abs_value=1 and attendance.counted=1 then 1 else null end) as ar_countedl,
+                    count(case when attendance.subject=1 and attendance.Abs_value=1 and attendance.counted=0 then 1 else null end) as wk_removedl, 
+                    count(case when attendance.subject=2 and attendance.Abs_value=1 and attendance.counted=0 then 1 else null end) as en_removedl, 
+                    count(case when attendance.subject=3 and attendance.Abs_value=1 and attendance.counted=0 then 1 else null end) as co_removedl, 
+                    count(case when attendance.subject=4 and attendance.Abs_value=1 and attendance.counted=0 then 1 else null end) as ma_removedl, 
+                    count(case when attendance.subject=5 and attendance.Abs_value=1 and attendance.counted=0 then 1 else null end) as ar_removedl
+                    from students, attendance 
+                    WHERE students.sid=attendance.St_Id 
+                    GROUP BY students.sid 
+                    ORDER BY students.Student_Section ASC, students.Student_Name ASC";
+            
+            
+            
+            
+          /*  $sql ="SELECT *  FROM attendance, students 
+                   WHERE attendance.St_Id=students.sid  
+                   AND attendance.St_Id='".$data."'";
+            */
+            $statement = $dbAdpater->query($sql, array(5));
+         
+            
+            $resultSet = new ResultSet;
+            $resultSet->initialize($statement);
+        
+    
+        return new ViewModel(array(
+                'id' => $data,  
+                'std' => $resultSet,
+             ));
+    }
 }
