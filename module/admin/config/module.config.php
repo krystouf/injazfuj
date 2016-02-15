@@ -34,6 +34,17 @@ return array(
                     ),
                 ),
             ),
+            'adminaddattendance' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route'    => '/add_attendance',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'admin\Controller',
+                        'controller'    => 'Index',
+                        'action'        => 'addattendance',
+                    ),
+                ),
+            ),
             'adminstudents' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
