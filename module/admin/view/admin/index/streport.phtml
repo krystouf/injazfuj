@@ -17,12 +17,23 @@ th, td {
     // echo $student['sid'];
  //    echo '<br>';
      echo '<h3 > Student Name : '.$student['Student_Name'].'</h3>';
-   //  echo '<br>';
+     echo '<br>';
+     foreach ( $this-> stdays as $student2 ) {
+            if ($this->id == $student2['sid'])
+                {
+                    echo '<table style="width :20%" > ';
+                    echo '         <tr> ';
+                    echo '          <th bgcolor="#ffe6b3"> Total Days </th>';
+                    echo '          <th bgcolor="#ffe6b3">'.$student2['Days'].'</th>';
+                    echo '         </tr>';
+                    echo '<table>';
+                 }
+            }
      echo '<hr>';
      
      echo '<table style="width :100%" > ';
      echo '         <tr> ';
-      echo '          <th colspan="10" bgcolor="#00FF00"> Absent      </th>';
+     echo '          <th colspan="10" bgcolor="#00FF00"> Absent      </th>';
      echo '         </tr>';
      
      echo '         <tr> ';
