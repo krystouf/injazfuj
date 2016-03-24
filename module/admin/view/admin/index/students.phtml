@@ -28,19 +28,36 @@
                     <div id="<?php echo $j ?>" class="sttab active">
                         <table border="1" style="width:100%">
                             <tr>
-                                <th>ID</th>
-                                <th>Name</th>
+                                <th> Number  </th>
+                                <th> ID      </th>
+                                <th> Name    </th>
                                 <th> Section </th>
+                                <th> days    </th>
                             </tr>
                         <?php 
+                        $count = 0;
                         foreach ($this->students as $student){
                             if ($section2['Section_id'] == $student['Student_Section']){
+                                $count++;
                         ?>
                             
                             <tr>
+                                <th><?php echo $count ?></th>
                                 <th><a href="streport?id=<?php echo $student['sid'] ?>"><?php echo $student['Student_id'] ?></a></th>
                                 <th><?php echo $student['Student_Name'] ?></th>
                                 <th><?php echo $student['Student_Section'] ?></th>
+                              
+                                <?php
+                                $Days ='0';   
+                                foreach ($this->studentsAbs as $studentAbs){
+                                       
+                                    if ($studentAbs['sid'] == $student['sid']){
+                                         $Days =$studentAbs['Days'];
+                                ?>
+                               
+                                 
+                                <?php } } ?>
+                                 <th><?php echo $Days ?></th>
                             </tr>
                             
                         <?php 
@@ -56,19 +73,36 @@
                     <div id="<?php echo $j ?>" class="sttab">
                         <table border="1" style="width:100%">
                             <tr>
+                                <th> Number</th>
                                 <th>ID</th>
                                 <th>Name</th>
                                 <th> Section </th>
+                                <th>days </th>
                             </tr>
                         <?php 
+                        $count = 0;
                         foreach ($this->students as $student){
                             if ($section2['Section_id'] == $student['Student_Section']){
+                                $count++;
                         ?>
                             
                             <tr>
+                                <th><?php echo $count ?></th>
                                 <th><a href="streport?id=<?php echo $student['sid'] ?>"><?php echo $student['Student_id'] ?></a></th>
                                 <th><?php echo $student['Student_Name'] ?></th>
                                 <th><?php echo $student['Student_Section'] ?></th>
+                               
+                                   <?php
+                                   $Days ='0';
+                                foreach ($this->studentsAbs as $studentAbs){
+                                       
+                                    if ($studentAbs['sid'] == $student['sid']){
+                                             $Days =$studentAbs['Days'];
+                                ?>
+                                
+                                 
+                                <?php } }?>
+                                <th><?php echo $Days ?></th>
                             </tr>
 
                         <?php 

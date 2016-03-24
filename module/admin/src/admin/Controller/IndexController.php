@@ -190,10 +190,28 @@ class IndexController extends AbstractActionController
             $resultSet3 = new ResultSet;
             $resultSet3->initialize($statement3);
             $resultSet3->buffer();
+            
+            /* insert query for all students */
+            
+            $sqldays = "select  students.*,abs.St_Id ,count(*) as Days from students,  
+                        (SELECT St_Id,Abs_day,count(Att_id) FROM `attendance` 
+                        WHERE Abs_value=3 and counted=1
+                        Group by St_Id,Abs_day
+                        having count(Att_id) >=3 ) abs
+                        WHERE students.sid= abs.St_Id 
+                        Group by abs.St_Id";
+            
+            $statement4 = $dbAdpater->query($sqldays, array(5));
+            $resultSet4 = new ResultSet;
+            $resultSet4->initialize($statement4);
+            $resultSet4->buffer();
+            
+            
             return new ViewModel(array(
                 'sections' => $resultSet,
                 'sections2' => $resultSet2,
                 'students' => $resultSet3,
+                'studentsAbs' => $resultSet4,
              ));
         }else{
             return $this->redirect()->toRoute('login',
