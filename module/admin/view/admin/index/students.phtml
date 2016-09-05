@@ -6,12 +6,12 @@
                 if($i==0){
                     $i++;
         ?>
-                    <li class="active"><a href="#<?php echo $i ?>"><?php echo 'Section '.$section['Section_id'] ?></a></li>
+                    <li class="active"><a href="#<?php echo $i ?>"><?php echo 'Section '.$section['Section_Name'] ?></a></li>
         <?php
                 }else{
                     $i++;
         ?>          
-                    <li><a href="#<?php echo $i ?>"><?php echo 'Section '.$section['Section_id'] ?></a></li>
+                    <li><a href="#<?php echo $i ?>"><?php echo 'Section '.$section['Section_Name'] ?></a></li>
         <?php
                 }
             endforeach; 
@@ -26,13 +26,13 @@
                     $j++;
         ?>
                     <div id="<?php echo $j ?>" class="sttab active">
+                        <h2>Section <?php echo $section2['Section_Name'] ?></h2>
                         <table border="1" style="width:100%">
                             <tr>
-                                <th> Number  </th>
-                                <th> ID      </th>
-                                <th> Name    </th>
-                                <th> Section </th>
-                                <th> days    </th>
+                                <th style="width: 10%">Number</th>
+                                <th style="width: 15%">ID</th>
+                                <th style="width: 65%">Name</th>
+                                <th style="width: 10%">days </th>
                             </tr>
                         <?php 
                         $count = 0;
@@ -45,7 +45,6 @@
                                 <th><?php echo $count ?></th>
                                 <th><a href="streport?id=<?php echo $student['sid'] ?>"><?php echo $student['Student_id'] ?></a></th>
                                 <th><?php echo $student['Student_Name'] ?></th>
-                                <th><?php echo $student['Student_Section'] ?></th>
                               
                                 <?php
                                 $Days ='0';   
@@ -71,13 +70,13 @@
                     $j++;
         ?>
                     <div id="<?php echo $j ?>" class="sttab">
+                        <h2>Section <?php echo $section2['Section_Name'] ?></h2>
                         <table border="1" style="width:100%">
                             <tr>
-                                <th> Number</th>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th> Section </th>
-                                <th>days </th>
+                                <th style="width: 10%">Number</th>
+                                <th style="width: 15%">ID</th>
+                                <th style="width: 65%">Name</th>
+                                <th style="width: 10%">days </th>
                             </tr>
                         <?php 
                         $count = 0;
@@ -90,7 +89,6 @@
                                 <th><?php echo $count ?></th>
                                 <th><a href="streport?id=<?php echo $student['sid'] ?>"><?php echo $student['Student_id'] ?></a></th>
                                 <th><?php echo $student['Student_Name'] ?></th>
-                                <th><?php echo $student['Student_Section'] ?></th>
                                
                                    <?php
                                    $Days ='0';

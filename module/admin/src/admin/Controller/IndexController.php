@@ -132,9 +132,10 @@ class IndexController extends AbstractActionController
         $sm =$this->getServiceLocator();
         $dbAdpater = $sm->get('Zend\Db\Adapter\Adapter');
         $sql = "SELECT * 
-        FROM attendance, students, teacher
+        FROM attendance, students, teacher, section
         WHERE attendance.St_Id=students.sid
-        AND attendance.teacher=teacher.Teacher_id";
+        AND attendance.teacher=teacher.Teacher_id
+        And students.Student_Section=section.Section_id";
         if($sid != ""){
             $sql=$sql." AND students.Student_id='".$sid."'";
         }

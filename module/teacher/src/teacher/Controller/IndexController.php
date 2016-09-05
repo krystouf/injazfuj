@@ -126,7 +126,7 @@ class IndexController extends AbstractActionController
                             'Abs_value'=> $statt,  
                             'att_time'=> $timestamp,
                             'teacher' => $container->id,
-                            'subject' => $this->getSubject($container->id),
+                            'subject' => $container->sub,
                         );
                         $insert->values($newData);
                         $Query = $sql->getSqlStringForSqlObject($insert);
@@ -143,6 +143,7 @@ class IndexController extends AbstractActionController
                     $sm =$this->getServiceLocator();
                     $dbAdpater = $sm->get('Zend\Db\Adapter\Adapter');
                     $tablegetaway = new TableGateway('students', $dbAdpater);
+                    $container->sub = (int)$this->getRequest()->getPost('subject');
                     $rowset = $tablegetaway->select(function(Select $select){
                         $select->where(array('Student_Section'=> (int)$this->getRequest()->getPost('section')));
                     });
@@ -160,8 +161,15 @@ class IndexController extends AbstractActionController
                     $statement = $dbAdpater->query($sql, array(5));
                     $resultSet = new ResultSet;
                     $resultSet->initialize($statement);
+                    
+                    $sql2 ="SELECT * FROM subject";
+                    $statement2 = $dbAdpater->query($sql2, array(5));
+                    $resultSet2 = new ResultSet;
+                    $resultSet2->initialize($statement2);
                     return new ViewModel(array(
                         'sections' => $resultSet,
+                        'subjects' => $resultSet2,
+                        'activesub' => $this->getSubject($container->id),
                         'Step' => "1",
                         'period' => $this->getPeriod(),
                     ));

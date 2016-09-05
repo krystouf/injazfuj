@@ -39,6 +39,22 @@ if ($this->Step == "1"){
             endforeach; 
         ?>
     </select>
+     
+    <select id="subjects" name="subject" style="width:100%;">
+        <?php 
+            foreach ($this->subjects as $subject) :
+                if($this->activesub === $subject['Subject_id']){
+        ?>
+                    <option selected="selected" value="<?php echo $subject['Subject_id'] ?>"><?php echo $subject['Subject_Name'] ?></option>
+        <?php
+                }else{
+        ?>
+                    <option value="<?php echo $subject['Subject_id'] ?>"><?php echo $subject['Subject_Name'] ?></option>
+        <?php
+                }
+            endforeach; 
+        ?>
+    </select>
     <input type="submit" value="Next" name="next-but">
  </form>   
 <?php 

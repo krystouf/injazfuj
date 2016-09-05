@@ -29,11 +29,11 @@ if ($this->Step == "1"){
                             foreach ($this->sections as $section) :
                                 if($section['Section_id']==$this->secid){
                         ?>
-                                <option selected="selected" value="<?php echo $section['Section_id'] ?>">Section <?php echo $section['Section_id'] ?></option>
+                                <option selected="selected" value="<?php echo $section['Section_id'] ?>">Section <?php echo $section['Section_Name'] ?></option>
                         <?php
                                 }else{
                         ?>
-                                <option value="<?php echo $section['Section_id'] ?>">Section <?php echo $section['Section_id'] ?></option>
+                                <option value="<?php echo $section['Section_id'] ?>">Section <?php echo $section['Section_Name'] ?></option>
                         <?php
                                 }
                             endforeach; 

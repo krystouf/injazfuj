@@ -114,6 +114,7 @@ class IndexController extends AbstractActionController
                         $container = new Container('username');
                         $container->id = $username;
                         $container->type= 0;
+                        $container->sub="";
                         $storage = $auth->getStorage();
                         $storage->write($authAdapter->getResultRowObject(
                                 null,
