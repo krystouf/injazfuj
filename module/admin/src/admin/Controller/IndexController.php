@@ -185,7 +185,7 @@ class IndexController extends AbstractActionController
             $resultSet2 = new ResultSet;
             $resultSet2->initialize($statement2);
             
-            $sql2 = "SELECT students.* FROM students";
+            $sql2 = "SELECT students.* FROM students Order by Student_Name";
             
             $statement3 = $dbAdpater->query($sql2, array(5));
             $resultSet3 = new ResultSet;
@@ -251,7 +251,7 @@ class IndexController extends AbstractActionController
             count(case when attendance.subject=4 and attendance.Abs_value=1 and attendance.counted=0 then 1 else null end) as ma_removedl, 
             count(case when attendance.subject=5 and attendance.Abs_value=1 and attendance.counted=0 then 1 else null end) as ar_removedl
             from students, attendance 
-            WHERE students.sid=attendance.St_Id 
+            WHERE students.sid=attendance.St_Id AND attendance.St_Id='".$data."' 
             GROUP BY students.sid 
             ORDER BY students.Student_Section ASC, students.Student_Name ASC";
 
@@ -276,13 +276,18 @@ class IndexController extends AbstractActionController
             $resultSet2 = new ResultSet;
             $resultSet2->initialize($statement2);
             
+            $sqls ="select * from students WHERE students.sid='".$data."'";
             
+            $statement3 = $dbAdpater->query($sqls, array(5));
+
+            $resultSet3 = new ResultSet;
+            $resultSet3->initialize($statement3);
             
             return new ViewModel(array(
                 'id' => $data,  
                 'std' => $resultSet,
                 'stdays' => $resultSet2,
-                
+                'stprofile' => $resultSet3,
                 ));
         }else{
             return $this->redirect()->toRoute('login',

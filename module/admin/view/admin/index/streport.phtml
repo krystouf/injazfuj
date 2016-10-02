@@ -10,25 +10,30 @@ th, td {
 </style>
 <?php
   //echo 'Student id: '.$this->id;
-  
- foreach ( $this-> std as $student ) {
+foreach ($this->stprofile as $student3) {
+    echo '<h3 > Student Name : '.$student3['Student_Name'].'</h3>';
+    echo '<br>';
+}
+$i=0;   
+ foreach ($this->std as $student) {
+    $i++;
     if ($this->id == $student['sid'])
     {
     // echo $student['sid'];
  //    echo '<br>';
-     echo '<h3 > Student Name : '.$student['Student_Name'].'</h3>';
-     echo '<br>';
-     foreach ( $this-> stdays as $student2 ) {
-            if ($this->id == $student2['sid'])
-                {
-                    echo '<table style="width :20%" > ';
-                    echo '         <tr> ';
-                    echo '          <th bgcolor="#ffe6b3"> Total Days </th>';
-                    echo '          <th bgcolor="#ffe6b3">'.$student2['Days'].'</th>';
-                    echo '         </tr>';
-                    echo '<table>';
-                 }
-            }
+  
+    foreach ($this->stdays as $student2 ) {
+    
+    if ($this->id == $student2['sid'])
+            {
+                echo '<table style="width :20%" > ';
+                echo '         <tr> ';
+                echo '          <th bgcolor="#ffe6b3"> Total Days </th>';
+                echo '          <th bgcolor="#ffe6b3">'.$student2['Days'].'</th>';
+                echo '         </tr>';
+                echo '<table>';
+             }
+        }
      echo '<hr>';
      
      echo '<table style="width :100%" > ';
@@ -144,6 +149,123 @@ th, td {
 
    
     }
+ }
+ if ($i === 0){
+        echo '<table style="width :20%" > ';
+        echo '         <tr> ';
+        echo '          <th bgcolor="#ffe6b3"> Total Days </th>';
+        echo '          <th bgcolor="#ffe6b3">0</th>';
+        echo '         </tr>';
+        echo '<table>';
+
+        echo '<hr>';
+
+        echo '<table style="width :100%" > ';
+        echo '         <tr> ';
+        echo '          <th colspan="10" bgcolor="#00FF00"> Absent      </th>';
+        echo '         </tr>';
+
+        echo '         <tr> ';
+        echo '          <th colspan="2"> Work Skills </th>';
+        echo '          <th colspan="2"> English     </th>';
+        echo '          <th colspan="2"> Computer    </th>';
+        echo '          <th colspan="2"> Math        </th>';
+        echo '          <th colspan="2"> Arabic      </th>';
+        echo '          </tr>';
+
+        echo '         <tr>';
+        echo '          <td>Counted</td>';
+        echo '          <td>Un Counted</td>';
+        echo '          <td>Counted</td>';
+        echo '          <td>Un Counted</td>';
+        echo '          <td>Counted</td>';
+        echo '          <td>Un Counted</td>'; 
+        echo '          <td>Counted</td>';
+        echo '          <td>Un Counted</td>'; 
+        echo '          <td>Counted</td>';
+        echo '          <td>Un Counted</td>'; 
+        echo '          </tr>';
+
+        echo '           <tr>';
+        echo '             <td>0</td>';
+        echo '             <td>0</td>';
+
+        echo '             <td>0</td>';
+        echo '             <td>0</td>';
+
+        echo '             <td>0</td>';
+        echo '             <td>0</td>';
+
+        echo '             <td>0</td>';
+        echo '             <td>0</td>';
+
+        echo '             <td>0</td>';
+        echo '             <td>0</td>';
+
+        echo '            </tr>';
+        // late 
+        echo '         <tr> ';
+        echo '          <th colspan="10" bgcolor="#00FF00"> Late     </th>';
+        echo '         </tr>';
+
+        echo '         <tr> ';
+        echo '          <th colspan="2"> Work Skills </th>';
+        echo '          <th colspan="2"> English     </th>';
+        echo '          <th colspan="2"> Computer    </th>';
+        echo '          <th colspan="2"> Math        </th>';
+        echo '          <th colspan="2"> Arabic      </th>';
+        echo '          </tr>';
+
+        echo '         <tr>';
+        echo '          <td>Counted</td>';
+        echo '          <td>Un Counted</td>';
+        echo '          <td>Counted</td>';
+        echo '          <td>Un Counted</td>';
+        echo '          <td>Counted</td>';
+        echo '          <td>Un Counted</td>'; 
+        echo '          <td>Counted</td>';
+        echo '          <td>Un Counted</td>'; 
+        echo '          <td>Counted</td>';
+        echo '          <td>Un Counted</td>'; 
+        echo '          </tr>';
+
+        echo '           <tr>';
+        echo '             <td>0</td>';
+        echo '             <td>0</td>';
+
+        echo '             <td>0</td>';
+        echo '             <td>0</td>';
+
+        echo '             <td>0</td>';
+        echo '             <td>0</td>';
+
+        echo '             <td>0</td>';
+        echo '             <td>0</td>';
+
+        echo '             <td>0</td>';
+        echo '             <td>0</td>';
+
+        echo '            </tr>';
+        //total
+
+        echo '         <tr bgcolor="#FF0000"> ';
+        echo '          <th colspan="2"> Work Skills Counted </th>';
+        echo '          <th colspan="2"> English Counted  </th>';
+        echo '          <th colspan="2"> Computer Counted   </th>';
+        echo '          <th colspan="2"> Math Counted    </th>';
+        echo '          <th colspan="2"> Arabic Counted     </th>';
+        echo '          </tr>';
+
+        echo '         <tr> ';
+        echo '          <th colspan="2">0</th>';
+        echo '          <th colspan="2">0</th>';
+        echo '          <th colspan="2">0</th>';
+        echo '          <th colspan="2">0</th>';
+        echo '          <th colspan="2">0</th>';
+        echo '          </tr>';
+
+        echo '          </table>';
+
  }
     
    

@@ -146,6 +146,7 @@ class IndexController extends AbstractActionController
                     $container->sub = (int)$this->getRequest()->getPost('subject');
                     $rowset = $tablegetaway->select(function(Select $select){
                         $select->where(array('Student_Section'=> (int)$this->getRequest()->getPost('section')));
+                        $select->order('Student_Name');
                     });
                     $students = $rowset->toArray();
                     return new ViewModel(array(
@@ -157,7 +158,7 @@ class IndexController extends AbstractActionController
                     $sm =$this->getServiceLocator();
                     $dbAdpater = $sm->get('Zend\Db\Adapter\Adapter');
                     $username = $container->id;
-                    $sql ="SELECT section FROM teacher_section WHERE computer_teacher=".$username." OR wk_teacher=".$username." OR english_teacher=".$username." OR math_teacher=".$username." OR arabic_teacher=".$username." ORDER BY section ASC";
+                    $sql ="SELECT section, Section_Name FROM teacher_section, section WHERE teacher_section.section=section.Section_id AND (teacher_section.computer_teacher=".$username." OR teacher_section.wk_teacher=".$username." OR teacher_section.english_teacher=".$username." OR teacher_section.math_teacher=".$username." OR teacher_section.arabic_teacher=".$username.") ORDER BY teacher_section.section ASC";
                     $statement = $dbAdpater->query($sql, array(5));
                     $resultSet = new ResultSet;
                     $resultSet->initialize($statement);
@@ -204,7 +205,7 @@ class IndexController extends AbstractActionController
             OR teacher_section.wk_teacher=".$username." 
             OR teacher_section.english_teacher=".$username."
             OR teacher_section.math_teacher=".$username." 
-            OR teacher_section.arabic_teacher=".$username.")";
+            OR teacher_section.arabic_teacher=".$username.") Group by students.Student_Name";
             
             $statement3 = $dbAdpater->query($sql, array(5));
             $resultSet3 = new ResultSet;

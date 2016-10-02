@@ -43,7 +43,15 @@
                             
                             <tr>
                                 <th><?php echo $count ?></th>
-                                <th><a href="streport?id=<?php echo $student['sid'] ?>"><?php echo $student['Student_id'] ?></a></th>
+                                <th><a href="streport?id=<?php echo $student['sid'] ?>">
+                                    <?php 
+                                        if ($student['Student_id'] == ""){
+                                            echo "report";
+                                        }else{
+                                            echo $student['Student_id'];
+                                        }
+                                    ?>
+                                </a></th>
                                 <th><?php echo $student['Student_Name'] ?></th>
                               
                                 <?php
@@ -87,7 +95,15 @@
                             
                             <tr>
                                 <th><?php echo $count ?></th>
-                                <th><a href="streport?id=<?php echo $student['sid'] ?>"><?php echo $student['Student_id'] ?></a></th>
+                                <th><a href="streport?id=<?php echo $student['sid'] ?>">
+                                    <?php 
+                                        if ($student['Student_id'] == ""){
+                                            echo "report";
+                                        }else{
+                                            echo $student['Student_id'];
+                                        }
+                                    ?>
+                                </a></th>                                
                                 <th><?php echo $student['Student_Name'] ?></th>
                                
                                    <?php
