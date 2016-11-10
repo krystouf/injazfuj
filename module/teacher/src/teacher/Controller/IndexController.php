@@ -28,14 +28,14 @@ class IndexController extends AbstractActionController
         $container = new Container('username');
         if ($auth->hasIdentity() && $container->type == 1){
             $sm =$this->getServiceLocator();
-            $dbAdpater = $sm->get('Zend\Db\Adapter\Adapter');
+            $dba = $sm->get($container->adapter);
             $username = $container->id;
             $sql ="SELECT section FROM teacher_section WHERE computer_teacher=".$username." OR wk_teacher=".$username." OR english_teacher=".$username." OR math_teacher=".$username." OR arabic_teacher=".$username." ORDER BY section ASC";
-            $statement = $dbAdpater->query($sql, array(5));
+            $statement = $dba->query($sql, array(5));
             $resultSet = new ResultSet;
             $resultSet->initialize($statement);
             $sql2 ="SELECT * from teacher Where Teacher_id=".$username;
-            $statement2 = $dbAdpater->query($sql2, array(5));
+            $statement2 = $dba->query($sql2, array(5));
             $resultSet2 = new ResultSet;
             $resultSet2->initialize($statement2);
             return new ViewModel(array(
@@ -89,9 +89,10 @@ class IndexController extends AbstractActionController
 
     public function getSubject($username){
         $sm =$this->getServiceLocator();
-        $dbAdpater = $sm->get('Zend\Db\Adapter\Adapter');
+        $container = new Container('username');
+        $dba = $sm->get($container->adapter);
         $sql ="SELECT Teacher_Subject FROM teacher WHERE Teacher_id=".$username;
-        $statement = $dbAdpater->query($sql, array(5));
+        $statement = $dba->query($sql, array(5));
         $resultSet = new ResultSet;
         $resultSet->initialize($statement);
         $sub = "";
@@ -109,7 +110,7 @@ class IndexController extends AbstractActionController
             if($this->getRequest()->getPost('submit-but')){
                 $count = (int) $this->getRequest()->getPost('stcount');
                 $sm =$this->getServiceLocator();
-                $dbAdpater = $sm->get('Zend\Db\Adapter\Adapter');
+                $dba = $sm->get($container->adapter);
                 $starray = $count;
                 for ($i =1 ; $i <= $count; $i++){
                     $statt= $this->getRequest()->getPost('attendance'.$i);
@@ -118,7 +119,7 @@ class IndexController extends AbstractActionController
                     date_default_timezone_set('Asia/Dubai');
                     $timestamp = date('H:i:s');
                     if ($period != "Break" && $statt != 0) {
-                        $sql = new Sql($dbAdpater);
+                        $sql = new Sql($dba);
                         $insert = $sql->insert('attendance');
                         $newData = array('St_Id'=> $stid,
                             'Abs_Day' => date('Y-m-d'),
@@ -130,7 +131,7 @@ class IndexController extends AbstractActionController
                         );
                         $insert->values($newData);
                         $Query = $sql->getSqlStringForSqlObject($insert);
-                        $statement = $dbAdpater->query($Query);
+                        $statement = $dba->query($Query);
                         $statement->execute();
                     }
                 }
@@ -141,8 +142,8 @@ class IndexController extends AbstractActionController
             }else{
                 if($this->getRequest()->getPost('next-but')){
                     $sm =$this->getServiceLocator();
-                    $dbAdpater = $sm->get('Zend\Db\Adapter\Adapter');
-                    $tablegetaway = new TableGateway('students', $dbAdpater);
+                    $dba = $sm->get($container->adapter);
+                    $tablegetaway = new TableGateway('students', $dba);
                     $container->sub = (int)$this->getRequest()->getPost('subject');
                     $rowset = $tablegetaway->select(function(Select $select){
                         $select->where(array('Student_Section'=> (int)$this->getRequest()->getPost('section')));
@@ -156,15 +157,15 @@ class IndexController extends AbstractActionController
                     ));
                 }else{
                     $sm =$this->getServiceLocator();
-                    $dbAdpater = $sm->get('Zend\Db\Adapter\Adapter');
+                    $dba = $sm->get($container->adapter);
                     $username = $container->id;
                     $sql ="SELECT section, Section_Name FROM teacher_section, section WHERE teacher_section.section=section.Section_id AND (teacher_section.computer_teacher=".$username." OR teacher_section.wk_teacher=".$username." OR teacher_section.english_teacher=".$username." OR teacher_section.math_teacher=".$username." OR teacher_section.arabic_teacher=".$username.") ORDER BY teacher_section.section ASC";
-                    $statement = $dbAdpater->query($sql, array(5));
+                    $statement = $dba->query($sql, array(5));
                     $resultSet = new ResultSet;
                     $resultSet->initialize($statement);
                     
                     $sql2 ="SELECT * FROM subject";
-                    $statement2 = $dbAdpater->query($sql2, array(5));
+                    $statement2 = $dba->query($sql2, array(5));
                     $resultSet2 = new ResultSet;
                     $resultSet2->initialize($statement2);
                     return new ViewModel(array(
@@ -188,11 +189,11 @@ class IndexController extends AbstractActionController
         $container = new Container('username');
         if ($auth->hasIdentity() && $container->type == 1){
             $sm =$this->getServiceLocator();
-            $dbAdpater = $sm->get('Zend\Db\Adapter\Adapter');
+            $dba = $sm->get($container->adapter);
             $username = $container->id;
             $sql ="SELECT section FROM teacher_section WHERE computer_teacher=".$username." OR wk_teacher=".$username." OR english_teacher=".$username." OR math_teacher=".$username." OR arabic_teacher=".$username;
-            $statement = $dbAdpater->query($sql, array(5));
-            $statement2 = $dbAdpater->query($sql, array(5));
+            $statement = $dba->query($sql, array(5));
+            $statement2 = $dba->query($sql, array(5));
             
             $resultSet = new ResultSet;
             $resultSet->initialize($statement);
@@ -207,7 +208,7 @@ class IndexController extends AbstractActionController
             OR teacher_section.math_teacher=".$username." 
             OR teacher_section.arabic_teacher=".$username.") Group by students.Student_Name";
             
-            $statement3 = $dbAdpater->query($sql, array(5));
+            $statement3 = $dba->query($sql, array(5));
             $resultSet3 = new ResultSet;
             $resultSet3->initialize($statement3);
             $resultSet3->buffer();

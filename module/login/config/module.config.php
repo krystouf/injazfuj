@@ -18,7 +18,7 @@ return array(
                     'route'    => '/',
                     'defaults' => array(
                         'controller' => 'login\Controller\Index',
-                        'action'     => 'login',
+                        'action'     => 'index',
                     ),
                 ),
             ),
@@ -34,6 +34,33 @@ return array(
                         '__NAMESPACE__' => 'login\Controller',
                         'controller'    => 'Index',
                         'action'        => 'login',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'default' => array(
+                        'type'    => 'Segment',
+                        'options' => array(
+                            'route'    => '/[:controller[/:action]]',
+                            'constraints' => array(
+                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                            ),
+                            'defaults' => array(
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+            
+            'index' => array(
+                'type'    => 'Literal',
+                'options' => array(
+                    'route'    => '/index',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'login\Controller',
+                        'controller'    => 'Index',
+                        'action'        => 'index',
                     ),
                 ),
                 'may_terminate' => true,
@@ -86,7 +113,7 @@ return array(
         'exception_template'       => 'error/index',
         'template_map' => array(
             'login/layout'           => __DIR__ . '/../view/layout/layout.phtml',
-            'login/index/login' => __DIR__ . '/../view/login/index/login.phtml',
+            'login/index/choice' => __DIR__ . '/../view/login/index/choice.phtml',
             'error/404'               => __DIR__ . '/../view/error/404.phtml',
             'error/index'             => __DIR__ . '/../view/error/index.phtml',
         ),

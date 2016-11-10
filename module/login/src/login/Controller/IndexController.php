@@ -26,6 +26,11 @@ use Zend\Authentication\Adapter\DbTable as AuthAdapter;
 
 class IndexController extends AbstractActionController
 {
+    public function indexAction()
+    {
+        return new ViewModel();
+    }
+    
     public function loginAction()
     {
         if($this->getRequest()->getPost('student_log_but')){
@@ -39,15 +44,28 @@ class IndexController extends AbstractActionController
             $pass = $this->getRequest()->getPost('pa');
             $this->fauth($username, $pass, 'admin');
         }else{
-            return new ViewModel();
+            $container = new Container('username');
+            if ($this->params()->fromQuery('loc') == "dxb"){
+                $container->adapter = "adapter2";
+            }else if ($this->params()->fromQuery('loc') == "fuj"){
+                $container->adapter = "adapter";
+            }else{
+                return $this->redirect()->toRoute('index',
+                    array('controller'=>'index',
+                          'action' => 'index'));
+            }
+            return new ViewModel(array(
+                'location' => $this->params()->fromQuery('loc'),
+             ));
         }
     }
     
     public function fauth($username, $pass, $table){
         $sm = $this->getServiceLocator();
-        $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+        $container = new Container('username');
+        $dba = $sm->get($container->adapter);
         $sql = "Select Teacher_id from teacher where username='".$username."'";
-        $statement = $dbAdapter->query($sql, array(5));
+        $statement = $dba->query($sql, array(5));
         $resultSet = new ResultSet;
         $resultSet->initialize($statement);
         $tid = 0;
@@ -58,14 +76,14 @@ class IndexController extends AbstractActionController
         $staticSalt = $config['static_salt'];
         
         if ($table == "teacher"){
-            $authAdapter = new AuthAdapter($dbAdapter,
+            $authAdapter = new AuthAdapter($dba,
                 $table, // there is a method setTableName to do the same
                 'username', // there is a method setIdentityColumn to do the same
                 'Teacher_pass', // there is a method setCredentialColumn to do the same
                 "MD5(CONCAT('$staticSalt', Teacher_salt))" // setCredentialTreatment(parametrized string) 'MD5(?)'
            );
         }else if ($table == "admin"){
-            $authAdapter = new AuthAdapter($dbAdapter,
+            $authAdapter = new AuthAdapter($dba,
                 $table, // there is a method setTableName to do the same
                 'Admin_id', // there is a method setIdentityColumn to do the same
                 'Admin_pass', // there is a method setCredentialColumn to do the same
@@ -95,7 +113,6 @@ class IndexController extends AbstractActionController
 
             case Result::SUCCESS:
                     if ($table == "teacher"){
-                        $container = new Container('username');
                         $container->id = $tid;
                         $container->type= 1;
                         $storage = $auth->getStorage();
@@ -111,7 +128,6 @@ class IndexController extends AbstractActionController
                         array('controller'=>'index',
                               'action' => 'index'));
                     }else if ($table == "admin"){
-                        $container = new Container('username');
                         $container->id = $username;
                         $container->type= 0;
                         $container->sub="";

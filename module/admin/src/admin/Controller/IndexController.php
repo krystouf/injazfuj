@@ -27,15 +27,15 @@ class IndexController extends AbstractActionController
         $auth = new AuthenticationService();
         $container = new Container('username');
         $sm =$this->getServiceLocator();
-        $dbAdpater = $sm->get('Zend\Db\Adapter\Adapter');
+        $dba = $sm->get($container->adapter);
         
         $secsql ="SELECT * FROM section";
-        $secstatement = $dbAdpater->query($secsql, array(5));
+        $secstatement = $dba->query($secsql, array(5));
         $section = new ResultSet;
         $section->initialize($secstatement);
         
         $teasql ="SELECT * FROM teacher";
-        $teastatement = $dbAdpater->query($teasql, array(5));
+        $teastatement = $dba->query($teasql, array(5));
         $teacher = new ResultSet;
         $teacher->initialize($teastatement);
         
@@ -53,7 +53,7 @@ class IndexController extends AbstractActionController
                             'comment'  => $com,
                             'Abs_value' => $stup
                         );
-                        $sql = new Sql($dbAdpater);
+                        $sql = new Sql($dba);
                         $update = $sql->update();
                         $update->table('attendance');
                         $update->set($data);
@@ -62,7 +62,7 @@ class IndexController extends AbstractActionController
                         $statement->execute();
                     }else{
                         $id= $this->getRequest()->getPost('rid'.$i);
-                        $sql = new Sql($dbAdpater);
+                        $sql = new Sql($dba);
                         $delete = $sql->delete('attendance')->where(array('Att_id' => $id));
                         $statement = $sql->prepareStatementForSqlObject($delete);
                         $statement->execute();
@@ -130,7 +130,8 @@ class IndexController extends AbstractActionController
     
     public function getRepport($sday, $eday, $sid, $tid, $secid, $pid, $status){
         $sm =$this->getServiceLocator();
-        $dbAdpater = $sm->get('Zend\Db\Adapter\Adapter');
+        $container = new Container('username');
+        $dba = $sm->get($container->adapter);
         $sql = "SELECT * 
         FROM attendance, students, teacher, section
         WHERE attendance.St_Id=students.sid
@@ -157,7 +158,7 @@ class IndexController extends AbstractActionController
         }
         $sql=$sql." AND attendance.Abs_Day BETWEEN '".$sday."' AND '".$eday."' ORDER BY students.Student_Section ASC, students.Student_Name ASC, attendance.Abs_period ASC";
 
-        $statement = $dbAdpater->query($sql, array(5));
+        $statement = $dba->query($sql, array(5));
         $resultSet = new ResultSet;
         $resultSet->initialize($statement);
         
@@ -175,10 +176,10 @@ class IndexController extends AbstractActionController
         $container = new Container('username');
         if ($auth->hasIdentity() && $container->type == 0){
             $sm =$this->getServiceLocator();
-            $dbAdpater = $sm->get('Zend\Db\Adapter\Adapter');
+            $dba = $sm->get($container->adapter);
             $sql ="SELECT * FROM section";
-            $statement = $dbAdpater->query($sql, array(5));
-            $statement2 = $dbAdpater->query($sql, array(5));
+            $statement = $dba->query($sql, array(5));
+            $statement2 = $dba->query($sql, array(5));
             
             $resultSet = new ResultSet;
             $resultSet->initialize($statement);
@@ -187,7 +188,7 @@ class IndexController extends AbstractActionController
             
             $sql2 = "SELECT students.* FROM students Order by Student_Name";
             
-            $statement3 = $dbAdpater->query($sql2, array(5));
+            $statement3 = $dba->query($sql2, array(5));
             $resultSet3 = new ResultSet;
             $resultSet3->initialize($statement3);
             $resultSet3->buffer();
@@ -202,7 +203,7 @@ class IndexController extends AbstractActionController
                         WHERE students.sid= abs.St_Id 
                         Group by abs.St_Id";
             
-            $statement4 = $dbAdpater->query($sqldays, array(5));
+            $statement4 = $dba->query($sqldays, array(5));
             $resultSet4 = new ResultSet;
             $resultSet4->initialize($statement4);
             $resultSet4->buffer();
@@ -228,7 +229,7 @@ class IndexController extends AbstractActionController
         if ($auth->hasIdentity() && $container->type == 0){     
             $data = $this->params()->fromQuery('id');
             $sm =$this->getServiceLocator();
-            $dbAdpater = $sm->get('Zend\Db\Adapter\Adapter');
+            $dba = $sm->get($container->adapter);
             $sql ="SELECT students.*, 
             count(case when attendance.subject=1 and attendance.Abs_value=3 and attendance.counted=1  then 1 else null end) as wk_counted, 
             count(case when attendance.subject=2 and attendance.Abs_value=3 and attendance.counted=1 then 1 else null end) as en_counted, 
@@ -259,7 +260,7 @@ class IndexController extends AbstractActionController
                    WHERE attendance.St_Id=students.sid  
                    AND attendance.St_Id='".$data."'";
             */
-            $statement = $dbAdpater->query($sql, array(5));
+            $statement = $dba->query($sql, array(5));
 
             $resultSet = new ResultSet;
             $resultSet->initialize($statement);
@@ -271,14 +272,14 @@ class IndexController extends AbstractActionController
                       . "WHERE students.sid= abs.St_Id and abs.St_Id='".$data."'"
                       . "Group by abs.St_Id";
             
-            $statement2 = $dbAdpater->query($sqld, array(5));
+            $statement2 = $dba->query($sqld, array(5));
 
             $resultSet2 = new ResultSet;
             $resultSet2->initialize($statement2);
             
             $sqls ="select * from students WHERE students.sid='".$data."'";
             
-            $statement3 = $dbAdpater->query($sqls, array(5));
+            $statement3 = $dba->query($sqls, array(5));
 
             $resultSet3 = new ResultSet;
             $resultSet3->initialize($statement3);
@@ -301,7 +302,7 @@ class IndexController extends AbstractActionController
         $auth = new AuthenticationService();
         $container = new Container('username');
         $sm =$this->getServiceLocator();
-        $dbAdpater = $sm->get('Zend\Db\Adapter\Adapter');
+        $dba = $sm->get($container->adapter);
         if ($auth->hasIdentity() && $container->type == 0){
             if($this->getRequest()->getPost('submit-but')){
                 $per = $this->getRequest()->getPost('addp');
@@ -315,7 +316,7 @@ class IndexController extends AbstractActionController
                     $statt= $this->getRequest()->getPost('attendance'.$i);
                     $stid= $this->getRequest()->getPost('idstudent'.$i);
                     if ($statt != 0) {
-                        $sql = new Sql($dbAdpater);
+                        $sql = new Sql($dba);
                         $insert = $sql->insert('attendance');
                         $newData = array('St_Id'=> $stid,
                             'Abs_Day' => date("Y-m-d", strtotime($day)),
@@ -327,7 +328,7 @@ class IndexController extends AbstractActionController
                         );
                         $insert->values($newData);
                         $Query = $sql->getSqlStringForSqlObject($insert);
-                        $statement = $dbAdpater->query($Query);
+                        $statement = $dba->query($Query);
                         $statement->execute();
                     }
                 }
@@ -337,8 +338,8 @@ class IndexController extends AbstractActionController
             }else{
                 if($this->getRequest()->getPost('next-but')){
                     $sm =$this->getServiceLocator();
-                    $dbAdpater = $sm->get('Zend\Db\Adapter\Adapter');
-                    $tablegetaway = new TableGateway('students', $dbAdpater);
+                    $dba = $sm->get($container->adapter);
+                    $tablegetaway = new TableGateway('students', $dba);
                     $rowset = $tablegetaway->select(function(Select $select){
                         $select->where(array('Student_Section'=> (int)$this->getRequest()->getPost('secadd')));
                     });
@@ -356,12 +357,12 @@ class IndexController extends AbstractActionController
                     ));
                 }else{
                     $secsql ="SELECT * FROM section";
-                    $secstatement = $dbAdpater->query($secsql, array(5));
+                    $secstatement = $dba->query($secsql, array(5));
                     $section = new ResultSet;
                     $section->initialize($secstatement);
 
                     $teasql ="SELECT * FROM teacher";
-                    $teastatement = $dbAdpater->query($teasql, array(5));
+                    $teastatement = $dba->query($teasql, array(5));
                     $teacher = new ResultSet;
                     $teacher->initialize($teastatement);
                     return new ViewModel(array(
@@ -380,10 +381,11 @@ class IndexController extends AbstractActionController
     }
     
     public function getSubject($username){
-        $sm =$this->getServiceLocator();
-        $dbAdpater = $sm->get('Zend\Db\Adapter\Adapter');
+        $sm =$this->getServiceLocator();        
+        $container = new Container('username');
+        $dba = $sm->get($container->adapter);
         $sql ="SELECT Teacher_Subject FROM teacher WHERE Teacher_id=".$username;
-        $statement = $dbAdpater->query($sql, array(5));
+        $statement = $dba->query($sql, array(5));
         $resultSet = new ResultSet;
         $resultSet->initialize($statement);
         $sub = "";
