@@ -61,29 +61,57 @@ class IndexController extends AbstractActionController
         date_default_timezone_set('Asia/Dubai');
         $time = strtotime("now");
         $period =1;
-        if ($time >= strtotime("8:20") && $time <= strtotime("9:05")){
+        $container = new Container('username');
+        if ($container->adapter == "adapter2"){
+            if ($time >= strtotime("8:30") && $time <= strtotime("9:15")){
                 $period = 1;
-        }else if ($time >= strtotime("9:10") && $time <= strtotime("9:55")){
-                $period = 2;
-        }else if ($time >= strtotime("10:00") && $time <= strtotime("10:45")){
-                $period = 3;
-        }else if ($time >= strtotime("11:25") && $time <= strtotime("12:10")){
-                $period = 4;
-        }else if ($time >= strtotime("12:11") && $time <= strtotime("12:55")){
-                $period = 5;
-        }else if ($time >= strtotime("13:20") && $time <= strtotime("14:05")){
-                $period = 1;
-        }else if ($time >= strtotime("14:10") && $time <= strtotime("14:55")){
-                $period = 2;
-        }else if ($time >= strtotime("15:00") && $time <= strtotime("15:45")){
-                $period = 3;
-        }else if ($time >= strtotime("16:25") && $time <= strtotime("17:10")){
-                $period = 4;
-        }else if ($time >= strtotime("17:11") && $time <= strtotime("17:55")){
-                $period = 5;
+            }else if ($time >= strtotime("9:20") && $time <= strtotime("10:05")){
+                    $period = 2;
+            }else if ($time >= strtotime("10:10") && $time <= strtotime("10:55")){
+                    $period = 3;
+            }else if ($time >= strtotime("11:25") && $time <= strtotime("12:10")){
+                    $period = 4;
+            }else if ($time >= strtotime("12:11") && $time <= strtotime("12:55")){
+                    $period = 5;
+            }else if ($time >= strtotime("13:10") && $time <= strtotime("13:55")){
+                    $period = 1;
+            }else if ($time >= strtotime("14:00") && $time <= strtotime("14:45")){
+                    $period = 2;
+            }else if ($time >= strtotime("14:50") && $time <= strtotime("15:35")){
+                    $period = 3;
+            }else if ($time >= strtotime("16:05") && $time <= strtotime("16:50")){
+                    $period = 4;
+            }else if ($time >= strtotime("16:51") && $time <= strtotime("17:35")){
+                    $period = 5;
+            }else{
+                    $period = 'Break';
+            }
         }else{
-                $period = 'Break';
+            if ($time >= strtotime("8:20") && $time <= strtotime("9:05")){
+                $period = 1;
+            }else if ($time >= strtotime("9:10") && $time <= strtotime("9:55")){
+                    $period = 2;
+            }else if ($time >= strtotime("10:00") && $time <= strtotime("10:45")){
+                    $period = 3;
+            }else if ($time >= strtotime("11:25") && $time <= strtotime("12:10")){
+                    $period = 4;
+            }else if ($time >= strtotime("12:11") && $time <= strtotime("12:55")){
+                    $period = 5;
+            }else if ($time >= strtotime("13:20") && $time <= strtotime("14:05")){
+                    $period = 1;
+            }else if ($time >= strtotime("14:10") && $time <= strtotime("14:55")){
+                    $period = 2;
+            }else if ($time >= strtotime("15:00") && $time <= strtotime("15:45")){
+                    $period = 3;
+            }else if ($time >= strtotime("16:25") && $time <= strtotime("17:10")){
+                    $period = 4;
+            }else if ($time >= strtotime("17:11") && $time <= strtotime("17:55")){
+                    $period = 5;
+            }else{
+                    $period = 'Break';
+            }
         }
+        
         return $period;
     }
 
