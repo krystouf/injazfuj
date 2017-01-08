@@ -256,7 +256,7 @@ input:focus { box-shadow: inset 0 -5px 45px rgba(100,100,100,0.4), 0 1px 1px rgb
     }
  
     .sttab-links li {
-        margin:0px 5px;
+        margin:5px 5px;
         float:left;
         list-style:none;
     }
@@ -271,6 +271,8 @@ input:focus { box-shadow: inset 0 -5px 45px rgba(100,100,100,0.4), 0 1px 1px rgb
             color:#4c4c4c;
             transition:all linear 0.15s;
             text-decoration: none;
+            min-width: 120px;
+            text-align: center;
         }
  
         .sttab-links a:hover {
@@ -289,8 +291,6 @@ input:focus { box-shadow: inset 0 -5px 45px rgba(100,100,100,0.4), 0 1px 1px rgb
     .sttab-content {
         padding:15px;
         border-radius:3px;
-        box-shadow:-1px 1px 1px rgba(0,0,0,0.15);
-        background:#fff;
     }
  
         .sttab {
