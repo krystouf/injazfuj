@@ -209,8 +209,8 @@ class IndexController extends AbstractActionController
                     count(case when attendance.subject=3 and attendance.Abs_value=1 and attendance.counted=0 then 1 else null end) as co_removedl, 
                     count(case when attendance.subject=4 and attendance.Abs_value=1 and attendance.counted=0 then 1 else null end) as ma_removedl, 
                     count(case when attendance.subject=5 and attendance.Abs_value=1 and attendance.counted=0 then 1 else null end) as ar_removedl
-                    from students, attendance 
-                    WHERE students.Student_Section=".$secid."  AND students.sid=attendance.St_Id
+                    from students LEFT JOIN attendance on students.sid=attendance.St_Id
+                    WHERE students.Student_Section=".$secid."
                     GROUP BY students.sid 
                     ORDER BY students.Student_Section ASC, students.Student_Name ASC";
             
@@ -241,81 +241,6 @@ class IndexController extends AbstractActionController
                 'students' => $resultSet3,
                 'studentsAbs' => $resultSet4,
              ));
-        }else{
-            return $this->redirect()->toRoute('login',
-            array('controller'=>'index',
-                'action' => 'login'));
-        }
-    }
-    
-    public function streportAction()
-    {
-        $auth = new AuthenticationService();
-        $container = new Container('username');
-        if ($auth->hasIdentity() && $container->type == 0){     
-            $data = $this->params()->fromQuery('id');
-            $sm =$this->getServiceLocator();
-            $dba = $sm->get($container->adapter);
-            $sql ="SELECT students.*, 
-            count(case when attendance.subject=1 and attendance.Abs_value=3 and attendance.counted=1  then 1 else null end) as wk_counted, 
-            count(case when attendance.subject=2 and attendance.Abs_value=3 and attendance.counted=1 then 1 else null end) as en_counted, 
-            count(case when attendance.subject=3 and attendance.Abs_value=3 and attendance.counted=1 then 1 else null end) as co_counted, 
-            count(case when attendance.subject=4 and attendance.Abs_value=3 and attendance.counted=1 then 1 else null end) as ma_counted, 
-            count(case when attendance.subject=5 and attendance.Abs_value=3 and attendance.counted=1 then 1 else null end) as ar_counted,
-            count(case when attendance.subject=1 and attendance.Abs_value=3 and attendance.counted=0  then 1 else null end) as wk_removed, 
-            count(case when attendance.subject=2 and attendance.Abs_value=3 and attendance.counted=0 then 1 else null end) as en_removed, 
-            count(case when attendance.subject=3 and attendance.Abs_value=3 and attendance.counted=0 then 1 else null end) as co_removed, 
-            count(case when attendance.subject=4 and attendance.Abs_value=3 and attendance.counted=0 then 1 else null end) as ma_removed, 
-            count(case when attendance.subject=5 and attendance.Abs_value=3 and attendance.counted=0 then 1 else null end) as ar_removed,
-            count(case when attendance.subject=1 and attendance.Abs_value=1 and attendance.counted=1 then 1 else null end) as wk_countedl, 
-            count(case when attendance.subject=2 and attendance.Abs_value=1 and attendance.counted=1 then 1 else null end) as en_countedl, 
-            count(case when attendance.subject=3 and attendance.Abs_value=1 and attendance.counted=1 then 1 else null end) as co_countedl, 
-            count(case when attendance.subject=4 and attendance.Abs_value=1 and attendance.counted=1 then 1 else null end) as ma_countedl, 
-            count(case when attendance.subject=5 and attendance.Abs_value=1 and attendance.counted=1 then 1 else null end) as ar_countedl,
-            count(case when attendance.subject=1 and attendance.Abs_value=1 and attendance.counted=0 then 1 else null end) as wk_removedl, 
-            count(case when attendance.subject=2 and attendance.Abs_value=1 and attendance.counted=0 then 1 else null end) as en_removedl, 
-            count(case when attendance.subject=3 and attendance.Abs_value=1 and attendance.counted=0 then 1 else null end) as co_removedl, 
-            count(case when attendance.subject=4 and attendance.Abs_value=1 and attendance.counted=0 then 1 else null end) as ma_removedl, 
-            count(case when attendance.subject=5 and attendance.Abs_value=1 and attendance.counted=0 then 1 else null end) as ar_removedl
-            from students, attendance 
-            WHERE students.sid=attendance.St_Id AND attendance.St_Id='".$data."' 
-            GROUP BY students.sid 
-            ORDER BY students.Student_Section ASC, students.Student_Name ASC";
-
-          /*  $sql ="SELECT *  FROM attendance, students 
-                   WHERE attendance.St_Id=students.sid  
-                   AND attendance.St_Id='".$data."'";
-            */
-            $statement = $dba->query($sql, array(5));
-
-            $resultSet = new ResultSet;
-            $resultSet->initialize($statement);
-            /* 23-mar */
-              $sqld ="select students.*,abs.St_Id ,count(*) as Days from students,"
-                      . " (SELECT St_Id,Abs_day,count(Att_id) FROM `attendance` "
-                      . "WHERE Abs_value=3 and counted=1 Group by St_Id,Abs_day "
-                      . "having count(Att_id) >=3 ) abs "
-                      . "WHERE students.sid= abs.St_Id and abs.St_Id='".$data."'"
-                      . "Group by abs.St_Id";
-            
-            $statement2 = $dba->query($sqld, array(5));
-
-            $resultSet2 = new ResultSet;
-            $resultSet2->initialize($statement2);
-            
-            $sqls ="select * from students WHERE students.sid='".$data."'";
-            
-            $statement3 = $dba->query($sqls, array(5));
-
-            $resultSet3 = new ResultSet;
-            $resultSet3->initialize($statement3);
-            
-            return new ViewModel(array(
-                'id' => $data,  
-                'std' => $resultSet,
-                'stdays' => $resultSet2,
-                'stprofile' => $resultSet3,
-                ));
         }else{
             return $this->redirect()->toRoute('login',
             array('controller'=>'index',
