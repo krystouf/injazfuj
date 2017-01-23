@@ -56,6 +56,17 @@ return array(
                     ),
                 ),
             ),
+            'deletestudents' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route'    => '/delete_students',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'admin\Controller',
+                        'controller'    => 'Index',
+                        'action'        => 'delete',
+                    ),
+                ),
+            ),
             'adminHome' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(

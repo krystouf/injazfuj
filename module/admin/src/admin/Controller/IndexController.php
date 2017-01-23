@@ -345,4 +345,8 @@ class IndexController extends AbstractActionController
         }
         return $sub ;
     }
+    
+    public function deleteAction(){
+        return new ViewModel();
+    }
 }
