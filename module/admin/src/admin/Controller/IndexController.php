@@ -347,6 +347,24 @@ class IndexController extends AbstractActionController
     }
     
     public function deleteAction(){
-        return new ViewModel();
+        $auth = new AuthenticationService();
+        $container = new Container('username');
+        if ($auth->hasIdentity() && $container->type == 0){
+            if($this->getRequest()->getPost('submit-but')){
+                
+            }else{
+                
+                return new ViewModel(array(
+                    'Step' => "1",
+                    'day' => date('m/d/Y'),
+                    'sections' => $section,
+                    'teachers' => $teacher,
+                ));
+            }
+        }else{
+            return $this->redirect()->toRoute('login',
+            array('controller'=>'index',
+                'action' => 'login'));
+        }
     }
 }
