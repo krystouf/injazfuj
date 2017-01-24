@@ -21,17 +21,39 @@
             ->prependFile($this->basePath('js/respond.min.js'), 'text/javascript', array('conditional' => 'lt IE 9',))
             ->prependFile($this->basePath('js/html5shiv.min.js'),   'text/javascript', array('conditional' => 'lt IE 9',))
         ; ?>
+        <script>
+            jQuery(document).ready(function() {
+                jQuery('.sttabs .sttab-links a').on('click', function(e)  {
+                    var currentAttrValue = jQuery(this).attr('href');
+
+                    // Show/Hide Tabs
+                    jQuery('.sttabs ' + currentAttrValue).show().siblings().hide();
+
+                    // Change/remove current tab to active
+                    jQuery(this).parent('li').addClass('active').siblings().removeClass('active');
+
+                    e.preventDefault();
+                });
+            });
+        </script>
     </head>
-    <body>
-        
-        <div class="container">
-            
+    <body onload="startTime()">
+        <nav class="nbar">
+            <ul class="nbar-list">
+                <li class="nbar-link">
+                    <a href="<?php echo $this->url('student') ?>">Home</a>
+                </li>
+                <li class="nbar-link">
+                    <a href="<?php echo $this->url('workplacement') ?>">Work Placement</a>
+                </li>
+            </ul>
+        </nav>
+        <div class="teachercontainer">
             <?php echo $this->content; ?>
-            <hr>
-            <footer>
-                <center><p>&copy; 2015 WRP</p></center>
-            </footer>
         </div> <!-- /container -->
+        <footer>
+            <center><p>&copy; 2015 WRP</p></center>
+        </footer>
         <?php echo $this->inlineScript() ?>
     </body>
 </html>
