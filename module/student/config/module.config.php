@@ -12,7 +12,17 @@ namespace student;
 return array(
     'router' => array(
         'routes' => array(
-            
+            'workplacement' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route'    => '/work',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'student\Controller',
+                        'controller'    => 'Index',
+                        'action'        => 'workplacement',
+                    ),
+                ),
+            ),
             // The following is a route to simplify getting started creating
             // new controllers and actions without needing to create a new
             // module. Simply drop new controllers in, and you can access them
