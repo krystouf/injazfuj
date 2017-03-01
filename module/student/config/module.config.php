@@ -12,6 +12,22 @@ namespace student;
 return array(
     'router' => array(
         'routes' => array(
+          
+           // information
+            'information' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route'    => '/studentinformation',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'student\Controller',
+                        'controller'    => 'Index',
+                        'action'        => 'information',
+                    ),
+                ),
+            ),
+            
+           // end of task       
+            
             'workplacement' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
