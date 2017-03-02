@@ -62,6 +62,11 @@ class IndexController extends AbstractActionController
             'Studentinfo' => $resultSet,
          ));
     }
-     
+      public function weeklyreportAction()
+    {   
+        return new ViewModel();
+      
+       
+    }
             
 }

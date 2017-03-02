@@ -407,8 +407,18 @@ text-decoration: none;
     color: #FFF;
     padding: 8px 16px;
     text-decoration: none;
-	border-radius: 5px;
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
-        margin-left:2%;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+ 
+}
+.moh-left-nav  a:hover {
+    background-color: #555;
+    color: white;
+   
+}
+.moh-left-nav  a.active {
+    background-color: #666;
+    color: white;
+    
 }

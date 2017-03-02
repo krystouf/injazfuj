@@ -8,8 +8,36 @@
     
         <div  class="moh-content">
                  
- 
+            Weekly Report
+        <div class="sttabs">
+            <ul class="sttab-links">
+                 <?php 
+                       
+                  for ($i=1 ;$i<=8 ;$i++) 
+                  {   
+             
+                    ?>
+                    <li class="active"><a href="#"> Week <?php echo $i ; ?></a></li>
+                  <?php } ?>     
+                   
+             </ul>
+        </div>
+        
+        
+        <div> <!-- weekly detail --> 
+            <form method="post" style="width: 100%; margin: auto;">
+                
+            Tasks Performed for week <?php $j ?><br>
+            <input type="textarea" name="txt_task_performed" >
+            
+            <input type="submit" value="Submit" name="week-submit">
+            </form>
+            
+        </div>
+           
+            <!-- end  of weekly detail --> 
             <?php 
+            /*
                 foreach ($this->Studentinfo as $student) :
                     echo 'Student Name     : '.$student['Student_Name'].'<br/><br/>';
                     echo 'Student ID       : '.$student['Student_id'].'<br/><br/>';
@@ -18,9 +46,10 @@
                     echo 'Supervisor phone : '.$student['phone'].'<br/><br/>';
                     echo 'Mentor Name      : '.$student['Teacher_FirstName']. ' '.$student['Teacher_LastName'].'<br/><br/>';
                 endforeach; 
+            
+             */
             ?>
             
-              </div>
+    </div><!-- end  of  moh-content -->   
     
-   <!-- <div class="clear"> </div> -->
  

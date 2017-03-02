@@ -26,7 +26,25 @@ return array(
                 ),
             ),
             
-           // end of task       
+           // end of information       
+            
+           // Weekly Report
+            'weeklyreport' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route'    => '/Weeklyreport',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'student\Controller',
+                        'controller'    => 'Index',
+                        'action'        => 'Weeklyreport',
+                    ),
+                ),
+            ),
+            
+           // end of Weekly Report
+            
+            
+            
             
             'workplacement' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
