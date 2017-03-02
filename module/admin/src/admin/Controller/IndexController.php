@@ -350,15 +350,36 @@ class IndexController extends AbstractActionController
         $auth = new AuthenticationService();
         $container = new Container('username');
         if ($auth->hasIdentity() && $container->type == 0){
-            if($this->getRequest()->getPost('submit-but')){
+            if($this->getRequest()->getPost('yes-but')){
+                $sm =$this->getServiceLocator();
+                $dba = $sm->get($container->adapter);
+                $sql = new Sql( $dba );
+                $delete = $sql->delete('attendance')->where("St_Id =".$this->params()->fromQuery('stid'));
+                $deleteString = $sql->getSqlStringForSqlObject($delete);
+                $statement = $dba->query($deleteString);
+                $statement->execute();
                 
+                $delete = $sql->delete('students')->where("sid =".$this->params()->fromQuery('stid'));
+                $deleteString = $sql->getSqlStringForSqlObject($delete);
+                $statement = $dba->query($deleteString);
+                $statement->execute();
+                
+                $this->redirect()->toRoute('adminstudents', array(), array(
+                    'query' => array(
+                        'secid' => $this->params()->fromQuery('secid'),
+                    ),
+                ));
+            }else if($this->getRequest()->getPost('no-but')){
+                $this->redirect()->toRoute('adminstudents', array(), array(
+                    'query' => array(
+                        'secid' => 1,
+                    ),
+                ));
             }else{
-                
                 return new ViewModel(array(
-                    'Step' => "1",
-                    'day' => date('m/d/Y'),
-                    'sections' => $section,
-                    'teachers' => $teacher,
+                    'stid' => $this->params()->fromQuery('stid'),
+                    'secid' => $this->params()->fromQuery('secid'),
+                    'stname' => $this->params()->fromQuery('stname'),
                 ));
             }
         }else{
