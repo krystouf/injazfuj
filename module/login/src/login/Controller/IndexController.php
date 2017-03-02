@@ -34,7 +34,11 @@ class IndexController extends AbstractActionController
     public function loginAction()
     {
         if($this->getRequest()->getPost('student_log_but')){
-            return new ViewModel();
+           // return new ViewModel();
+            return $this->redirect()->toRoute('student',
+            array('controller'=>'index',
+                  'action' => 'index'));
+            
         }else if($this->getRequest()->getPost('teacher_log_but')){
             $username = $this->getRequest()->getPost('ut');
             $pass = $this->getRequest()->getPost('pt');
