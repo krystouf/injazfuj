@@ -6,12 +6,13 @@
                 if($i==0){
                     $i++;
         ?>
-                    <li class="active"><a href="admin_students?secid=<?php echo $i ?>"><?php echo 'Section '.$section['Section_Name'] ?></a></li>
+                    <li class="active"><a href="<?php echo $this->url('adminstudents', array(), array('query' => array( 'secid' => $i ) ));?>"><?php echo 'Section '.$section['Section_Name'] ?></a></li>
+                    
         <?php
                 }else{
                     $i++;
         ?>          
-                    <li><a href="admin_students?secid=<?php echo $i ?>"><?php echo 'Section '.$section['Section_Name'] ?></a></li>
+                    <li><a href="<?php echo $this->url('adminstudents', array(), array('query' => array( 'secid' => $i ) ));?>"><?php echo 'Section '.$section['Section_Name'] ?></a></li>
         <?php
                 }
             endforeach; 
@@ -50,7 +51,7 @@
                                 }
                             ?>
                         <!--</a>-->
-                        <a href="delete_students?stid=<?php echo $student['sid'] ?>&secid=<?php echo $student['Student_Section'] ?>"><img src="img/Delete.png" style="width: 20px; margin-top: 0px; margin-left: 5px; float:right; cursor: pointer; display: block;" /></a>
+                        <a href="<?php echo $this->url('deletestudents', array(), array('query' => array( 'stid' => $student['sid'], 'secid' => $student['Student_Section'], 'stname' => $student['Student_Name'] ) ));?>"><img src="img/Delete.png" style="width: 20px; margin-top: 0px; margin-left: 5px; float:right; cursor: pointer; display: block;" /></a>
                     </div>
                 </div>
                 <div class="stlistprobottom">
