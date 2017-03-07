@@ -1,0 +1,65 @@
+<?php echo $this->doctype(); ?>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Injaz Fujairah</title>
+
+        <?php echo $this->headMeta()
+            ->appendName('viewport', 'width=device-width, initial-scale=1.0')
+            ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
+        ?>
+
+        <!-- Le styles -->
+        <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))
+                        ->prependStylesheet($this->basePath('css/style.css')) ?>
+
+        <!-- Scripts -->
+        <?php echo $this->headScript()
+            ->prependFile($this->basePath('js/bootstrap.min.js'))
+            ->prependFile($this->basePath('js/jquery.min.js'))
+            ->prependFile($this->basePath('js/respond.min.js'), 'text/javascript', array('conditional' => 'lt IE 9',))
+            ->prependFile($this->basePath('js/html5shiv.min.js'),   'text/javascript', array('conditional' => 'lt IE 9',))
+        ; ?>
+        <script>
+            jQuery(document).ready(function() {
+                jQuery('.sttabs .sttab-links a').on('click', function(e)  {
+                    var currentAttrValue = jQuery(this).attr('href');
+
+                    // Show/Hide Tabs
+                    jQuery('.sttabs ' + currentAttrValue).show().siblings().hide();
+
+                    // Change/remove current tab to active
+                    jQuery(this).parent('li').addClass('active').siblings().removeClass('active');
+
+                    e.preventDefault();
+                });
+            });
+        </script>
+    </head>
+    <body onload="startTime()">
+        <nav class="nbar">
+            <ul class="nbar-list">
+                <li class="nbar-link">
+                    <a href="">Home</a>
+                </li>
+                <li class="nbar-link">
+                    <a href="">Students</a>
+                </li>
+                <!--<li class="nbar-link">
+                    <a href="">Grades</a>-->
+                </li>
+                <li class="nbar-link">
+                    <a href="<?php echo $this->url('teacherLogout') ?>">Logout</a>
+                </li>
+            </ul>
+        </nav>
+        <div class="teachercontainer">
+            <?php echo $this->content; ?>
+        </div> <!-- /container -->
+        <footer>
+            <center><p>&copy; 2015 WRP</p></center>
+        </footer>
+        <?php echo $this->inlineScript() ?>
+    </body>
+</html>
