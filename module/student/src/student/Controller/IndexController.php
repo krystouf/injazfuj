@@ -93,7 +93,7 @@ class IndexController extends AbstractActionController
         $container = new Container('username');
         $sm =$this->getServiceLocator();
         $dba = $sm->get($container->adapter);
-        $username = 263;
+        $username =$container->id;
         $sql ="SELECT * from task  Where sid=".$username."
                AND week_id =".$weekid."";
         $statement = $dba->query($sql, array(5));
@@ -110,22 +110,23 @@ class IndexController extends AbstractActionController
            //     $weekid=1;
                 $found=1;
          endforeach;
-              if ($found =="0")        
+              /*
+         if ($found =="0")        
                {echo "found = 00000";echo 'taskid ' .$tid;}
         else
               {echo "found = 11111";echo 'taskid ' .$tid;}   
-       
+       */
             if($this->getRequest()->getPost('submit-week'))
             {
                 if ($found =="0")        
                      {
-                        echo "found = 00000";echo 'taskid ' .$tid;
+                  //      echo "found = 00000";echo 'taskid ' .$tid;
                         $this->insertweek(11,$weekid);
                         $step=3;
                      }
                 else
                     {
-                    echo "found = 11111";
+                 //   echo "found = 11111";
                    
                     $this->updateweek($tid);
                     $step=4;
@@ -160,7 +161,7 @@ class IndexController extends AbstractActionController
            $container = new Container('username');
            $sm =$this->getServiceLocator();
            $dba = $sm->get($container->adapter);
-           $username = 263;
+           $username = $container->id;
            
             $sql = new Sql($dba);
                         $insert = $sql->insert('task');
@@ -184,7 +185,7 @@ class IndexController extends AbstractActionController
     
      public function updateweek ($taskid)  
      {
-          echo 'taskid ' .$taskid;
+        //  echo 'taskid ' .$taskid;
            $data = array(
                          'task_performed'  => $this->getRequest()->getPost('txt_task_performed'),
                          'new_skills'  => $this->getRequest()->getPost('txt_new_skills'),
@@ -194,7 +195,7 @@ class IndexController extends AbstractActionController
                         $container = new Container('username');
                         $sm =$this->getServiceLocator();
                         $dba = $sm->get($container->adapter);
-                        $username = 263;
+                     //   $username = $container->id;
                         $sql = new Sql($dba);
                         $update = $sql->update();
                         $update->table('task');
