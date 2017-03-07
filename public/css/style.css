@@ -383,7 +383,7 @@ text-decoration: none;
 
 .moh-left-nav {
     width:18%;
-    background-color: rgba(152,175,199,0.7);
+    background-color: rgba(125, 31, 29,0.7);
     float:left;
     border-radius: 5px;
     -moz-border-radius: 5px;
@@ -413,7 +413,7 @@ text-decoration: none;
  
 }
 .moh-left-nav  a:hover {
-    background-color: #555;
+    background-color: #1d7b7d;
     color: white;
    
 }
