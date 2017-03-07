@@ -34,11 +34,9 @@ class IndexController extends AbstractActionController
     public function loginAction()
     {
         if($this->getRequest()->getPost('student_log_but')){
-           // return new ViewModel();
-            return $this->redirect()->toRoute('student',
-            array('controller'=>'index',
-                  'action' => 'index'));
-            
+            $username = $this->getRequest()->getPost('u');
+            $pass = $this->getRequest()->getPost('p');
+            $this->fauth($username, $pass, 'students');
         }else if($this->getRequest()->getPost('teacher_log_but')){
             $username = $this->getRequest()->getPost('ut');
             $pass = $this->getRequest()->getPost('pt');
@@ -68,31 +66,47 @@ class IndexController extends AbstractActionController
         $sm = $this->getServiceLocator();
         $container = new Container('username');
         $dba = $sm->get($container->adapter);
-        $sql = "Select Teacher_id from teacher where username='".$username."'";
-        $statement = $dba->query($sql, array(5));
-        $resultSet = new ResultSet;
-        $resultSet->initialize($statement);
-        $tid = 0;
-        foreach ($resultSet as $row){
-            $tid = $row['Teacher_id'];
-        }
+        
         $config = $this->getServiceLocator()->get('Config');
         $staticSalt = $config['static_salt'];
         
         if ($table == "teacher"){
+            $sql = "Select Teacher_id from teacher where username='".$username."'";
+            $statement = $dba->query($sql, array(5));
+            $resultSet = new ResultSet;
+            $resultSet->initialize($statement);
+            $tid = 0;
+            foreach ($resultSet as $row){
+                $tid = $row['Teacher_id'];
+            }
             $authAdapter = new AuthAdapter($dba,
                 $table, // there is a method setTableName to do the same
                 'username', // there is a method setIdentityColumn to do the same
                 'Teacher_pass', // there is a method setCredentialColumn to do the same
                 "MD5(CONCAT('$staticSalt', Teacher_salt))" // setCredentialTreatment(parametrized string) 'MD5(?)'
-           );
+            );
         }else if ($table == "admin"){
             $authAdapter = new AuthAdapter($dba,
                 $table, // there is a method setTableName to do the same
                 'Admin_id', // there is a method setIdentityColumn to do the same
                 'Admin_pass', // there is a method setCredentialColumn to do the same
                 "MD5(CONCAT('$staticSalt', Admin_salt))" // setCredentialTreatment(parametrized string) 'MD5(?)'
-           );
+            );
+        }else if ($table == "students"){
+            $sql = "Select sid from students where Student_id='".$username."'";
+            $statement = $dba->query($sql, array(5));
+            $resultSet = new ResultSet;
+            $resultSet->initialize($statement);
+            $sid = 0;
+            foreach ($resultSet as $row){
+                $sid = $row['sid'];
+            }
+            $authAdapter = new AuthAdapter($dba,
+                $table, // there is a method setTableName to do the same
+                'Student_id', // there is a method setIdentityColumn to do the same
+                'student_pass', // there is a method setCredentialColumn to do the same
+                "MD5(CONCAT('$staticSalt', student_salt))" // setCredentialTreatment(parametrized string) 'MD5(?)'
+            );
         }
         
         $authAdapter
@@ -145,6 +159,22 @@ class IndexController extends AbstractActionController
                         $sessionManager = new \Zend\Session\SessionManager();
                         $sessionManager->rememberMe($time);
                         return $this->redirect()->toRoute('admin',
+                        array('controller'=>'index',
+                              'action' => 'index'));
+                    }else if ($table == "students"){
+                        $container->id = $sid;
+                        $container->type= 0;
+                        $container->sub="";
+                        $storage = $auth->getStorage();
+                        $storage->write($authAdapter->getResultRowObject(
+                                null,
+                                'student_pass'
+                        ));
+                        $time = 1209600; // 14 days 1209600/3600 = 336 hours => 336/24 = 14 days
+    //						if ($data['rememberme']) $storage->getSession()->getManager()->rememberMe($time); // no way to get the session
+                        $sessionManager = new \Zend\Session\SessionManager();
+                        $sessionManager->rememberMe($time);
+                        return $this->redirect()->toRoute('student',
                         array('controller'=>'index',
                               'action' => 'index'));
                     }

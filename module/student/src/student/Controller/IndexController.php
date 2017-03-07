@@ -33,7 +33,7 @@ class IndexController extends AbstractActionController
         $container = new Container('username');
         $sm =$this->getServiceLocator();
             $dba = $sm->get($container->adapter);
-            $username = 263;
+            $username = $container->id;
             $sql ="SELECT * from students,teacher,supervisor Where sid=".$username."
                    AND supervisor_id = super_id
                    AND  Teacher_id = mentor_id";
@@ -50,7 +50,7 @@ class IndexController extends AbstractActionController
         $container = new Container('username');
         $sm =$this->getServiceLocator();
         $dba = $sm->get($container->adapter);
-        $username = 263;
+        $username = $container->id;
         $sql ="SELECT * from students,teacher,supervisor Where sid=".$username."
                AND supervisor_id = super_id
                AND  Teacher_id = mentor_id";
