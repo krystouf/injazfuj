@@ -422,3 +422,9 @@ text-decoration: none;
     color: white;
     
 }
+textarea{
+    height: 100px;
+    width:100%;
+    
+    
+}

@@ -7,49 +7,97 @@
         </div>
     
         <div  class="moh-content">
-                 
-            Weekly Report
+                     
         <div class="sttabs">
             <ul class="sttab-links">
                  <?php 
                        
                   for ($i=1 ;$i<=8 ;$i++) 
                   {   
-             
                     ?>
-                    <li class="active"><a href="#"> Week <?php echo $i ; ?></a></li>
+
+                    <li >      
+                        <a href="<?php echo $this->url('weeklyreport',array(), array('query' => array( 'wid' => $i ) ));?>">
+                            Week <?php echo $i ; ?></a></li>
                   <?php } ?>     
                    
              </ul>
         </div>
         
-        
-        <div> <!-- weekly detail --> 
-            <form method="post" style="width: 100%; margin: auto;">
+            
+        <?php
+     //   echo 'step =' . $this->step.'<br>';
+    //    echo 'week =' . $this->weekid.'<br>';
+    //    echo 'found =' . $this->found.'<br>';
+            if ($this->weekid != "0"  && $this->step =="2") {
                 
-            Tasks Performed for week <?php $j ?><br>
-            <input type="textarea" name="txt_task_performed" >
+                if ($this->found=="0") {
+                ?>
+                 
+                <div> <!-- weekly detail --> 
+                   <hr>
+                   Weekly Report : <?php echo $this->weekid; ?>
+                    <hr>
+                   <form method="post" style="width: 100%; margin: auto;">
+                
+                    Tasks Performed: <br><br>
+                      <textarea name="txt_task_performed" ></textarea><hr>
             
-            <input type="submit" value="Submit" name="week-submit">
-            </form>
+                    New Skills Learned: <br><br>   
+                     <textarea name="txt_new_skills" ></textarea><hr>
             
-        </div>
-           
-            <!-- end  of weekly detail --> 
-            <?php 
-            /*
-                foreach ($this->Studentinfo as $student) :
-                    echo 'Student Name     : '.$student['Student_Name'].'<br/><br/>';
-                    echo 'Student ID       : '.$student['Student_id'].'<br/><br/>';
-                    echo 'Company Name     : '.$student['org_name'].'.<br/><br/>';
-                    echo 'Supervisor       : '.$student['super_name'].'<br/><br/>';
-                    echo 'Supervisor phone : '.$student['phone'].'<br/><br/>';
-                    echo 'Mentor Name      : '.$student['Teacher_FirstName']. ' '.$student['Teacher_LastName'].'<br/><br/>';
-                endforeach; 
+                    Skills you learned at college and applied during the training period: <br><br>
+                    <textarea name="txt_college_skills" ></textarea><hr>
             
-             */
-            ?>
+                 
+                    Comments <br><br>
+                    <textarea name="txt_student_comment" ></textarea>
+            
+                    <input type="submit" value="Submit" name="submit-week">
+                   </form>
+            
+                </div> <!-- end  of weekly detail --> 
+                                
+        <?php 
+                } //found=0
+             else if($this->found=="1") {
+                  //$res1 ($this->resst->
+                      
+                 ?>
+                  <div> <!-- weekly detail --> 
+                   <hr>
+                   Weekly Report : <?php echo $this->weekid; ?>
+                    <hr>
+                   <form method="post" style="width: 100%; margin: auto;">
+                
+                    Tasks Performed: <br><br>
+                      <textarea name="txt_task_performed" ><?php echo $this->tp; ?> </textarea><hr>
+            
+                    New Skills Learned: <br><br>   
+                     <textarea name="txt_new_skills" ><?php echo $this->ns; ?> </textarea><hr>
+            
+                    Skills you learned at college and applied during the training period: <br><br>
+                    <textarea name="txt_college_skills" ><?php echo $this->cs; ?> </textarea><hr>
+            
+                 
+                    Comments <br><br>
+                    <textarea name="txt_student_comment" > <?php echo $this->sc; ?> </textarea>
+            
+                    <input type="submit" value="Submit" name="submit-week">
+                   </form>
+            
+                </div> <!-- end  of weekly detail --> 
+              <?php  
+              //endforeach; 
+             } //found=1
+            }
+              if ( $this->step =="3") {
+                  echo 'Insert week data successfully ';
+              }
+              
+               if ( $this->step =="4") {
+                  echo 'update week data successfully ';
+              }
+        ?>       
             
     </div><!-- end  of  moh-content -->   
-    
- 
