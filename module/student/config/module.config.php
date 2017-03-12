@@ -25,22 +25,7 @@ return array(
                     ),
                 ),
             ),
-            //end  of work plan
-           // information
-            'information' => array(
-                'type' => 'Zend\Mvc\Router\Http\Literal',
-                'options' => array(
-                    'route'    => '/studentinformation',
-                    'defaults' => array(
-                        '__NAMESPACE__' => 'student\Controller',
-                        'controller'    => 'Index',
-                        'action'        => 'information',
-                    ),
-                ),
-            ),
-            
-           // end of information       
-            
+            //end  of work plan     
            // Weekly Report
             'weeklyreport' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
@@ -55,10 +40,7 @@ return array(
             ),
             
            // end of Weekly Report
-            
-            
-            
-            
+
             'workplacement' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
