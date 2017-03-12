@@ -36,7 +36,7 @@ return array(
                     'defaults' => array(
                         '__NAMESPACE__' => 'student\Controller',
                         'controller'    => 'Index',
-                        'action'        => 'information',
+                        'action'        => 'workplacement',
                     ),
                 ),
             ),
