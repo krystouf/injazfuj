@@ -1,13 +1,13 @@
 
         <div class="moh-left-nav" >
             <a href="<?php echo $this->url('information') ?>"> Information</a><br>
-            <a href=""> Work plan</a> <br>
+            <a href="<?php echo $this->url('workplan') ?>"> Work plan</a> <br>
             <a href="<?php echo $this->url('weeklyreport') ?>"> Weekly Report</a><br>  
             
         </div>
     
         <div  class="moh-content">
-                     
+           <center> <h2> Student Weekly Report </h2> </center>            
         <div class="sttabs">
             <ul class="sttab-links">
                  <?php 
@@ -40,7 +40,7 @@
                     <hr>
                    <form method="post" style="width: 100%; margin: auto;">
                 
-                    Tasks Performed: <br><br>
+                    Tasks Performed: <br> <br>
                       <textarea name="txt_task_performed" ></textarea><hr>
             
                     New Skills Learned: <br><br>   

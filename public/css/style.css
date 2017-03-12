@@ -428,3 +428,13 @@ textarea{
     
     
 }
+
+.mohtext{
+  background: transparent;
+  font-family: Open Sans, sans-serif;
+  font-size:16px;
+  border: 0 none;
+  text-align: justify;
+  vertical-align: central;
+  
+}

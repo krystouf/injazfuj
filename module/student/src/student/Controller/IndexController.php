@@ -62,7 +62,34 @@ class IndexController extends AbstractActionController
             'Studentinfo' => $resultSet,
          ));
     }
+     // workplan Action
+      
+    public function workplanAction(){
+        $container = new Container('username');
+        $sm =$this->getServiceLocator();
+        $dba = $sm->get($container->adapter);
+        $username = $container->id;
+        $sql ="SELECT * from students,teacher,supervisor Where sid=".$username."
+               AND supervisor_id = super_id
+               AND  Teacher_id = mentor_id";
+        $statement = $dba->query($sql, array(5));
+        $resultSet = new ResultSet;
+        $resultSet->initialize($statement);
+        
+        $sql2 ="SELECT * from workplan  Where sid=".$username;
+         $statement2 = $dba->query($sql2, array(5));
+        $resultSet2 = new ResultSet;
+        $resultSet2->initialize($statement2);
+        
+        return new ViewModel(array(
+            'Studentinfo' => $resultSet,
+             'workplans' => $resultSet2,
+         ));
+    }
+    
+    //  end of workplan Action 
      
+    
     public function weeklyreportAction()
     {   
            

@@ -13,6 +13,19 @@ return array(
     'router' => array(
         'routes' => array(
           
+            //work plan 
+             'workplan' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route'    => '/studentworkplan',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'student\Controller',
+                        'controller'    => 'Index',
+                        'action'        => 'workplan',
+                    ),
+                ),
+            ),
+            //end  of work plan
            // information
             'information' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
