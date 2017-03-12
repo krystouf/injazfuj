@@ -28,24 +28,6 @@ class IndexController extends AbstractActionController
        
     }
     
-    public function workplacementAction(){
-       //$auth = new AuthenticationService();
-        $container = new Container('username');
-        $sm =$this->getServiceLocator();
-            $dba = $sm->get($container->adapter);
-            $username = $container->id;
-            $sql ="SELECT * from students,teacher,supervisor Where sid=".$username."
-                   AND supervisor_id = super_id
-                   AND  Teacher_id = mentor_id";
-            $statement = $dba->query($sql, array(5));
-            $resultSet = new ResultSet;
-            $resultSet->initialize($statement);
-       
-            return new ViewModel(array(
-                'Studentinfo' => $resultSet,
-             ));
-    }
-    
     public function informationAction(){
         $container = new Container('username');
         $sm =$this->getServiceLocator();

@@ -388,4 +388,8 @@ class IndexController extends AbstractActionController
                 'action' => 'login'));
         }
     }
+    
+    public function workplacementAction(){
+        return new ViewModel();
+    }
 }

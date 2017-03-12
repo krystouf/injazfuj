@@ -11,21 +11,7 @@ namespace student;
 
 return array(
     'router' => array(
-        'routes' => array(
-          
-           // information
-            'information' => array(
-                'type' => 'Zend\Mvc\Router\Http\Literal',
-                'options' => array(
-                    'route'    => '/studentinformation',
-                    'defaults' => array(
-                        '__NAMESPACE__' => 'student\Controller',
-                        'controller'    => 'Index',
-                        'action'        => 'information',
-                    ),
-                ),
-            ),
-            
+        'routes' => array(         
            // end of information       
             
            // Weekly Report
@@ -42,10 +28,7 @@ return array(
             ),
             
            // end of Weekly Report
-            
-            
-            
-            
+
             'workplacement' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
@@ -53,7 +36,7 @@ return array(
                     'defaults' => array(
                         '__NAMESPACE__' => 'student\Controller',
                         'controller'    => 'Index',
-                        'action'        => 'workplacement',
+                        'action'        => 'information',
                     ),
                 ),
             ),
