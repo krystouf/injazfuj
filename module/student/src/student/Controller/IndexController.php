@@ -85,7 +85,7 @@ class IndexController extends AbstractActionController
             $resultSet = new ResultSet;         
             $resultSet->initialize($statement);
 
-             foreach ($resultSet as $task):
+            foreach ($resultSet as $task):
                 $tid=$task['task_id'];
                 $tp= $task['task_performed'];
                 $ns= $task['new_skills'];
@@ -94,7 +94,7 @@ class IndexController extends AbstractActionController
                 //    $step =4;
                //     $weekid=1;
                 $found=1;
-             endforeach;
+            endforeach;
                   /*
              if ($found =="0")        
                    {echo "found = 00000";echo 'taskid ' .$tid;}
