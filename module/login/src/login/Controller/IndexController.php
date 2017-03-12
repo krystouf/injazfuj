@@ -163,7 +163,7 @@ class IndexController extends AbstractActionController
                               'action' => 'index'));
                     }else if ($table == "students"){
                         $container->id = $sid;
-                        $container->type= 0;
+                        $container->type= 2;
                         $container->sub="";
                         $storage = $auth->getStorage();
                         $storage->write($authAdapter->getResultRowObject(
