@@ -183,7 +183,6 @@ class IndexController extends AbstractActionController
             $dba = $sm->get($container->adapter);
             $sql ="SELECT * FROM section";
             $statement = $dba->query($sql, array(5));
-            $statement2 = $dba->query($sql, array(5));
             
             $resultSet = new ResultSet;
             $resultSet->initialize($statement);
@@ -397,6 +396,29 @@ class IndexController extends AbstractActionController
         $dba = $sm->get($container->adapter);
         if ($auth->hasIdentity() && $container->type == 0){
             
+        }else{
+            return $this->redirect()->toRoute('login',
+            array('controller'=>'index',
+                'action' => 'login'));
+        }
+    }
+    
+    public function workplacesAction(){
+        date_default_timezone_set('Asia/Dubai');
+        $auth = new AuthenticationService();
+        $container = new Container('username');
+        $sm =$this->getServiceLocator();
+        $dba = $sm->get($container->adapter);
+        if ($auth->hasIdentity() && $container->type == 0){
+            $sql ="SELECT * FROM supervisor, companies "
+                    . "Where supervisor.Company_ID=companies.Company_ID "
+                    . "Group by Company_Name, super_name";
+            $statement = $dba->query($sql, array(5));
+            $resultSet = new ResultSet;
+            $resultSet->initialize($statement);
+            return new ViewModel(array(
+                'companies' => $resultSet,
+            ));
         }else{
             return $this->redirect()->toRoute('login',
             array('controller'=>'index',
