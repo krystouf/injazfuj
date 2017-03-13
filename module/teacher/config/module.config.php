@@ -45,6 +45,19 @@ return array(
                     ),
                 ),
             ),
+            'workplacement' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route'    => '/workplacement',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'teacher\Controller',
+                        'controller'    => 'Index',
+                        'action'        => 'workplacement',
+                    ),
+                ),
+            ),
+            
+            
             'teacherLogout' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
