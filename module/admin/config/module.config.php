@@ -12,6 +12,17 @@ namespace admin;
 return array(
     'router' => array(
         'routes' => array(
+            'adminwkplaces' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route'    => '/admin_workplaces',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'admin\Controller',
+                        'controller'    => 'Index',
+                        'action'        => 'workplaces',
+                    ),
+                ),
+            ),
             'adminwkp' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
