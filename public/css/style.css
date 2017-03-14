@@ -355,30 +355,29 @@ input:focus { box-shadow: inset 0 -5px 45px rgba(100,100,100,0.4), 0 1px 1px rgb
         }
         
 .addatt { 
-width: 100%; 
-margin-top: 10px; 
-background: rgba(0,0,0,0.3);
-border: none;
-outline: none;
-padding: 10px;
-font-size: 13px;
-color: #fff;
-text-shadow: 1px 1px 1px rgba(0,0,0,0.3);
-border: 1px solid rgba(0,0,0,0.3);
-border-radius: 4px;
-box-shadow: inset 0 -5px 45px rgba(100,100,100,0.2), 0 1px 1px rgba(255,255,255,0.2);
--webkit-transition: box-shadow .5s ease;
--moz-transition: box-shadow .5s ease;
--o-transition: box-shadow .5s ease;
--ms-transition: box-shadow .5s ease;
-transition: box-shadow .5s ease;
-text-decoration: none;
+    width: 100%; 
+    margin-top: 10px; 
+    background: rgba(0,0,0,0.3);
+    border: none;
+    outline: none;
+    padding: 10px;
+    font-size: 13px;
+    color: #fff;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.3);
+    border: 1px solid rgba(0,0,0,0.3);
+    border-radius: 4px;
+    box-shadow: inset 0 -5px 45px rgba(100,100,100,0.2), 0 1px 1px rgba(255,255,255,0.2);
+    -webkit-transition: box-shadow .5s ease;
+    -moz-transition: box-shadow .5s ease;
+    -o-transition: box-shadow .5s ease;
+    -ms-transition: box-shadow .5s ease;
+    transition: box-shadow .5s ease;
+    text-decoration: none;
 }
 /* mohammed Qudah work */
 
 .moh-container{
     background-color: #FFF;
-    
 }
 
 .moh-left-nav {
@@ -388,7 +387,6 @@ text-decoration: none;
     border-radius: 5px;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
-    
 }
 
 .moh-content{
@@ -410,23 +408,21 @@ text-decoration: none;
     border-radius: 5px;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
- 
 }
+
 .moh-left-nav  a:hover {
     background-color: #1d7b7d;
     color: white;
-   
 }
+
 .moh-left-nav  a.active {
     background-color: #666;
     color: white;
-    
 }
+
 textarea{
     height: 100px;
     width:100%;
-    
-    
 }
 
 .mohtext{
@@ -436,5 +432,42 @@ textarea{
   border: 0 none;
   text-align: justify;
   vertical-align: central;
-  
+}
+
+.companylist{
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    padding: 1%;
+    margin: 2%;
+    width: 100%;
+}
+
+.companylist:nth-child(even){
+    background: rgba(200, 160, 90,0.6);
+}
+
+.companylist:nth-child(odd){
+    background: rgba(125, 31, 29,0.6);
+}
+
+.companylistcontent{
+    line-height: 25px; 
+    display: table; 
+    width: 90%;
+    margin-left: 8%;
+}
+
+.companylistcontent p{
+    width: 30%; 
+    float:left; 
+    line-height: 25px;
+}
+
+.companylistcontent p:first-child{
+    width: 30%; 
+}
+
+.companylistcontent p:last-child{
+    width: 10%; 
 }

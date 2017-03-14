@@ -410,6 +410,7 @@ class IndexController extends AbstractActionController
         $sm =$this->getServiceLocator();
         $dba = $sm->get($container->adapter);
         if ($auth->hasIdentity() && $container->type == 0){
+            
             $sql ="SELECT * FROM supervisor, companies "
                     . "Where supervisor.Company_ID=companies.Company_ID "
                     . "Group by Company_Name, super_name";

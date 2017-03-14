@@ -9,7 +9,7 @@
         <h3 style="margin-bottom: 0px;">Add a new work place</h3>
         <hr>
         <input style="width: 80%; float: left;" type="text" id="stidpicker" name="stid-filter" value="<?php echo $this->stid ?>" placeholder="Add a new work place" />
-        <input style="width: 18%; float: right;" type="submit" value="Add" name="next-but">
+        <input style="width: 18%; float: right;" type="submit" value="Add" name="add-cmp">
     </form>
     <h3 style="margin-top: 100px; margin-bottom: 0px;">Companies</h3>
     <hr>
@@ -19,19 +19,24 @@
             if($cmp != $company['Company_Name']){
                 if($cmp != ""){
                 ?>
-                    </div>
+                    </article>
                 <?php
                 }
                 $cmp = $company['Company_Name'];
             ?>
-                <div class="companylist">
-                    <p><?php echo $company['Company_Name'] ?></p><hr>
+                <article class="companylist">
+                    <p style="margin: 0px; font-weight: bold;"><?php echo $company['Company_Name'] ?></p><hr>
             <?php
             }
             ?>
-                    <p><?php echo $company['super_name'].' '.$company['branch'] ?></p> 
-    <?php
+                    <content class="companylistcontent">
+                        <p><?php echo $company['super_name']?></p> 
+                        <p><?php echo $company['phone']?></p> 
+                        <p><?php echo $company['e_mail']?></p> 
+                        <p><?php echo $company['branch']?></p>
+                    </content>
+            <?php              
         endforeach;
     ?>
-                </div>
+                </article>
 </div>
