@@ -410,7 +410,19 @@ class IndexController extends AbstractActionController
         $sm =$this->getServiceLocator();
         $dba = $sm->get($container->adapter);
         if ($auth->hasIdentity() && $container->type == 0){
-            
+            if($this->getRequest()->getPost('add-cmp')){
+                $cmpname= $this->getRequest()->getPost('new-cmp-name');
+                if ($cmpname != "") {
+                    $sql = new Sql($dba);
+                    $insert = $sql->insert('companies');
+                    $newData = array('Company_Name' => $cmpname,
+                    );
+                    $insert->values($newData);
+                    $Query = $sql->getSqlStringForSqlObject($insert);
+                    $statement = $dba->query($Query);
+                    $statement->execute();
+                }
+            }
             $sql ="SELECT * FROM supervisor, companies "
                     . "Where supervisor.Company_ID=companies.Company_ID "
                     . "Group by Company_Name, super_name";

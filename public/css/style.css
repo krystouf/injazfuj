@@ -440,7 +440,6 @@ textarea{
     -webkit-border-radius: 5px;
     padding: 1%;
     margin: 2%;
-    width: 100%;
 }
 
 .companylist:nth-child(even){
@@ -454,18 +453,14 @@ textarea{
 .companylistcontent{
     line-height: 25px; 
     display: table; 
-    width: 90%;
-    margin-left: 8%;
+    width: 95%;
+    margin: auto;
 }
 
 .companylistcontent p{
     width: 30%; 
     float:left; 
     line-height: 25px;
-}
-
-.companylistcontent p:first-child{
-    width: 30%; 
 }
 
 .companylistcontent p:last-child{
