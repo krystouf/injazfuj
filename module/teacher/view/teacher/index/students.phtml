@@ -6,79 +6,202 @@
                 if($i==0){
                     $i++;
         ?>
-                    <li class="active"><a href="#<?php echo $i ?>"><?php echo 'Section '.$section['section'] ?></a></li>
+                    <li class="active"><a href="<?php echo $this->url('students', array(), array('query' => array( 'secid' => $i ) ));?>"><?php echo 'Section '.$section['Section_Name'] ?></a></li>
         <?php
                 }else{
                     $i++;
         ?>          
-                    <li><a href="#<?php echo $i ?>"><?php echo 'Section '.$section['section'] ?></a></li>
+                    <li><a href="<?php echo $this->url('students', array(), array('query' => array( 'secid' => $i ) ));?>"><?php echo 'Section '.$section['Section_Name'] ?></a></li>
         <?php
                 }
             endforeach; 
         ?>
     </ul>
- 
+
     <div class="sttab-content">
-        <?php 
-            $j=0;
-            foreach ($this->sections2 as $section2) :
-                if($j==0){
-                    $j++;
-        ?>
-                    <div id="<?php echo $j ?>" class="sttab active">
-                        <table border="1" style="width:100%">
-                            <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th> Section </th>
-                            </tr>
-                        <?php 
-                        foreach ($this->students as $student){
-                            if ($section2['section'] == $student['Student_Section']){
-                        ?>
-                            
-                            <tr>
-                                <th><?php echo $student['Student_id'] ?></th>
-                                <th><?php echo $student['Student_Name'] ?></th>
-                                <th><?php echo $student['Student_Section'] ?></th>
-                            </tr>
-                            
-                        <?php 
-                            }}
-                        ?>
-                        </table>
+        <div class="sttab active">
+            <?php 
+            $stcount = 0;
+            foreach ($this->students as $student){
+                if ($this->secid == $student['Student_Section'] && $this->secid !=0){
+                    $stcount++;
+                    if($stcount == 1){
+                ?>
+                        <h2 style="width: 75%; margin:0px auto 0px auto;">Section <?php echo $student['Section_Name'] ?></h2>
+                <?php
+                    }
+            ?>
+            <div class="stlistpro">
+                <div class="stlistprotop">
+                    <div class="stlistprotopname">
+                        <?php echo $student['Student_Name'] ?>
                     </div>
-                    
-        <?php
-                }else{
-                    $j++;
-        ?>
-                    <div id="<?php echo $j ?>" class="sttab">
-                        <table border="1" style="width:100%">
-                            <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th> Section </th>
-                            </tr>
-                        <?php 
-                        foreach ($this->students as $student){
-                            if ($section2['section'] == $student['Student_Section']){
-                        ?>
-                            
-                            <tr>
-                                <th><?php echo $student['Student_id'] ?></th>
-                                <th><?php echo $student['Student_Name'] ?></th>
-                                <th><?php echo $student['Student_Section'] ?></th>
-                            </tr>
-                            
-                        <?php 
-                            }}
-                        ?>
-                        </table>
+                    <div class="stlistprotophid">
+                        <!--<a href="streport?id=<?php echo $student['sid'] ?>"> -->
+                            <?php 
+                                if ($student['Student_id'] == ""){
+                                    echo "No ID";
+                                }else{
+                                    echo $student['Student_id'];
+                                }
+                            ?>
+                        <!--</a>-->
+                        <a href="<?php echo $this->url('deletestudents', array(), array('query' => array( 'stid' => $student['sid'], 'secid' => $student['Student_Section'], 'stname' => $student['Student_Name'] ) ));?>"><img src="img/Delete.png" style="width: 20px; margin-top: 0px; margin-left: 5px; float:right; cursor: pointer; display: block;" /></a>
                     </div>
-        <?php
-                }
-            endforeach; 
-        ?>
+                </div>
+                <div class="stlistprobottom">
+                    <div class="stlistprobottomleft">
+                        <?php
+                        $Days ='0';  
+
+                        foreach ($this->studentsAbs as $studentAbs){
+                            if ($studentAbs['sid'] == $student['sid']){
+                                 $Days =$studentAbs['Days'];
+                        ?>
+                        <?php } } ?>
+                         <?php echo 'Days of Absence: '.$Days ?>
+                    </div>
+                    <div class="stlistprobottomright">
+                        <img src="img/Plus.png" id="<?php echo 'iconplus'.$stcount ?>" style="width: 30px; margin-top: -5px; margin-right: 0px; float:right; cursor: pointer; display: block;" onclick="toggle_visibility(<?php echo $stcount ?>);" />
+                        <img src="  img/Minus.png" id="<?php echo 'iconminus'.$stcount ?>" style="width: 30px; margin-top: -5px; margin-right: 0px; float:right; cursor: pointer; display: none;" onclick="toggle_visibility(<?php echo $stcount ?>);" />
+                    </div>
+                </div>
+                <div class="stlistprobottom2" id="<?php echo 'extradata'.$stcount ?>" style="display: none;">
+                    <?php
+                        echo '<table style="width :100%" > ';
+                        echo '         <tr> ';
+                        echo '          <th colspan="10" bgcolor="#00FF00"> Absent      </th>';
+                        echo '         </tr>';
+
+                        echo '         <tr> ';
+                        echo '          <th colspan="2"> Work Skills </th>';
+                        echo '          <th colspan="2"> English     </th>';
+                        echo '          <th colspan="2"> Computer    </th>';
+                        echo '          <th colspan="2"> Math        </th>';
+                        echo '          <th colspan="2"> Arabic      </th>';
+                        echo '          </tr>';
+
+                        echo '         <tr>';
+                        echo '          <td>Counted</td>';
+                        echo '          <td>Un Counted</td>';
+                        echo '          <td>Counted</td>';
+                        echo '          <td>Un Counted</td>';
+                        echo '          <td>Counted</td>';
+                        echo '          <td>Un Counted</td>'; 
+                        echo '          <td>Counted</td>';
+                        echo '          <td>Un Counted</td>'; 
+                        echo '          <td>Counted</td>';
+                        echo '          <td>Un Counted</td>'; 
+                        echo '          </tr>';
+
+                        echo '           <tr>';
+                        echo '             <td>'.$student['wk_counted'].'</td>';
+                        echo '             <td>'.$student['wk_removed'].'</td>';
+
+                        echo '             <td>'.$student['en_counted'].'</td>';
+                        echo '             <td>'.$student['en_removed'].'</td>';
+
+                        echo '             <td>'.$student['co_counted'].'</td>';
+                        echo '             <td>'.$student['co_removed'].'</td>';
+
+                        echo '             <td>'.$student['ma_counted'].'</td>';
+                        echo '             <td>'.$student['ma_removed'].'</td>';
+
+                        echo '             <td>'.$student['ar_counted'].'</td>';
+                        echo '             <td>'.$student['ar_removed'].'</td>';
+
+                        echo '            </tr>';
+                        // late 
+                        echo '         <tr> ';
+                        echo '          <th colspan="10" bgcolor="#00FF00"> Late     </th>';
+                        echo '         </tr>';
+
+                        echo '         <tr> ';
+                        echo '          <th colspan="2"> Work Skills </th>';
+                        echo '          <th colspan="2"> English     </th>';
+                        echo '          <th colspan="2"> Computer    </th>';
+                        echo '          <th colspan="2"> Math        </th>';
+                        echo '          <th colspan="2"> Arabic      </th>';
+                        echo '          </tr>';
+
+                        echo '         <tr>';
+                        echo '          <td>Counted</td>';
+                        echo '          <td>Un Counted</td>';
+                        echo '          <td>Counted</td>';
+                        echo '          <td>Un Counted</td>';
+                        echo '          <td>Counted</td>';
+                        echo '          <td>Un Counted</td>'; 
+                        echo '          <td>Counted</td>';
+                        echo '          <td>Un Counted</td>'; 
+                        echo '          <td>Counted</td>';
+                        echo '          <td>Un Counted</td>'; 
+                        echo '          </tr>';
+
+                        echo '           <tr>';
+                        echo '             <td>'.$student['wk_countedl'].'</td>';
+                        echo '             <td>'.$student['wk_removedl'].'</td>';
+
+                        echo '             <td>'.$student['en_countedl'].'</td>';
+                        echo '             <td>'.$student['en_removedl'].'</td>';
+
+                        echo '             <td>'.$student['co_countedl'].'</td>';
+                        echo '             <td>'.$student['co_removedl'].'</td>';
+
+                        echo '             <td>'.$student['ma_countedl'].'</td>';
+                        echo '             <td>'.$student['ma_removedl'].'</td>';
+
+                        echo '             <td>'.$student['ar_countedl'].'</td>';
+                        echo '             <td>'.$student['ar_removedl'].'</td>';
+
+                        echo '            </tr>';
+                        //total
+
+                        echo '         <tr bgcolor="#FF0000"> ';
+                        echo '          <th colspan="2"> Work Skills Counted </th>';
+                        echo '          <th colspan="2"> English Counted  </th>';
+                        echo '          <th colspan="2"> Computer Counted   </th>';
+                        echo '          <th colspan="2"> Math Counted    </th>';
+                        echo '          <th colspan="2"> Arabic Counted     </th>';
+                        echo '          </tr>';
+
+                        echo '         <tr> ';
+                                           $sum =$student['wk_counted'] + (int) ($student['wk_countedl'] / 3 ) ;
+                        echo '          <th colspan="2"> ' .$sum .  '</th>';
+                                           $sum =$student['en_counted'] + (int)($student['en_countedl'] / 3 );
+                        echo '          <th colspan="2">' .$sum .  ' </th>';
+                                           $sum =$student['co_counted'] + (int)($student['co_countedl'] / 3 );
+                        echo '          <th colspan="2"> ' .$sum .  '   </th>';
+                                           $sum =$student['ma_counted'] + (int)($student['ma_countedl'] / 3 );
+                        echo '          <th colspan="2"> ' .$sum .  '    </th>';
+                                           $sum =$student['ar_counted'] + (int)($student['ar_countedl'] / 3 );
+                        echo '          <th colspan="2"> ' .$sum .  '    </th>';
+                        echo '          </tr>';
+
+                        echo '          </table>';
+                    ?>
+                </div>
+            </div>  
+            <?php 
+                }}
+            ?>
+        </div>
     </div>
 </div>
+
+
+<script type="text/javascript">
+    function toggle_visibility(id) {
+       var e = document.getElementById('extradata'+id);
+       var p = document.getElementById('iconplus'+id);
+       var m = document.getElementById('iconminus'+id);
+       if(e.style.display == 'block'){
+          e.style.display = 'none';
+          p.style.display = 'block';
+          m.style.display = 'none';
+      }else{
+          e.style.display = 'block';
+          p.style.display = 'none';
+          m.style.display = 'block';
+      }
+    }
+</script>

@@ -7,7 +7,6 @@
                     $i++;
         ?>
                     <li class="active"><a href="<?php echo $this->url('adminstudents', array(), array('query' => array( 'secid' => $i ) ));?>"><?php echo 'Section '.$section['Section_Name'] ?></a></li>
-                    
         <?php
                 }else{
                     $i++;
@@ -22,19 +21,15 @@
     <div class="sttab-content">
         <div class="sttab active">
             <?php 
-            $secname = "";
-            if ($this->secid > 12){
-                $secname = 'B'.($this->secid-12);
-            }else{
-                $secname = $this->secid;
-            }
-            ?>
-            <h2 style="width: 75%; margin:0px auto 0px auto;">Section <?php echo $secname ?></h2>    
-            <?php 
             $stcount = 0;
             foreach ($this->students as $student){
-                if ($this->secid == $student['Student_Section']){
+                if ($this->secid == $student['Student_Section'] && $this->secid !=0){
                     $stcount++;
+                    if($stcount == 1){
+                ?>
+                        <h2 style="width: 75%; margin:0px auto 0px auto;">Section <?php echo $student['Section_Name'] ?></h2>
+                <?php
+                    }
             ?>
             <div class="stlistpro">
                 <div class="stlistprotop">
