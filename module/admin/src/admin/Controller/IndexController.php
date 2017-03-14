@@ -395,7 +395,25 @@ class IndexController extends AbstractActionController
         $sm =$this->getServiceLocator();
         $dba = $sm->get($container->adapter);
         if ($auth->hasIdentity() && $container->type == 0){
+            $secid = 1;
+            if ($this->params()->fromQuery('secid')){
+                $secid = $this->params()->fromQuery('secid');
+            }
             
+            $sql1 ="SELECT * FROM section WHERE workplacement=1";
+            $statement1 = $dba->query($sql1, array(5));
+            $resultSet1 = new ResultSet;
+            $resultSet1->initialize($statement1);
+            
+            $sql2 ="SELECT * FROM students";
+            $statement2 = $dba->query($sql2, array(5));
+            $resultSet2 = new ResultSet;
+            $resultSet2->initialize($statement2);
+            return new ViewModel(array(
+                'sections' => $resultSet1,
+                'secid' => $secid,
+                'students' => $resultSet2
+            ));
         }else{
             return $this->redirect()->toRoute('login',
             array('controller'=>'index',
@@ -432,6 +450,21 @@ class IndexController extends AbstractActionController
             return new ViewModel(array(
                 'companies' => $resultSet,
             ));
+        }else{
+            return $this->redirect()->toRoute('login',
+            array('controller'=>'index',
+                'action' => 'login'));
+        }
+    }
+    
+    public function supervisorsAction(){
+        date_default_timezone_set('Asia/Dubai');
+        $auth = new AuthenticationService();
+        $container = new Container('username');
+        $sm =$this->getServiceLocator();
+        $dba = $sm->get($container->adapter);
+        if ($auth->hasIdentity() && $container->type == 0){
+            return new ViewModel();
         }else{
             return $this->redirect()->toRoute('login',
             array('controller'=>'index',
