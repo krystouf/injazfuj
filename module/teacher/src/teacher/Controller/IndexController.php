@@ -216,34 +216,70 @@ class IndexController extends AbstractActionController
         $auth = new AuthenticationService();
         $container = new Container('username');
         if ($auth->hasIdentity() && $container->type == 1){
+            $secid = 0;
+            if ($this->params()->fromQuery('secid')){
+                $secid = $this->params()->fromQuery('secid');
+            }
             $sm =$this->getServiceLocator();
             $dba = $sm->get($container->adapter);
-            $username = $container->id;
-            $sql ="SELECT section FROM teacher_section WHERE computer_teacher=".$username." OR wk_teacher=".$username." OR english_teacher=".$username." OR math_teacher=".$username." OR arabic_teacher=".$username;
+            $sql ="SELECT * FROM section";
             $statement = $dba->query($sql, array(5));
-            $statement2 = $dba->query($sql, array(5));
             
             $resultSet = new ResultSet;
             $resultSet->initialize($statement);
-            $resultSet2 = new ResultSet;
-            $resultSet2->initialize($statement2);
             
-            $sql = "SELECT students.* FROM students, teacher_section
-            WHERE students.Student_Section=teacher_section.section
-            AND (teacher_section.computer_teacher=".$username." 
-            OR teacher_section.wk_teacher=".$username." 
-            OR teacher_section.english_teacher=".$username."
-            OR teacher_section.math_teacher=".$username." 
-            OR teacher_section.arabic_teacher=".$username.") Group by students.Student_Name";
+            $sql2 = "SELECT students.*, section.*,
+                count(case when attendance.subject=1 and attendance.Abs_value=3 and attendance.counted=1  then 1 else null end) as wk_counted, 
+                count(case when attendance.subject=2 and attendance.Abs_value=3 and attendance.counted=1 then 1 else null end) as en_counted, 
+                count(case when attendance.subject=3 and attendance.Abs_value=3 and attendance.counted=1 then 1 else null end) as co_counted, 
+                count(case when attendance.subject=4 and attendance.Abs_value=3 and attendance.counted=1 then 1 else null end) as ma_counted, 
+                count(case when attendance.subject=5 and attendance.Abs_value=3 and attendance.counted=1 then 1 else null end) as ar_counted,
+                count(case when attendance.subject=1 and attendance.Abs_value=3 and attendance.counted=0  then 1 else null end) as wk_removed, 
+                count(case when attendance.subject=2 and attendance.Abs_value=3 and attendance.counted=0 then 1 else null end) as en_removed, 
+                count(case when attendance.subject=3 and attendance.Abs_value=3 and attendance.counted=0 then 1 else null end) as co_removed, 
+                count(case when attendance.subject=4 and attendance.Abs_value=3 and attendance.counted=0 then 1 else null end) as ma_removed, 
+                count(case when attendance.subject=5 and attendance.Abs_value=3 and attendance.counted=0 then 1 else null end) as ar_removed,
+                count(case when attendance.subject=1 and attendance.Abs_value=1 and attendance.counted=1 then 1 else null end) as wk_countedl, 
+                count(case when attendance.subject=2 and attendance.Abs_value=1 and attendance.counted=1 then 1 else null end) as en_countedl, 
+                count(case when attendance.subject=3 and attendance.Abs_value=1 and attendance.counted=1 then 1 else null end) as co_countedl, 
+                count(case when attendance.subject=4 and attendance.Abs_value=1 and attendance.counted=1 then 1 else null end) as ma_countedl, 
+                count(case when attendance.subject=5 and attendance.Abs_value=1 and attendance.counted=1 then 1 else null end) as ar_countedl,
+                count(case when attendance.subject=1 and attendance.Abs_value=1 and attendance.counted=0 then 1 else null end) as wk_removedl, 
+                count(case when attendance.subject=2 and attendance.Abs_value=1 and attendance.counted=0 then 1 else null end) as en_removedl, 
+                count(case when attendance.subject=3 and attendance.Abs_value=1 and attendance.counted=0 then 1 else null end) as co_removedl, 
+                count(case when attendance.subject=4 and attendance.Abs_value=1 and attendance.counted=0 then 1 else null end) as ma_removedl, 
+                count(case when attendance.subject=5 and attendance.Abs_value=1 and attendance.counted=0 then 1 else null end) as ar_removedl
+                from students LEFT JOIN attendance on students.sid=attendance.St_Id, section 
+                WHERE students.Student_Section=$secid AND students.Student_Section=section.Section_id 
+                GROUP BY students.sid 
+                ORDER BY students.Student_Section ASC, students.Student_Name ASC";
             
-            $statement3 = $dba->query($sql, array(5));
+            $statement3 = $dba->query($sql2, array(5));
             $resultSet3 = new ResultSet;
             $resultSet3->initialize($statement3);
             $resultSet3->buffer();
+            
+            /* insert query for all students */
+            
+            $sqldays = "select  students.*,abs.St_Id ,count(*) as Days from students,  
+                (SELECT St_Id,Abs_day,count(Att_id) FROM `attendance` 
+                WHERE Abs_value=3 and counted=1
+                Group by St_Id,Abs_day
+                having count(Att_id) >=3 ) abs
+                WHERE students.sid= abs.St_Id 
+                Group by abs.St_Id";
+            
+            $statement4 = $dba->query($sqldays, array(5));
+            $resultSet4 = new ResultSet;
+            $resultSet4->initialize($statement4);
+            $resultSet4->buffer();
+            
+            
             return new ViewModel(array(
                 'sections' => $resultSet,
-                'sections2' => $resultSet2,
+                'secid' => $secid,
                 'students' => $resultSet3,
+                'studentsAbs' => $resultSet4,
              ));
         }else{
             return $this->redirect()->toRoute('login',

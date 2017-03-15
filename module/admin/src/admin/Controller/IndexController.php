@@ -175,7 +175,7 @@ class IndexController extends AbstractActionController
         $auth = new AuthenticationService();
         $container = new Container('username');
         if ($auth->hasIdentity() && $container->type == 0){
-            $secid = 1;
+            $secid = 0;
             if ($this->params()->fromQuery('secid')){
                 $secid = $this->params()->fromQuery('secid');
             }
@@ -187,31 +187,31 @@ class IndexController extends AbstractActionController
             $resultSet = new ResultSet;
             $resultSet->initialize($statement);
             
-            $sql2 = "SELECT students.*, 
-                    count(case when attendance.subject=1 and attendance.Abs_value=3 and attendance.counted=1  then 1 else null end) as wk_counted, 
-                    count(case when attendance.subject=2 and attendance.Abs_value=3 and attendance.counted=1 then 1 else null end) as en_counted, 
-                    count(case when attendance.subject=3 and attendance.Abs_value=3 and attendance.counted=1 then 1 else null end) as co_counted, 
-                    count(case when attendance.subject=4 and attendance.Abs_value=3 and attendance.counted=1 then 1 else null end) as ma_counted, 
-                    count(case when attendance.subject=5 and attendance.Abs_value=3 and attendance.counted=1 then 1 else null end) as ar_counted,
-                    count(case when attendance.subject=1 and attendance.Abs_value=3 and attendance.counted=0  then 1 else null end) as wk_removed, 
-                    count(case when attendance.subject=2 and attendance.Abs_value=3 and attendance.counted=0 then 1 else null end) as en_removed, 
-                    count(case when attendance.subject=3 and attendance.Abs_value=3 and attendance.counted=0 then 1 else null end) as co_removed, 
-                    count(case when attendance.subject=4 and attendance.Abs_value=3 and attendance.counted=0 then 1 else null end) as ma_removed, 
-                    count(case when attendance.subject=5 and attendance.Abs_value=3 and attendance.counted=0 then 1 else null end) as ar_removed,
-                    count(case when attendance.subject=1 and attendance.Abs_value=1 and attendance.counted=1 then 1 else null end) as wk_countedl, 
-                    count(case when attendance.subject=2 and attendance.Abs_value=1 and attendance.counted=1 then 1 else null end) as en_countedl, 
-                    count(case when attendance.subject=3 and attendance.Abs_value=1 and attendance.counted=1 then 1 else null end) as co_countedl, 
-                    count(case when attendance.subject=4 and attendance.Abs_value=1 and attendance.counted=1 then 1 else null end) as ma_countedl, 
-                    count(case when attendance.subject=5 and attendance.Abs_value=1 and attendance.counted=1 then 1 else null end) as ar_countedl,
-                    count(case when attendance.subject=1 and attendance.Abs_value=1 and attendance.counted=0 then 1 else null end) as wk_removedl, 
-                    count(case when attendance.subject=2 and attendance.Abs_value=1 and attendance.counted=0 then 1 else null end) as en_removedl, 
-                    count(case when attendance.subject=3 and attendance.Abs_value=1 and attendance.counted=0 then 1 else null end) as co_removedl, 
-                    count(case when attendance.subject=4 and attendance.Abs_value=1 and attendance.counted=0 then 1 else null end) as ma_removedl, 
-                    count(case when attendance.subject=5 and attendance.Abs_value=1 and attendance.counted=0 then 1 else null end) as ar_removedl
-                    from students LEFT JOIN attendance on students.sid=attendance.St_Id
-                    WHERE students.Student_Section=".$secid."
-                    GROUP BY students.sid 
-                    ORDER BY students.Student_Section ASC, students.Student_Name ASC";
+            $sql2 = "SELECT students.*, section.*,
+                count(case when attendance.subject=1 and attendance.Abs_value=3 and attendance.counted=1  then 1 else null end) as wk_counted, 
+                count(case when attendance.subject=2 and attendance.Abs_value=3 and attendance.counted=1 then 1 else null end) as en_counted, 
+                count(case when attendance.subject=3 and attendance.Abs_value=3 and attendance.counted=1 then 1 else null end) as co_counted, 
+                count(case when attendance.subject=4 and attendance.Abs_value=3 and attendance.counted=1 then 1 else null end) as ma_counted, 
+                count(case when attendance.subject=5 and attendance.Abs_value=3 and attendance.counted=1 then 1 else null end) as ar_counted,
+                count(case when attendance.subject=1 and attendance.Abs_value=3 and attendance.counted=0  then 1 else null end) as wk_removed, 
+                count(case when attendance.subject=2 and attendance.Abs_value=3 and attendance.counted=0 then 1 else null end) as en_removed, 
+                count(case when attendance.subject=3 and attendance.Abs_value=3 and attendance.counted=0 then 1 else null end) as co_removed, 
+                count(case when attendance.subject=4 and attendance.Abs_value=3 and attendance.counted=0 then 1 else null end) as ma_removed, 
+                count(case when attendance.subject=5 and attendance.Abs_value=3 and attendance.counted=0 then 1 else null end) as ar_removed,
+                count(case when attendance.subject=1 and attendance.Abs_value=1 and attendance.counted=1 then 1 else null end) as wk_countedl, 
+                count(case when attendance.subject=2 and attendance.Abs_value=1 and attendance.counted=1 then 1 else null end) as en_countedl, 
+                count(case when attendance.subject=3 and attendance.Abs_value=1 and attendance.counted=1 then 1 else null end) as co_countedl, 
+                count(case when attendance.subject=4 and attendance.Abs_value=1 and attendance.counted=1 then 1 else null end) as ma_countedl, 
+                count(case when attendance.subject=5 and attendance.Abs_value=1 and attendance.counted=1 then 1 else null end) as ar_countedl,
+                count(case when attendance.subject=1 and attendance.Abs_value=1 and attendance.counted=0 then 1 else null end) as wk_removedl, 
+                count(case when attendance.subject=2 and attendance.Abs_value=1 and attendance.counted=0 then 1 else null end) as en_removedl, 
+                count(case when attendance.subject=3 and attendance.Abs_value=1 and attendance.counted=0 then 1 else null end) as co_removedl, 
+                count(case when attendance.subject=4 and attendance.Abs_value=1 and attendance.counted=0 then 1 else null end) as ma_removedl, 
+                count(case when attendance.subject=5 and attendance.Abs_value=1 and attendance.counted=0 then 1 else null end) as ar_removedl
+                from students LEFT JOIN attendance on students.sid=attendance.St_Id, section 
+                WHERE students.Student_Section=$secid AND students.Student_Section=section.Section_id 
+                GROUP BY students.sid 
+                ORDER BY students.Student_Section ASC, students.Student_Name ASC";
             
             $statement3 = $dba->query($sql2, array(5));
             $resultSet3 = new ResultSet;
@@ -221,12 +221,12 @@ class IndexController extends AbstractActionController
             /* insert query for all students */
             
             $sqldays = "select  students.*,abs.St_Id ,count(*) as Days from students,  
-                        (SELECT St_Id,Abs_day,count(Att_id) FROM `attendance` 
-                        WHERE Abs_value=3 and counted=1
-                        Group by St_Id,Abs_day
-                        having count(Att_id) >=3 ) abs
-                        WHERE students.sid= abs.St_Id 
-                        Group by abs.St_Id";
+                (SELECT St_Id,Abs_day,count(Att_id) FROM `attendance` 
+                WHERE Abs_value=3 and counted=1
+                Group by St_Id,Abs_day
+                having count(Att_id) >=3 ) abs
+                WHERE students.sid= abs.St_Id 
+                Group by abs.St_Id";
             
             $statement4 = $dba->query($sqldays, array(5));
             $resultSet4 = new ResultSet;
@@ -395,7 +395,47 @@ class IndexController extends AbstractActionController
         $sm =$this->getServiceLocator();
         $dba = $sm->get($container->adapter);
         if ($auth->hasIdentity() && $container->type == 0){
+            $secid= 0;
+            if ($this->params()->fromQuery('secid')){
+                $secid = $this->params()->fromQuery('secid');
+            }
             
+            $sql1 ="SELECT * FROM section "
+                    . "WHERE workplacement=1 "
+                    . "ORDER BY Section_id ASC";
+            $statement1 = $dba->query($sql1, array(5));
+            $resultSet1 = new ResultSet;
+            $resultSet1->initialize($statement1);
+            
+            $sql2 ="SELECT * FROM students, section "
+                    . "WHERE Student_Section=$secid "
+                    . "AND students.Student_Section=section.Section_id "
+                    . "ORDER BY students.Student_Name ASC";
+            $statement2 = $dba->query($sql2, array(5));
+            $resultSet2 = new ResultSet;
+            $resultSet2->initialize($statement2);
+            
+            $sql3 ="SELECT * FROM supervisor "
+                    . "ORDER BY super_name ASC";
+            $statement3 = $dba->query($sql3, array(5));
+            $resultSet3 = new ResultSet;
+            $resultSet3->initialize($statement3);
+            $resultSet3->buffer();
+            
+            $sql4 ="SELECT * FROM teacher "
+                    . "ORDER BY Teacher_FirstName ASC";
+            $statement4 = $dba->query($sql4, array(5));
+            $resultSet4 = new ResultSet;
+            $resultSet4->initialize($statement4);
+            $resultSet4->buffer();
+            
+            return new ViewModel(array(
+                'sections' => $resultSet1,
+                'secid' => $secid,
+                'students' => $resultSet2,
+                'supervisors' => $resultSet3,
+                'teachers' => $resultSet4
+            ));
         }else{
             return $this->redirect()->toRoute('login',
             array('controller'=>'index',
@@ -410,6 +450,19 @@ class IndexController extends AbstractActionController
         $sm =$this->getServiceLocator();
         $dba = $sm->get($container->adapter);
         if ($auth->hasIdentity() && $container->type == 0){
+            if($this->getRequest()->getPost('add-cmp')){
+                $cmpname= $this->getRequest()->getPost('new-cmp-name');
+                if ($cmpname != "") {
+                    $sql = new Sql($dba);
+                    $insert = $sql->insert('companies');
+                    $newData = array('Company_Name' => $cmpname,
+                    );
+                    $insert->values($newData);
+                    $Query = $sql->getSqlStringForSqlObject($insert);
+                    $statement = $dba->query($Query);
+                    $statement->execute();
+                }
+            }
             $sql ="SELECT * FROM supervisor, companies "
                     . "Where supervisor.Company_ID=companies.Company_ID "
                     . "Group by Company_Name, super_name";
@@ -419,6 +472,21 @@ class IndexController extends AbstractActionController
             return new ViewModel(array(
                 'companies' => $resultSet,
             ));
+        }else{
+            return $this->redirect()->toRoute('login',
+            array('controller'=>'index',
+                'action' => 'login'));
+        }
+    }
+    
+    public function supervisorsAction(){
+        date_default_timezone_set('Asia/Dubai');
+        $auth = new AuthenticationService();
+        $container = new Container('username');
+        $sm =$this->getServiceLocator();
+        $dba = $sm->get($container->adapter);
+        if ($auth->hasIdentity() && $container->type == 0){
+            return new ViewModel();
         }else{
             return $this->redirect()->toRoute('login',
             array('controller'=>'index',

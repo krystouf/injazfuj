@@ -1,9 +1,93 @@
 <div class="moh-left-nav" >
     <a href="<?php echo $this->url('adminwkp'); ?>">Students</a><br>
     <a href="<?php echo $this->url('adminwkplaces'); ?>">Work Places</a><br>
-    <a href="#">Supervisors</a><br>
+    <a href="<?php echo $this->url('adminsupervisors'); ?>">Supervisors</a><br>
 </div>
 
 <div  class="moh-content">
-    
+    <div class="sttabs">
+        <ul class="sttab-links">
+            <?php 
+                $i=0;
+                foreach ($this->sections as $section) :
+                    if($i==0){
+                        $i++;
+            ?>
+                        <li class="active"><a href="<?php echo $this->url('adminwkp', array(), array('query' => array( 'secid' => $i ) ));?>"><?php echo 'Section '.$section['Section_Name'] ?></a></li>
+            <?php
+                    }else{
+                        $i++;
+            ?>          
+                        <li><a href="<?php echo $this->url('adminwkp', array(), array('query' => array( 'secid' => $i ) ));?>"><?php echo 'Section '.$section['Section_Name'] ?></a></li>
+            <?php
+                    }
+                endforeach; 
+            ?>
+        </ul>
+
+        <div class="sttab-content">
+            <div class="sttab active">
+                <?php 
+                $stcount = 0;
+                foreach ($this->students as $student){
+                    if ($this->secid == $student['Student_Section']){
+                        $stcount++;
+                        if($stcount == 1){
+                ?>
+                <h2 style="width: 75%; margin:0px auto 0px auto;">Section <?php echo $student['Section_Name'] ?></h2>
+                <?php
+                }
+                ?>
+                <div class="stlistpro">
+                    <div class="stlistprotop">
+                        <div class="stlistprotopname">
+                            <?php echo $student['Student_Name'] ?>
+                        </div>
+                        <div class="stlistprotophid">
+                                <?php 
+                                    if ($student['Student_id'] == ""){
+                                        echo "No ID";
+                                    }else{
+                                        echo $student['Student_id'];
+                                    }
+                                ?>
+                            <!--</a>-->
+                        </div>
+                    </div>
+                    <div class="stlistprobottom">
+                        <form style="width:100%; height: 40px;" method="post">
+                            <div class="stlistprobottomleft" style="width: 60%; float: left;">
+                                <label style="width: 30%;">Mentor</label>
+                                <select id="secpicker" name="mentorlink" style="width:70%; float: right;">
+                                    <?php 
+                                        foreach ($this->teachers as $teacher) :
+                                    ?>
+                                            <option value="<?php echo $teacher['Teacher_id'] ?>"><?php echo $teacher['Teacher_FirstName'].' '.$teacher['Teacher_LastName'] ?></option>
+                                    <?php
+                                        endforeach; 
+                                    ?>
+                                </select>
+                                <label style="width: 30%;">Supervisor</label>
+                                <select id="secpicker" name="supervisorlink" style="width:70%; float: right;">
+                                    <?php 
+                                        foreach ($this->supervisors as $supervisor) :
+                                    ?>
+                                            <option value="<?php echo $supervisor['supervisor_id'] ?>"><?php echo $supervisor['super_name'] ?></option>
+                                    <?php
+                                        endforeach; 
+                                    ?>
+                                </select>
+                            </div>
+                            <div class="stlistprobottomright" style="width: 10%; float: right;">
+
+                            </div>
+                        </form>
+                    </div>
+                </div>  
+                <?php 
+                    }}
+                ?>
+            </div>
+        </div>
+    </div>
 </div>

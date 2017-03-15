@@ -7,7 +7,6 @@
                     $i++;
         ?>
                     <li class="active"><a href="<?php echo $this->url('adminstudents', array(), array('query' => array( 'secid' => $i ) ));?>"><?php echo 'Section '.$section['Section_Name'] ?></a></li>
-                    
         <?php
                 }else{
                     $i++;
@@ -22,19 +21,15 @@
     <div class="sttab-content">
         <div class="sttab active">
             <?php 
-            $secname = "";
-            if ($this->secid > 12){
-                $secname = 'B'.($this->secid-12);
-            }else{
-                $secname = $this->secid;
-            }
-            ?>
-            <h2 style="width: 75%; margin:0px auto 0px auto;">Section <?php echo $secname ?></h2>    
-            <?php 
             $stcount = 0;
             foreach ($this->students as $student){
-                if ($this->secid == $student['Student_Section']){
+                if ($this->secid == $student['Student_Section'] && $this->secid !=0){
                     $stcount++;
+                    if($stcount == 1){
+                ?>
+                        <h2 style="width: 75%; margin:0px auto 0px auto;">Section <?php echo $student['Section_Name'] ?></h2>
+                <?php
+                    }
             ?>
             <div class="stlistpro">
                 <div class="stlistprotop">
@@ -54,7 +49,7 @@
                         <a href="<?php echo $this->url('deletestudents', array(), array('query' => array( 'stid' => $student['sid'], 'secid' => $student['Student_Section'], 'stname' => $student['Student_Name'] ) ));?>"><img src="img/Delete.png" style="width: 20px; margin-top: 0px; margin-left: 5px; float:right; cursor: pointer; display: block;" /></a>
                     </div>
                 </div>
-                <div class="stlistprobottom">
+                <div class="stlistprobottom" id="<?php echo 'stlistbottom'.$stcount ?>">
                     <div class="stlistprobottomleft">
                         <?php
                         $Days ='0';  
@@ -199,14 +194,17 @@
        var e = document.getElementById('extradata'+id);
        var p = document.getElementById('iconplus'+id);
        var m = document.getElementById('iconminus'+id);
+       var stbtm = document.getElementById('stlistbottom'+id);
        if(e.style.display == 'block'){
           e.style.display = 'none';
           p.style.display = 'block';
           m.style.display = 'none';
+          stbtm.className = "stlistprobottom";
       }else{
           e.style.display = 'block';
           p.style.display = 'none';
           m.style.display = 'block';
+          stbtm.className = "stlistprobottomextended";
       }
     }
 </script>
