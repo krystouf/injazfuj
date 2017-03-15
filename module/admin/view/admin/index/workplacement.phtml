@@ -44,7 +44,6 @@
                             <?php echo $student['Student_Name'] ?>
                         </div>
                         <div class="stlistprotophid">
-                            <!--<a href="streport?id=<?php echo $student['sid'] ?>"> -->
                                 <?php 
                                     if ($student['Student_id'] == ""){
                                         echo "No ID";
@@ -56,12 +55,33 @@
                         </div>
                     </div>
                     <div class="stlistprobottom">
-                        <div class="stlistprobottomleft">
-                            
-                        </div>
-                        <div class="stlistprobottomright">
-                            
-                        </div>
+                        <form style="width:100%; height: 40px;" method="post">
+                            <div class="stlistprobottomleft" style="width: 60%; float: left;">
+                                <label style="width: 30%;">Mentor</label>
+                                <select id="secpicker" name="mentorlink" style="width:70%; float: right;">
+                                    <?php 
+                                        foreach ($this->teachers as $teacher) :
+                                    ?>
+                                            <option value="<?php echo $teacher['Teacher_id'] ?>"><?php echo $teacher['Teacher_FirstName'].' '.$teacher['Teacher_LastName'] ?></option>
+                                    <?php
+                                        endforeach; 
+                                    ?>
+                                </select>
+                                <label style="width: 30%;">Supervisor</label>
+                                <select id="secpicker" name="supervisorlink" style="width:70%; float: right;">
+                                    <?php 
+                                        foreach ($this->supervisors as $supervisor) :
+                                    ?>
+                                            <option value="<?php echo $supervisor['supervisor_id'] ?>"><?php echo $supervisor['super_name'] ?></option>
+                                    <?php
+                                        endforeach; 
+                                    ?>
+                                </select>
+                            </div>
+                            <div class="stlistprobottomright" style="width: 10%; float: right;">
+
+                            </div>
+                        </form>
                     </div>
                 </div>  
                 <?php 

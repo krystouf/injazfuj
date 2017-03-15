@@ -49,7 +49,7 @@
                         <a href="<?php echo $this->url('deletestudents', array(), array('query' => array( 'stid' => $student['sid'], 'secid' => $student['Student_Section'], 'stname' => $student['Student_Name'] ) ));?>"><img src="img/Delete.png" style="width: 20px; margin-top: 0px; margin-left: 5px; float:right; cursor: pointer; display: block;" /></a>
                     </div>
                 </div>
-                <div class="stlistprobottom">
+                <div class="stlistprobottom" id="<?php echo 'stlistbottom'.$stcount ?>">
                     <div class="stlistprobottomleft">
                         <?php
                         $Days ='0';  
@@ -194,14 +194,17 @@
        var e = document.getElementById('extradata'+id);
        var p = document.getElementById('iconplus'+id);
        var m = document.getElementById('iconminus'+id);
+       var stbtm = document.getElementById('stlistbottom'+id);
        if(e.style.display == 'block'){
           e.style.display = 'none';
           p.style.display = 'block';
           m.style.display = 'none';
+          stbtm.className = "stlistprobottom";
       }else{
           e.style.display = 'block';
           p.style.display = 'none';
           m.style.display = 'block';
+          stbtm.className = "stlistprobottomextended";
       }
     }
 </script>

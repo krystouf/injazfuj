@@ -415,10 +415,26 @@ class IndexController extends AbstractActionController
             $resultSet2 = new ResultSet;
             $resultSet2->initialize($statement2);
             
+            $sql3 ="SELECT * FROM supervisor "
+                    . "ORDER BY super_name ASC";
+            $statement3 = $dba->query($sql3, array(5));
+            $resultSet3 = new ResultSet;
+            $resultSet3->initialize($statement3);
+            $resultSet3->buffer();
+            
+            $sql4 ="SELECT * FROM teacher "
+                    . "ORDER BY Teacher_FirstName ASC";
+            $statement4 = $dba->query($sql4, array(5));
+            $resultSet4 = new ResultSet;
+            $resultSet4->initialize($statement4);
+            $resultSet4->buffer();
+            
             return new ViewModel(array(
                 'sections' => $resultSet1,
                 'secid' => $secid,
-                'students' => $resultSet2
+                'students' => $resultSet2,
+                'supervisors' => $resultSet3,
+                'teachers' => $resultSet4
             ));
         }else{
             return $this->redirect()->toRoute('login',
