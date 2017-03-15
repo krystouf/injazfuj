@@ -1,0 +1,54 @@
+ 
+ <?php
+    if ($this->step =="1")
+    {
+    ?>
+        <form method="post" style="width: 25%; margin: auto;">
+
+             <!-- Students names-->
+             <select id="students" name="student" style="width:100%;">
+                <?php 
+                    foreach ($this->Students as $student) :
+                ?>
+                <option  value="<?php echo $student['sid'] ?>"> <?php echo $student['Student_Name'] ?></option>
+                <?php
+                    endforeach; 
+                ?>
+            </select>
+            <br><br>
+             <!-- Weeks-->
+            <select id="weeks" name="week" style="width:100%;">
+                <option  value="0">work plan</option>
+                <?php 
+                    foreach ($this->Weeks as $Week) :
+                ?>
+                <option  value="<?php echo $Week['week_id'] ?>">Week <?php echo $Week['week_id'] ?></option>
+                <?php
+                    endforeach; 
+                ?>
+            </select>
+
+             <input type="submit" value="Show" name="show-but">
+         </form>
+<?php
+    } else if ($this->step =="2")
+                {
+                    echo 'dispaly workplan ';
+                }
+    
+            else if ($this->step =="3")
+                    {
+                     echo 'dispaly week information';
+                    }
+                     else if ($this->step =="4")
+                        {
+                            echo 'updated week successfully';
+                         }
+                
+                
+        
+        
+        
+        
+?>
+    

@@ -251,8 +251,64 @@ class IndexController extends AbstractActionController
                 'action' => 'login'));
         }
     }
-        public function workplacementAction()
+        public function teacherwpAction()
     {   
-        return new ViewModel();
+          
+            $container = new Container('username');
+            $sm =$this->getServiceLocator();
+            $dba = $sm->get($container->adapter);
+            $username = $container->id;
+        //students names
+            $sql ="SELECT * from students Where mentor_id=".$username;   
+            $statement = $dba->query($sql, array(5));
+            $resultSet = new ResultSet;
+            $resultSet->initialize($statement);
+        
+        //weeks     
+            $sql2 ="SELECT * from week";   
+            $statement2 = $dba->query($sql2, array(5));
+            $resultSet2 = new ResultSet;
+            $resultSet2->initialize($statement2);
+            
+            $step=1;
+        //work plan
+            if($this->getRequest()->getpost('show-but') && $this->getRequest()->getpost('week')=="0")
+            {
+               
+                    $step=2;
+                    
+            }
+        
+            
+            if($this->getRequest()->getpost('show-but')&& $this->getRequest()->getpost('week')> 0)
+            {
+               
+                    $step=3;
+            }
+/*
+ * for save the comment of teacher step 4
+ *
+       if($this->getRequest()->getPost('submit-week')){
+             
+                    $step=4;
+               
+                }
+            }
+            $sql ="SELECT * FROM students WHERE computer_teacher=".$username." OR wk_teacher=".$username." OR english_teacher=".$username." OR math_teacher=".$username." OR arabic_teacher=".$username." ORDER BY section ASC";
+            $statement = $dba->query($sql, array(5));
+            $resultSet = new ResultSet;
+            $resultSet->initialize($statement);
+            $sql2 ="SELECT * from teacher Where Teacher_id=".$username;
+            $statement2 = $dba->query($sql2, array(5));
+            $resultSet2 = new ResultSet;
+            $resultSet2->initialize($statement2);
+
+ * 
+ */
+            return new ViewModel(array(
+                'Students' => $resultSet,
+                'Weeks' => $resultSet2,
+                'step' =>$step,
+             ));
     }
 }

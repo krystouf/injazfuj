@@ -45,14 +45,14 @@ return array(
                     ),
                 ),
             ),
-            'workplacement' => array(
+            'teacherwp' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
-                    'route'    => '/workplacement',
+                    'route'    => '/teacherwp',
                     'defaults' => array(
                         '__NAMESPACE__' => 'teacher\Controller',
                         'controller'    => 'Index',
-                        'action'        => 'workplacement',
+                        'action'        => 'teacherwp',
                     ),
                 ),
             ),
