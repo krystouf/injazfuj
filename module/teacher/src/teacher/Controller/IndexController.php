@@ -289,7 +289,8 @@ class IndexController extends AbstractActionController
     }
         public function teacherwpAction()
     {   
-          
+            $stid="";
+            $resultSet3="";
             $container = new Container('username');
             $sm =$this->getServiceLocator();
             $dba = $sm->get($container->adapter);
@@ -310,8 +311,13 @@ class IndexController extends AbstractActionController
         //work plan
             if($this->getRequest()->getpost('show-but') && $this->getRequest()->getpost('week')=="0")
             {
-               
-                    $step=2;
+                $stid= $this->getRequest()->getPost('student');
+                $sql3 ="SELECT * from workplan  Where sid=".$stid;
+                $statement3 = $dba->query($sql3, array(5));
+                $resultSet3 = new ResultSet;
+                $resultSet3->initialize($statement3);
+                
+                $step=2;
                     
             }
         
@@ -343,8 +349,11 @@ class IndexController extends AbstractActionController
  */
             return new ViewModel(array(
                 'Students' => $resultSet,
-                'Weeks' => $resultSet2,
-                'step' =>$step,
-             ));
+                'Weeks'    => $resultSet2,
+                'workplans' => $resultSet3,
+                'step'     =>$step,
+                'stid'     =>$stid,
+                
+                ));
     }
 }

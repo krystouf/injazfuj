@@ -66,7 +66,7 @@ class IndexController extends AbstractActionController
         $resultSet->initialize($statement);
         
         $sql2 ="SELECT * from workplan  Where sid=".$username;
-         $statement2 = $dba->query($sql2, array(5));
+        $statement2 = $dba->query($sql2, array(5));
         $resultSet2 = new ResultSet;
         $resultSet2->initialize($statement2);
         
