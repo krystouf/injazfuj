@@ -395,6 +395,26 @@ class IndexController extends AbstractActionController
         $sm =$this->getServiceLocator();
         $dba = $sm->get($container->adapter);
         if ($auth->hasIdentity() && $container->type == 0){
+            if($this->getRequest()->getPost('submit-wk-link')){
+                $count = (int) $this->getRequest()->getPost('stcount');
+                for ($i =1 ; $i <= $count; $i++){
+                    $id= $this->getRequest()->getPost('stwkid'.$i);
+                    $ment= $this->getRequest()->getPost('mentorlink'.$i);
+                    $spid= $this->getRequest()->getPost('supervisorlink'.$i);
+                    $data = array(
+                        'mentor_id'  => $ment,
+                        'super_id'  => $spid
+                    );
+                    $sql = new Sql($dba);
+                    $update = $sql->update();
+                    $update->table('students');
+                    $update->set($data);
+                    $update->where(array('sid' => $id));
+                    $statement = $sql->prepareStatementForSqlObject($update);
+                    $statement->execute();
+                }
+            }
+            
             $secid= 0;
             if ($this->params()->fromQuery('secid')){
                 $secid = $this->params()->fromQuery('secid');
