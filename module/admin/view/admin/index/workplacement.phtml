@@ -27,6 +27,7 @@
 
         <div class="sttab-content">
             <div class="sttab active">
+                <form method="post">
                 <?php 
                 $stcount = 0;
                 foreach ($this->students as $student){
@@ -54,39 +55,56 @@
                             <!--</a>-->
                         </div>
                     </div>
-                    <div class="stlistprobottom">
-                        <form style="width:100%; height: 40px;" method="post">
-                            <div class="stlistprobottomleft" style="width: 60%; float: left;">
-                                <label style="width: 30%;">Mentor</label>
-                                <select id="secpicker" name="mentorlink" style="width:70%; float: right;">
-                                    <?php 
-                                        foreach ($this->teachers as $teacher) :
-                                    ?>
-                                            <option value="<?php echo $teacher['Teacher_id'] ?>"><?php echo $teacher['Teacher_FirstName'].' '.$teacher['Teacher_LastName'] ?></option>
-                                    <?php
-                                        endforeach; 
-                                    ?>
-                                </select>
-                                <label style="width: 30%;">Supervisor</label>
-                                <select id="secpicker" name="supervisorlink" style="width:70%; float: right;">
-                                    <?php 
-                                        foreach ($this->supervisors as $supervisor) :
-                                    ?>
-                                            <option value="<?php echo $supervisor['supervisor_id'] ?>"><?php echo $supervisor['super_name'] ?></option>
-                                    <?php
-                                        endforeach; 
-                                    ?>
-                                </select>
-                            </div>
-                            <div class="stlistprobottomright" style="width: 10%; float: right;">
-
-                            </div>
-                        </form>
+                    <div class="stlistprobottom" style="width: 100%; height: 60px;">
+                        <div class="stlistprobottomleft" style="width: 60%; float: left;">
+                            <input type="hidden" value="<?php echo $student['sid'] ?>" name="<?php echo 'stwkid'.$stcount ?>">
+                            <label style="width: 30%;">Mentor</label>
+                            <select name="<?php echo 'mentorlink'.$stcount ?>" style="width:70%; float: right;">
+                                        <option value="0">No Mentor</option>
+                                <?php 
+                                    foreach ($this->teachers as $teacher) :
+                                        if ($teacher['Teacher_id'] == $student['mentor_id']){
+                                ?>
+                                        <option selected="selected" value="<?php echo $teacher['Teacher_id'] ?>"><?php echo $teacher['Teacher_FirstName'].' '.$teacher['Teacher_LastName'] ?></option>
+                                <?php
+                                        }else{
+                                ?>
+                                        <option value="<?php echo $teacher['Teacher_id'] ?>"><?php echo $teacher['Teacher_FirstName'].' '.$teacher['Teacher_LastName'] ?></option>
+                                <?php            
+                                        }
+                                    endforeach; 
+                                ?>
+                            </select>
+                            <label style="width: 30%;">Supervisor</label>
+                            <select name="<?php echo 'supervisorlink'.$stcount ?>" style="width:70%; float: right;">
+                                        <option value="0">No Supervisor</option>
+                                <?php 
+                                    foreach ($this->supervisors as $supervisor) :
+                                        if ($supervisor['supervisor_id'] == $student['super_id']){
+                                ?>
+                                        <option selected="selected" value="<?php echo $supervisor['supervisor_id'] ?>"><?php echo $supervisor['super_name'] ?></option>
+                                <?php
+                                        }else{
+                                ?>
+                                        <option value="<?php echo $supervisor['supervisor_id'] ?>"><?php echo $supervisor['super_name'] ?></option>
+                                <?php
+                                        }
+                                    endforeach; 
+                                ?>
+                            </select>
+                        </div>
                     </div>
                 </div>  
                 <?php 
                     }}
+                    if($stcount != 0){
                 ?>
+                <input type="hidden" value="<?php echo $stcount?>" name="stcount">
+                <input style="width: 50%; margin-left: 25%;" type="submit" value="submit" name="submit-wk-link">
+                <?php
+                    }
+                ?>
+                </form>
             </div>
         </div>
     </div>
