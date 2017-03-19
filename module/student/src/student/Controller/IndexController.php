@@ -23,7 +23,27 @@ class IndexController extends AbstractActionController
 {
     public function indexAction()
     {   
-        return new ViewModel();
+        date_default_timezone_set('Asia/Dubai');
+        $auth = new AuthenticationService();
+        $container = new Container('username');
+        $sm =$this->getServiceLocator();
+        $dba = $sm->get($container->adapter);
+        if ($auth->hasIdentity() && $container->type == 2){
+            $username = $container->id;
+            $sql ="SELECT * from students, section Where sid=$username"
+                    . "AND students.Student_Section=section.Section_id";
+            $statement = $dba->query($sql, array(5));
+            $resultSet = new ResultSet;
+            $resultSet->initialize($statement);
+
+            return new ViewModel(array(
+                'Studentinfo' => $resultSet,
+             ));
+        }else{
+            return $this->redirect()->toRoute('login',
+            array('controller'=>'index',
+                'action' => 'login'));
+        }
     }
     
     public function workplacementAction(){
