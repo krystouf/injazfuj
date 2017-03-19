@@ -12,7 +12,7 @@ return array(
         'student',
         'teacher',
         'admin',
-        'mentor',
+        'supervisor',
         
     ),
 

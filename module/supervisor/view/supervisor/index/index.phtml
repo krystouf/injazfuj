@@ -1,0 +1,64 @@
+<script>
+function startTime() {
+    var today = new Date();
+    var h = today.getHours();
+    var m = today.getMinutes();
+    var s = today.getSeconds();
+    m = checkTime(m);
+    s = checkTime(s);
+    document.getElementById('clock').innerHTML =
+    h + ":" + m + ":" + s;
+    var t = setTimeout(startTime, 500);
+}
+function checkTime(i) {
+    if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+    return i;
+}
+</script>
+
+<div class="supervisor-top">
+    <div class="supervisor-tleft">
+        <h1 class="box-title">PROFILE</h1>
+        <div class="boxcontent">
+            <?php foreach ($this->supervisor as $t) :
+                    echo 'Welcome '.$t['Supervisor_FirstName'];
+            endforeach; ?>
+        </div>
+    </div>
+    <div class="supervisor-tright">
+        <h1 class="box-title">DAILY SCHEDULE</h1>
+        <div class="boxcontent">
+            Under Construction 22
+        </div>
+    </div>
+</div>
+<div class="supervisor-bottom">
+    <div class="supervisor-bleft">
+        <h1 class="box-title">CHECK-IN</h1>
+        <div class="boxcontent">
+            <div class="check-in-title">
+                <br/>
+                    <?php
+                        echo date("l jS \of F Y");
+                    ?>
+                    <span id="clock"></span>
+                <h2>
+                    You are not checked-in for today's shift
+                </h2>
+                <div style="width: 50%; margin: auto;">
+                    <input value="Check-in" name="admin_log_but" type="submit" class="btn btn-primary btn-block btn-large" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="supervisor-bright">
+        <h1 class="box-title">MY SECTIONS</h1>
+        <div class="boxcontent" style="overflow-y: scroll;">
+            <?php 
+                foreach ($this->sections as $section) :
+                    echo 'Section '.$section['section'].'<br/>';
+                endforeach; 
+            ?>
+        </div>
+    </div>
+</div>

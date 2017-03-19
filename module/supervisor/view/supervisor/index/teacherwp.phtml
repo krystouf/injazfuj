@@ -1,0 +1,85 @@
+ 
+ <?php
+    if ($this->step =="1")
+    {
+    ?>
+        <form method="post" style="width: 25%; margin: auto;">
+
+             <!-- Students names-->
+             <select id="students" name="student" style="width:100%;">
+                <?php 
+                    foreach ($this->Students as $student) :
+                ?>
+                <option  value="<?php echo $student['sid'] ?>"> <?php echo $student['Student_Name'] ?></option>
+                <?php
+                    endforeach; 
+                ?>
+            </select>
+            <br><br>
+             <!-- Weeks-->
+            <select id="weeks" name="week" style="width:100%;">
+                <option  value="0">work plan</option>
+                <?php 
+                    foreach ($this->Weeks as $Week) :
+                ?>
+                <option  value="<?php echo $Week['week_id'] ?>">Week <?php echo $Week['week_id'] ?></option>
+                <?php
+                    endforeach; 
+                ?>
+            </select>
+
+             <input type="submit" value="Show" name="show-but">
+         </form>
+<?php
+    } else if ($this->step =="2")
+                {
+                    echo 'dispaly workplan for student number'. $this->stid ;
+                        ?> 
+                            <div>
+                
+                                <table border="1" style="width:100%" cellpadding="7">
+                               <tr>
+                                   <th>Week</th>
+                                   <th>Department</th>
+                                   <th>Work Assigned</th>
+                                   <th> Supervisor Department  </th>
+
+                               </tr>
+
+                                <?php
+                               foreach ($this->workplans as $workplan){
+
+                                ?>
+                                <tr>
+
+                                    <td width="5%" ><?php echo $workplan['week'] ?></td>
+                                    <td width="25%"><?php echo $workplan['department'] ?></td>
+                                    <td width="50%" > <textarea class="mohtext"><?php echo $workplan['work_assigned'] ?></textarea></td>
+                                    <td width="20%" ><?php echo $workplan['s_department'] ?></td>
+                               </tr>   
+                                 <?php
+                                 } //foreach
+                                    ?>
+                                   </table>
+
+                
+                            </div>
+                <?php
+                }
+    
+            else if ($this->step =="3")
+                    {
+                     echo 'dispaly week information';
+                    }
+                     else if ($this->step =="4")
+                        {
+                            echo 'updated week successfully';
+                         }
+                
+                
+        
+        
+        
+        
+?>
+    

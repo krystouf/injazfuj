@@ -7,7 +7,7 @@
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
-namespace mentor;
+namespace supervisor;
 
 return array(
     'router' => array(
@@ -16,12 +16,12 @@ return array(
             // new controllers and actions without needing to create a new
             // module. Simply drop new controllers in, and you can access them
             // using the path /application/:controller/:action
-            'mentor' => array(
+            'supervisor' => array(
                 'type'    => 'Literal',
                 'options' => array(
-                    'route'    => '/mentor',
+                    'route'    => '/supervisor',
                     'defaults' => array(
-                        '__NAMESPACE__' => 'mentor\Controller',
+                        '__NAMESPACE__' => 'supervisor\Controller',
                         'controller'    => 'Index',
                         'action'        => 'index',
                     ),
@@ -65,7 +65,7 @@ return array(
     ),
     'controllers' => array(
         'invokables' => array(
-            'mentor\Controller\Index' => Controller\IndexController::class
+            'supervisor\Controller\Index' => Controller\IndexController::class
         ),
     ),
     'view_manager' => array(
@@ -75,8 +75,8 @@ return array(
         'not_found_template'       => 'error/404',
         'exception_template'       => 'error/index',
         'template_map' => array(
-            'mentor/layout'           => __DIR__ . '/../view/layout/layout.phtml',
-            'mentor/index/login' => __DIR__ . '/../view/mentor/index/index.phtml',
+            'supervisor/layout'           => __DIR__ . '/../view/layout/layout.phtml',
+            'supervisor/index/login' => __DIR__ . '/../view/supervisor/index/index.phtml',
             'error/404'               => __DIR__ . '/../view/error/404.phtml',
             'error/index'             => __DIR__ . '/../view/error/index.phtml',
         ),
