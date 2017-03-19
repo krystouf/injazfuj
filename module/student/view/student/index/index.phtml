@@ -1,31 +1,49 @@
-<form method="post">
-    <?php foreach ($this->Studentinfo as $stinfo){
+<form method="post" onsubmit="return PassValid()" autocomplete="off">
+    <?php 
+        foreach ($this->Studentinfo as $stinfo){
     ?>
     <div class="stlistpro">
         <div class="stlistprotop">
             <div class="stlistprotopname">
-                <?php echo $stinfo['Student_Name'] ?>
+                <?php echo $stinfo['Student_Name'].' - Section '.$stinfo['Section_Name'] ?>
             </div>
             <div class="stlistprotophid">
-                    <?php 
-                        if ($stinfo['Student_id'] == ""){
-                            echo "No ID";
-                        }else{
-                            echo $stinfo['Student_id'];
-                        }
-                    ?>
-                <!--</a>-->
+                <?php 
+                    if ($stinfo['Student_id'] == ""){
+                        echo "No ID";
+                    }else{
+                        echo $stinfo['Student_id'];
+                    }
+                ?>
             </div>
         </div>
-        <div class="stlistprobottom" style="width: 100%; height: 60px;">
+        <div class="stlistprobottom" style="width: 100%; height: 450px;">
             <div class="stlistprobottomleft" style="width: 100%;">
-                Section <?php echo $stinfo['Section_Name']?>
-                <?php echo $stinfo['semail']?>
-                <?php echo $stinfo['smobile']?>
+                <h3 style="text-align: center; text-transform: uppercase;">Enter your details</h3>
+                
+                <label style="width: 30%;">Email</label><input style="width: 100%;" type="text" name="st-email" value="<?php echo $stinfo['semail'] ?>" placeholder="Enter your email" />
+                <br/><br/><label style="width: 30%;">Mobile</label><input style="width: 100%;" type="text" name="st-mobile" value="<?php echo $stinfo['smobile'] ?>" placeholder="Enter your mobile number" />
+                <input autocomplete="off" type="text" value=" " style="display: none;" placeholder="Enter your email" />
+                <br/><br/><label style="width: 30%;">New Password</label><input style="width: 100%;" type="password" placeholder="Password" name="stpass" id="stpass" />
+                <br/><br/><label style="width: 30%;">Confirm Password</label><input style="width: 100%;" type="password" placeholder="Confirm Password" name="confirm-stpass" id="confirm-stpass" />
             </div>
         </div>
     </div> 
     <?php
-    }
+        }
     ?>
+    <input style="width: 40%; margin-left: 30%;" type="submit" value="Save" name="save-stprofile">
 </form>
+
+<script>
+    function PassValid() {
+        var pass1 = document.getElementById("stpass").value;
+        var pass2 = document.getElementById("confirm-stpass").value;
+        var ok = true;
+        if (pass1 != pass2) {
+            alert("Please match Password and Confirmation");
+            ok = false;
+        }
+        return ok;
+    }
+</script>

@@ -29,21 +29,31 @@ class IndexController extends AbstractActionController
         $sm =$this->getServiceLocator();
         $dba = $sm->get($container->adapter);
         if ($auth->hasIdentity() && $container->type == 2){
+            if($this->getRequest()->getPost('save-stprofile')){
+                
+            }
             $username = $container->id;
             $sql ="SELECT * from students, section Where sid=$username"
-                    . "AND students.Student_Section=section.Section_id";
+                . " AND students.Student_Section=section.Section_id";
             $statement = $dba->query($sql, array(5));
             $resultSet = new ResultSet;
             $resultSet->initialize($statement);
-
+            
             return new ViewModel(array(
-                'Studentinfo' => $resultSet,
-             ));
+                'Studentinfo' => $resultSet
+            ));
         }else{
             return $this->redirect()->toRoute('login',
             array('controller'=>'index',
                 'action' => 'login'));
         }
+        
+        
+        //$config = $this->getServiceLocator()->get('Config');
+          //  $staticSalt = $config['static_salt'];
+            //$md = MD5('123');
+            //$passsault = $staticSalt.$md;
+        
     }
     
     public function workplacementAction(){
