@@ -35,8 +35,9 @@ class IndexController extends AbstractActionController
         $dba = $sm->get($container->adapter);
         if ($auth->hasIdentity() && $container->type == 2){
             $username = $container->id;
-            $sql ="SELECT * from students,teacher,supervisor Where sid=".$username."
+            $sql ="SELECT * from students,teacher,supervisor,companies Where sid=".$username."
                    AND supervisor_id = super_id
+                   AND 	supervisor.Company_ID = companies.Company_ID
                    AND  Teacher_id = mentor_id";
             $statement = $dba->query($sql, array(5));
             $resultSet = new ResultSet;
@@ -58,8 +59,9 @@ class IndexController extends AbstractActionController
         $sm =$this->getServiceLocator();
         $dba = $sm->get($container->adapter);
         $username = $container->id;
-        $sql ="SELECT * from students,teacher,supervisor Where sid=".$username."
+        $sql ="SELECT * from students,teacher,supervisor,companies Where sid=".$username."
                AND supervisor_id = super_id
+               AND 	supervisor.Company_ID = companies.Company_ID
                AND  Teacher_id = mentor_id";
         $statement = $dba->query($sql, array(5));
         $resultSet = new ResultSet;
@@ -229,5 +231,34 @@ class IndexController extends AbstractActionController
                 'action' => 'login'));
         }
      }
+     public function uploadAction()
+    {   
+         $step= 0;
+    if($this->getRequest()->getPost('upload'))
+        {
+            //   $auth = new AuthenticationService();
+           $container = new Container('username');
+           $sm =$this->getServiceLocator();
+           $dba = $sm->get($container->adapter);
+           $username = $container->id;
+           $f_name=$this->getRequest()->getPost('file_name');
+               $sql = new Sql($dba);
+               $insert = $sql->insert('projectfiles');
+               //mentor_comment	
+               $newData = array('sid'=> $username,
+                   'file_name' =>  $f_name,
+
+               );
+               $insert->values($newData);
+               $Query = $sql->getSqlStringForSqlObject($insert);
+               $statement = $dba->query($Query);
+               $statement->execute();  
+               $step= 1;
+        }
+         return new ViewModel(array(
+             'step'=> $step,
+         ));
+         
+    }
    
 }

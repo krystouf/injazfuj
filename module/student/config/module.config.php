@@ -12,7 +12,19 @@ namespace student;
 return array(
     'router' => array(
         'routes' => array(
-          
+            //upload
+             'upload' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route'    => '/upload',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'student\Controller',
+                        'controller'    => 'Index',
+                        'action'        => 'upload',
+                    ),
+                ),
+            ),
+            //end  of upload   
             //work plan 
              'workplan' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
