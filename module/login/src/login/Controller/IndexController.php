@@ -41,6 +41,10 @@ class IndexController extends AbstractActionController
             $username = $this->getRequest()->getPost('ut');
             $pass = $this->getRequest()->getPost('pt');
             $this->fauth($username, $pass, 'teacher');
+        }else if($this->getRequest()->getPost('super_log_but')){
+            $username = $this->getRequest()->getPost('us');
+            $pass = $this->getRequest()->getPost('ps');
+            $this->fauth($username, $pass, 'supervisor');
         }else if($this->getRequest()->getPost('admin_log_but')){
             $username = $this->getRequest()->getPost('ua');
             $pass = $this->getRequest()->getPost('pa');
@@ -84,6 +88,21 @@ class IndexController extends AbstractActionController
                 'username', // there is a method setIdentityColumn to do the same
                 'Teacher_pass', // there is a method setCredentialColumn to do the same
                 "MD5(CONCAT('$staticSalt', Teacher_salt))" // setCredentialTreatment(parametrized string) 'MD5(?)'
+            );
+        }else if ($table == "supervisor"){
+            $sql = "Select supervisor_id from supervisor where super_name='".$username."'";
+            $statement = $dba->query($sql, array(5));
+            $resultSet = new ResultSet;
+            $resultSet->initialize($statement);
+            $tid = 0;
+            foreach ($resultSet as $row){
+                $tid = $row['supervisor_id'];
+            }
+            $authAdapter = new AuthAdapter($dba,
+                $table, // there is a method setTableName to do the same
+                'super_name', // there is a method setIdentityColumn to do the same
+                'super_pass', // there is a method setCredentialColumn to do the same
+                "MD5(CONCAT('$staticSalt', super_salt))" // setCredentialTreatment(parametrized string) 'MD5(?)'
             );
         }else if ($table == "admin"){
             $authAdapter = new AuthAdapter($dba,
@@ -143,6 +162,21 @@ class IndexController extends AbstractActionController
                         $sessionManager = new \Zend\Session\SessionManager();
                         $sessionManager->rememberMe($time);
                         return $this->redirect()->toRoute('teacher',
+                        array('controller'=>'index',
+                              'action' => 'index'));
+                    }else if ($table == "supervisor"){
+                        $container->id = $superid;
+                        $container->type= 3;
+                        $storage = $auth->getStorage();
+                        $storage->write($authAdapter->getResultRowObject(
+                                null,
+                                'super_pass'
+                        ));
+                        $time = 1209600; // 14 days 1209600/3600 = 336 hours => 336/24 = 14 days
+    //						if ($data['rememberme']) $storage->getSession()->getManager()->rememberMe($time); // no way to get the session
+                        $sessionManager = new \Zend\Session\SessionManager();
+                        $sessionManager->rememberMe($time);
+                        return $this->redirect()->toRoute('supervisor',
                         array('controller'=>'index',
                               'action' => 'index'));
                     }else if ($table == "admin"){

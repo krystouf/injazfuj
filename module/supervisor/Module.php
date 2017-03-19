@@ -7,7 +7,7 @@
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
-namespace mentor;
+namespace supervisor;
 
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
@@ -19,7 +19,7 @@ class Module
     {
         $mm->getEventManager()->getSharedManager()->attach(__NAMESPACE__,
         'dispatch', function($e) {
-            $e->getTarget()->layout('mentor/layout');
+            $e->getTarget()->layout('supervisor/layout');
         });
     }
     
