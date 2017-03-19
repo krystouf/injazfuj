@@ -3,7 +3,7 @@
             <a href="<?php echo $this->url('workplacement') ?>"> Information</a><br>
             <a href="<?php echo $this->url('workplan') ?>"> Work plan</a> <br>
             <a href="<?php echo $this->url('weeklyreport') ?>"> Weekly Report</a><br>  
-            
+            <a href="<?php echo $this->url('upload') ?>"> Student files </a><br>
         </div>
     
         <div  class="moh-content">
@@ -15,7 +15,7 @@
                         foreach ($this->Studentinfo as $student) :
                     //        echo 'Student Name     : '.$student['Student_Name'].'<br/><br/>';
                        //     echo 'Student ID       : '.$student['Student_id'].'<br/><br/>';
-                            echo 'Company Name     : '.$student['org_name'].'.<br/><br/>';
+                            echo 'Company Name     : '.$student['Company_Name'].'.<br/><br/>';
                             echo 'Supervisor       : '.$student['super_name'].'<br/><br/>';
                             echo 'Supervisor phone : '.$student['phone'].'<br/><br/>';
                       //      echo 'Mentor Name      : '.$student['Teacher_FirstName']. ' '.$student['Teacher_LastName'].'<br/><br/>';
