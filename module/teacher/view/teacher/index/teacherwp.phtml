@@ -33,7 +33,38 @@
 <?php
     } else if ($this->step =="2")
                 {
-                    echo 'dispaly workplan ';
+                    echo 'dispaly workplan for student number'. $this->stid ;
+                        ?> 
+                            <div>
+                
+                                <table border="1" style="width:100%" cellpadding="7">
+                               <tr>
+                                   <th>Week</th>
+                                   <th>Department</th>
+                                   <th>Work Assigned</th>
+                                   <th> Supervisor Department  </th>
+
+                               </tr>
+
+                                <?php
+                               foreach ($this->workplans as $workplan){
+
+                                ?>
+                                <tr>
+
+                                    <td width="5%" ><?php echo $workplan['week'] ?></td>
+                                    <td width="25%"><?php echo $workplan['department'] ?></td>
+                                    <td width="50%" > <textarea class="mohtext"><?php echo $workplan['work_assigned'] ?></textarea></td>
+                                    <td width="20%" ><?php echo $workplan['s_department'] ?></td>
+                               </tr>   
+                                 <?php
+                                 } //foreach
+                                    ?>
+                                   </table>
+
+                
+                            </div>
+                <?php
                 }
     
             else if ($this->step =="3")
