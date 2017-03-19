@@ -1,1 +1,31 @@
-Student index page
+<form method="post">
+    <?php foreach ($this->Studentinfo as $stinfo){
+    ?>
+    <div class="stlistpro">
+        <div class="stlistprotop">
+            <div class="stlistprotopname">
+                <?php echo $stinfo['Student_Name'] ?>
+            </div>
+            <div class="stlistprotophid">
+                    <?php 
+                        if ($stinfo['Student_id'] == ""){
+                            echo "No ID";
+                        }else{
+                            echo $stinfo['Student_id'];
+                        }
+                    ?>
+                <!--</a>-->
+            </div>
+        </div>
+        <div class="stlistprobottom" style="width: 100%; height: 60px;">
+            <div class="stlistprobottomleft" style="width: 100%;">
+                Section <?php echo $stinfo['Section_Name']?>
+                <?php echo $stinfo['semail']?>
+                <?php echo $stinfo['smobile']?>
+            </div>
+        </div>
+    </div> 
+    <?php
+    }
+    ?>
+</form>
