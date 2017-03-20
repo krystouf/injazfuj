@@ -30,7 +30,37 @@ class IndexController extends AbstractActionController
         $dba = $sm->get($container->adapter);
         if ($auth->hasIdentity() && $container->type == 2){
             if($this->getRequest()->getPost('save-stprofile')){
+                $stemail =$this->getRequest()->getPost('st-email');
+                $stmobile =$this->getRequest()->getPost('st-mobile');
+                $stpass =$this->getRequest()->getPost('stpass');
+                $id =$this->getRequest()->getPost('stidprofile');
                 
+                $config = $this->getServiceLocator()->get('Config');
+                $staticSalt = $config['static_salt'];
+                $md = MD5($stpass);
+                $passsault = $staticSalt.$md;
+                                
+                if ($stpass != ""){
+                    $data = array(
+                        'semail' => $stemail,
+                        'smobile' => $stmobile,
+                        'student_pass' => $stpass,
+                        'student_salt' => $passsault,
+                    );
+                }else{
+                    $data = array(
+                        'semail' => $stemail,
+                        'smobile' => $stmobile,
+                    );
+                }
+                
+                $sql = new Sql($dba);
+                $update = $sql->update();
+                $update->table('students');
+                $update->set($data);
+                $update->where(array('sid' => $id));
+                $statement = $sql->prepareStatementForSqlObject($update);
+                $statement->execute();
             }
             $username = $container->id;
             $sql ="SELECT * from students, section Where sid=$username"
@@ -47,13 +77,6 @@ class IndexController extends AbstractActionController
             array('controller'=>'index',
                 'action' => 'login'));
         }
-        
-        
-        //$config = $this->getServiceLocator()->get('Config');
-          //  $staticSalt = $config['static_salt'];
-            //$md = MD5('123');
-            //$passsault = $staticSalt.$md;
-        
     }
     
     public function workplacementAction(){
