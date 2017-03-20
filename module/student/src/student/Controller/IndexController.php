@@ -272,9 +272,31 @@ class IndexController extends AbstractActionController
            $dba = $sm->get($container->adapter);
            $username = $container->id;
            $f_name=$this->getRequest()->getPost('file_name');
+            
+           $host = 'localhost';
+            $usr = '';
+            $pwd = '';
+ 
+            // file to move:
+            $local_file = $f_name;
+            $ftp_path = $f_name;
+ 
+            // connect to FTP server (port 21)
+            $conn_id = ftp_connect($host, 21) or die ("Cannot connect to host");
+
+            // send access parameters
+            ftp_login($conn_id, $usr, $pwd) or die("Cannot login");
+
+            // turn on passive mode transfers (some servers need this)
+            // ftp_pasv ($conn_id, true);
+
+            // perform file upload
+            $upload = ftp_put($conn_id, $ftp_path, $local_file, FTP_ASCII);
+
+            echo $fileName ;
+            
                $sql = new Sql($dba);
                $insert = $sql->insert('projectfiles');
-               //mentor_comment	
                $newData = array('sid'=> $username,
                    'file_name' =>  $f_name,
 
