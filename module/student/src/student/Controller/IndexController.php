@@ -39,7 +39,7 @@ class IndexController extends AbstractActionController
                 $staticSalt = $config['static_salt'];
                 $md = MD5($stpass);
                 $passsault = $staticSalt.$md;
-                                
+
                 if ($stpass != ""){
                     $data = array(
                         'semail' => $stemail,
@@ -289,7 +289,6 @@ class IndexController extends AbstractActionController
          $step= 0;
     if($this->getRequest()->getPost('upload'))
         {
-            //   $auth = new AuthenticationService();
            $container = new Container('username');
            $sm =$this->getServiceLocator();
            $dba = $sm->get($container->adapter);

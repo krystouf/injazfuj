@@ -435,15 +435,16 @@ class IndexController extends AbstractActionController
             $resultSet2 = new ResultSet;
             $resultSet2->initialize($statement2);
             
-            $sql3 ="SELECT * FROM supervisor "
-                    . "ORDER BY super_name ASC";
+            $sql3 ="SELECT * FROM supervisor, companies "
+                    . "WHERE supervisor.Company_ID=companies.Company_ID "
+                    . "ORDER BY companies.Company_Name, super_name ASC";
             $statement3 = $dba->query($sql3, array(5));
             $resultSet3 = new ResultSet;
             $resultSet3->initialize($statement3);
             $resultSet3->buffer();
             
             $sql4 ="SELECT * FROM teacher "
-                    . "ORDER BY Teacher_FirstName ASC";
+                    . "ORDER BY Teacher_FirstName, Teacher_LastName ASC";
             $statement4 = $dba->query($sql4, array(5));
             $resultSet4 = new ResultSet;
             $resultSet4->initialize($statement4);
@@ -490,7 +491,7 @@ class IndexController extends AbstractActionController
             $resultSet = new ResultSet;
             $resultSet->initialize($statement);
             return new ViewModel(array(
-                'companies' => $resultSet,
+                'companies' => $resultSet
             ));
         }else{
             return $this->redirect()->toRoute('login',
@@ -506,7 +507,78 @@ class IndexController extends AbstractActionController
         $sm =$this->getServiceLocator();
         $dba = $sm->get($container->adapter);
         if ($auth->hasIdentity() && $container->type == 0){
-            return new ViewModel();
+            if($this->getRequest()->getPost('new-sup-cmp')){
+                $supname= $this->getRequest()->getPost('new-sup-name');
+                $supphone= $this->getRequest()->getPost('new-sup-phone');
+                $supemail= $this->getRequest()->getPost('new-sup-mail');
+                $supcmp= $this->getRequest()->getPost('new-sup-cmp');
+                $supbranch= $this->getRequest()->getPost('new-sup-branch');
+                $sql = new Sql($dba);
+                $insert = $sql->insert('supervisor');
+
+                $config = $this->getServiceLocator()->get('Config');
+                $staticSalt = $config['static_salt'];
+                $pass = 'injaz';
+                $md = MD5($pass);
+                $passsault = $staticSalt.$md;
+
+                $newData = array(
+                    'super_name' => $supname,
+                    'phone' => $supphone,
+                    'e_mail' => $supemail,
+                    'Company_ID' => $supcmp,
+                    'branch' => $supbranch,
+                    'super_pass' => $pass,
+                    'super_salt' => $passsault,
+                );
+                $insert->values($newData);
+                $Query = $sql->getSqlStringForSqlObject($insert);
+                $statement = $dba->query($Query);
+                $statement->execute();
+            }
+            
+            $sql ="SELECT * FROM students, supervisor, companies "
+                    . "Where students.super_id=supervisor.supervisor_id "
+                    . "AND supervisor.Company_ID=companies.Company_ID "
+                    . "ORDER by Company_Name, super_name, Student_Name ASC";
+            $statement = $dba->query($sql, array(5));
+            $resultSet = new ResultSet;
+            $resultSet->initialize($statement);
+            
+            
+            $sql2 ="SELECT * FROM companies "
+                    . "ORDER BY Company_Name ASC";
+            $statement2 = $dba->query($sql2, array(5));
+            $resultSet2 = new ResultSet;
+            $resultSet2->initialize($statement2);
+            $resultSet2->buffer();
+            return new ViewModel(array(
+                'students' => $resultSet,
+                'companies' => $resultSet2
+            ));
+        }else{
+            return $this->redirect()->toRoute('login',
+            array('controller'=>'index',
+                'action' => 'login'));
+        }
+    }
+    
+    public function mentorsAction(){
+        date_default_timezone_set('Asia/Dubai');
+        $auth = new AuthenticationService();
+        $container = new Container('username');
+        $sm =$this->getServiceLocator();
+        $dba = $sm->get($container->adapter);
+        if ($auth->hasIdentity() && $container->type == 0){
+            $sql ="SELECT * FROM students, teacher "
+                    . "Where students.mentor_id=teacher.Teacher_id "
+                    . "ORDER by Teacher_FirstName, Teacher_LastName, Student_Name ASC";
+            $statement = $dba->query($sql, array(5));
+            $resultSet = new ResultSet;
+            $resultSet->initialize($statement);
+            return new ViewModel(array(
+                'students' => $resultSet
+            ));
         }else{
             return $this->redirect()->toRoute('login',
             array('controller'=>'index',

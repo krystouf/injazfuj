@@ -12,6 +12,17 @@ namespace admin;
 return array(
     'router' => array(
         'routes' => array(
+            'adminmentors' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route'    => '/admin_mentors',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'admin\Controller',
+                        'controller'    => 'Index',
+                        'action'        => 'mentors',
+                    ),
+                ),
+            ),
             'adminsupervisors' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
