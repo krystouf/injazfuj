@@ -8,7 +8,6 @@
  */
 
 namespace student\Controller;
-
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Db\Sql\Sql;
 use Zend\View\Model\ViewModel;
@@ -287,15 +286,25 @@ class IndexController extends AbstractActionController
      public function uploadAction()
     {   
          $step= 0;
+         
+        
     if($this->getRequest()->getPost('upload'))
         {
-            //   $auth = new AuthenticationService();
+      
+    //   $auth = new AuthenticationService();
            $container = new Container('username');
            $sm =$this->getServiceLocator();
            $dba = $sm->get($container->adapter);
            $username = $container->id;
+         
            $f_name=$this->getRequest()->getPost('file_name');
-            
+          
+         
+       //    $upload = new Zend_File_Transfer_Adapter_Http();
+     
+        //   $upload->setDestination('C:\work');
+           
+           /*
            $host = 'localhost';
             $usr = '';
             $pwd = '';
@@ -305,7 +314,7 @@ class IndexController extends AbstractActionController
             $ftp_path = $f_name;
  
             // connect to FTP server (port 21)
-            $conn_id = ftp_connect($host, 21) or die ("Cannot connect to host");
+            $conn_id = ftp_connect($host,80) or die ("Cannot connect to host");
 
             // send access parameters
             ftp_login($conn_id, $usr, $pwd) or die("Cannot login");
@@ -315,8 +324,8 @@ class IndexController extends AbstractActionController
 
             // perform file upload
             $upload = ftp_put($conn_id, $ftp_path, $local_file, FTP_ASCII);
-
-            echo $fileName ;
+*/
+         //   echo $fileName ;
             
                $sql = new Sql($dba);
                $insert = $sql->insert('projectfiles');
@@ -330,6 +339,7 @@ class IndexController extends AbstractActionController
                $statement->execute();  
                $step= 1;
         }
+
          return new ViewModel(array(
              'step'=> $step,
          ));
