@@ -1,4 +1,9 @@
-<?php echo $this->doctype(); ?>
+<?php 
+use Zend\Session\Container;
+
+$container = new Container('username');
+
+echo $this->doctype(); ?>
 
 <html lang="en">
     <head>
@@ -68,9 +73,13 @@
                 <li class="nbar-link">
                     <a href="<?php echo $this->url('adminstudents'); ?>">Students</a>
                 </li>
+                <?php 
+                if ($container->admin_type == 2) 
+                    { ?>
                 <li class="nbar-link">
                     <a href="<?php echo $this->url('adminwkp'); ?>">Work Placement</a>
                 </li>
+                <?php } ?>
                 <li class="nbar-link">
                     <a href="<?php echo $this->url('teacherLogout'); ?>">Logout</a>
                 </li>
