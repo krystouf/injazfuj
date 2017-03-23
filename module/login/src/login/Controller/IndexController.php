@@ -105,6 +105,14 @@ class IndexController extends AbstractActionController
                 "MD5(CONCAT('$staticSalt', super_salt))" // setCredentialTreatment(parametrized string) 'MD5(?)'
             );
         }else if ($table == "admin"){
+            $sql = "Select admin_type from admin where Admin_id='".$username."'";
+            $statement = $dba->query($sql, array(5));
+            $resultSet = new ResultSet;
+            $resultSet->initialize($statement);
+            $tid = 0;
+            foreach ($resultSet as $row){
+                $admin_type  = $row['admin_type'];
+            }
             $authAdapter = new AuthAdapter($dba,
                 $table, // there is a method setTableName to do the same
                 'Admin_id', // there is a method setIdentityColumn to do the same
@@ -181,6 +189,7 @@ class IndexController extends AbstractActionController
                               'action' => 'index'));
                     }else if ($table == "admin"){
                         $container->id = $username;
+                        $container->admin_type = $admin_type;
                         $container->type= 0;
                         $container->sub="";
                         $storage = $auth->getStorage();

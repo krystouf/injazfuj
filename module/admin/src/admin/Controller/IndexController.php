@@ -394,7 +394,7 @@ class IndexController extends AbstractActionController
         $container = new Container('username');
         $sm =$this->getServiceLocator();
         $dba = $sm->get($container->adapter);
-        if ($auth->hasIdentity() && $container->type == 0){
+        if ($auth->hasIdentity() && $container->type == 0 && $container->admin_type == 2){
             if($this->getRequest()->getPost('submit-wk-link')){
                 $count = (int) $this->getRequest()->getPost('stcount');
                 for ($i =1 ; $i <= $count; $i++){
@@ -470,7 +470,7 @@ class IndexController extends AbstractActionController
         $container = new Container('username');
         $sm =$this->getServiceLocator();
         $dba = $sm->get($container->adapter);
-        if ($auth->hasIdentity() && $container->type == 0){
+        if ($auth->hasIdentity() && $container->type == 0 && $container->admin_type == 2){
             if($this->getRequest()->getPost('add-cmp')){
                 $cmpname= $this->getRequest()->getPost('new-cmp-name');
                 if ($cmpname != "") {
@@ -506,7 +506,7 @@ class IndexController extends AbstractActionController
         $container = new Container('username');
         $sm =$this->getServiceLocator();
         $dba = $sm->get($container->adapter);
-        if ($auth->hasIdentity() && $container->type == 0){
+        if ($auth->hasIdentity() && $container->type == 0 && $container->admin_type == 2){
             if($this->getRequest()->getPost('new-sup-cmp')){
                 $supname= $this->getRequest()->getPost('new-sup-name');
                 $supphone= $this->getRequest()->getPost('new-sup-phone');
@@ -569,7 +569,7 @@ class IndexController extends AbstractActionController
         $container = new Container('username');
         $sm =$this->getServiceLocator();
         $dba = $sm->get($container->adapter);
-        if ($auth->hasIdentity() && $container->type == 0){
+        if ($auth->hasIdentity() && $container->type == 0 && $container->admin_type == 2){
             $sql ="SELECT * FROM students, teacher "
                     . "Where students.mentor_id=teacher.Teacher_id "
                     . "ORDER by Teacher_FirstName, Teacher_LastName, Student_Name ASC";
