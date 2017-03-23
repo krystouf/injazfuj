@@ -1,64 +1,60 @@
-<script>
-function startTime() {
-    var today = new Date();
-    var h = today.getHours();
-    var m = today.getMinutes();
-    var s = today.getSeconds();
-    m = checkTime(m);
-    s = checkTime(s);
-    document.getElementById('clock').innerHTML =
-    h + ":" + m + ":" + s;
-    var t = setTimeout(startTime, 500);
-}
-function checkTime(i) {
-    if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
-    return i;
-}
-</script>
-
-<div class="teacher-top">
-    <div class="teacher-tleft">
-        <h1 class="box-title">PROFILE</h1>
-        <div class="boxcontent">
-            <?php foreach ($this->teacher as $t) :
-                    echo 'Welcome '.$t['Teacher_FirstName'];
-            endforeach; ?>
-        </div>
-    </div>
-    <div class="teacher-tright">
-        <h1 class="box-title">DAILY SCHEDULE</h1>
-        <div class="boxcontent">
-            Under Construction 22
-        </div>
-    </div>
-</div>
-<div class="teacher-bottom">
-    <div class="teacher-bleft">
-        <h1 class="box-title">CHECK-IN</h1>
-        <div class="boxcontent">
-            <div class="check-in-title">
-                <br/>
-                    <?php
-                        echo date("l jS \of F Y");
-                    ?>
-                    <span id="clock"></span>
-                <h2>
-                    You are not checked-in for today's shift
-                </h2>
-                <div style="width: 50%; margin: auto;">
-                    <input value="Check-in" name="admin_log_but" type="submit" class="btn btn-primary btn-block btn-large" />
-                </div>
+<form method="post" onsubmit="return PassValid()" autocomplete="off">
+    <?php 
+     foreach ($this->Teachertinfo as $tinfo){ 
+    ?>
+    <div class="stlistpro">
+        <div class="stlistprotop">
+            <div class="stlistprotopname">
+                <?php  echo $tinfo['Teacher_FirstName'].' '.$tinfo['Teacher_LastName'] ?>
+            </div>
+            <div class="stlistprotophid">
+                <?php 
+                    if ($tinfo['Teacher_id'] == ""){
+                        echo "No ID";
+                    }else{
+                        echo $tinfo['Teacher_id'];
+                    }
+                ?>
             </div>
         </div>
-    </div>
-    <div class="teacher-bright">
-        <h1 class="box-title">MY SECTIONS</h1>
-        <div class="boxcontent" style="overflow-y: scroll;">
-            <?php 
-                foreach ($this->sections as $section) :
-                    echo 'Section '.$section['section'].'<br/>';
-                endforeach; 
-            ?>
+        <div class="stlistprobottom" style="width: 100%; height: 450px;">
+            <div class="stlistprobottomleft" style="width: 100%;">
+                <h3 style="text-align: center; text-transform: uppercase;">Enter your details</h3>
+                <input type="hidden" value="<?php echo $tinfo['Teacher_id'] ?>" name="tidprofile">
+                <label style="width: 30%;">Email</label><input style="width: 100%;" type="text" id="t-email" name="t-email" value="<?php echo $tinfo['t_e_mail'] ?>" placeholder="Enter your email" />
+                <br/><br/><label style="width: 30%;">Mobile</label><input style="width: 100%;" type="text" id="t-mobile" name="t-mobile" value="<?php echo $tinfo['t_phone'] ?>" placeholder="Enter your mobile number" />
+                <input autocomplete="off" type="text" value=" " style="display: none;" placeholder="Enter your email" />
+                <br/><br/><label style="width: 30%;">New Password</label><input style="width: 100%;" type="password" placeholder="Password" name="tpass" id="tpass" />
+                <br/><br/><label style="width: 30%;">Confirm Password</label><input style="width: 100%;" type="password" placeholder="Confirm Password" name="confirm-tpass" id="confirm-tpass" />
+            </div>
         </div>
-    </div>
-</div>
+    </div> 
+    <?php
+        }
+    ?>
+    <input style="width: 40%; margin-left: 30%;" type="submit" value="Save" name="save-tprofile">
+</form>
+
+<script>
+    function PassValid() {
+        var pass1 = document.getElementById("tpass").value;
+        var pass2 = document.getElementById("confirm-tpass").value;
+        
+        var stemail = document.getElementById("t-email").value;
+        var stmobile = document.getElementById("t-mobile").value;
+        var ok = true;
+        
+        if (temail === ""){
+            alert("Please write your Email");
+            ok = false;
+        }else if (tmobile === ""){
+            alert("Please write your Mobile");
+            ok = false;
+        }else if (pass1 !== pass2) {
+            alert("Please match Password and Confirmation");
+            ok = false;
+        }
+        
+        return ok;
+    }
+</script>

@@ -27,6 +27,7 @@ class IndexController extends AbstractActionController
         $container = new Container('username');
         $sm =$this->getServiceLocator();
         $dba = $sm->get($container->adapter);
+       
         if ($auth->hasIdentity() && $container->type == 2){
             if($this->getRequest()->getPost('save-stprofile')){
                 $stemail =$this->getRequest()->getPost('st-email');
@@ -38,7 +39,7 @@ class IndexController extends AbstractActionController
                 $staticSalt = $config['static_salt'];
                 $md = MD5($stpass);
                 $passsault = $staticSalt.$md;
-                                
+
                 if ($stpass != ""){
                     $data = array(
                         'semail' => $stemail,
@@ -290,8 +291,6 @@ class IndexController extends AbstractActionController
         
     if($this->getRequest()->getPost('upload'))
         {
-      
-    //   $auth = new AuthenticationService();
            $container = new Container('username');
            $sm =$this->getServiceLocator();
            $dba = $sm->get($container->adapter);

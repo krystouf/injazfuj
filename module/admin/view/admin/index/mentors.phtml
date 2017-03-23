@@ -1,0 +1,44 @@
+<div class="moh-left-nav" >
+    <a href="<?php echo $this->url('adminwkp'); ?>">Students</a><br>
+    <a href="<?php echo $this->url('adminwkplaces'); ?>">Work Places</a><br>
+    <a href="<?php echo $this->url('adminsupervisors'); ?>">Supervisors</a><br>
+    <a href="<?php echo $this->url('adminmentors'); ?>">Mentors</a><br>
+</div>
+
+<div  class="moh-content">
+    <?php
+        $stud = "";
+        foreach ($this->students as $student) :
+            if($stud != $student['Teacher_FirstName']){
+                if($stud != ""){
+                ?>
+                    </table>
+                    </article>
+                <?php
+                }
+                $stud = $student['Teacher_FirstName'];
+            ?>
+            <article class="companylist">
+                <p style="margin: 0px; font-weight: bold;"><?php echo $student['Teacher_FirstName'].' '.$student['Teacher_LastName'] ?></p>
+                <p style="margin: 0px;"><?php echo $student['t_phone'] ?></p>
+                <p style="margin: 0px;"><?php echo $student['t_e_mail'] ?></p><hr>
+                <table style="width: 95%; margin: auto;"  border="1" cellpadding="7">
+                    <tr>
+                        <th style="text-align: left;">Name</th>
+                        <th style="text-align: left;">Phone</th>
+                        <th style="text-align: left;">Email</th>
+                    </tr>
+            <?php
+            }
+            ?>
+                <tr>
+                    <td width="30%" ><?php echo $student['Student_Name']?></td>
+                    <td width="35%"><?php echo $student['smobile']?></td>
+                    <td width="35%" ><?php echo $student['semail']?></td>
+               </tr>  
+            <?php              
+        endforeach;
+    ?>
+        </table>
+    </article>
+</div>

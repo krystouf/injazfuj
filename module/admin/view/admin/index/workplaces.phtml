@@ -2,6 +2,7 @@
     <a href="<?php echo $this->url('adminwkp'); ?>">Students</a><br>
     <a href="<?php echo $this->url('adminwkplaces'); ?>">Work Places</a><br>
     <a href="<?php echo $this->url('adminsupervisors'); ?>">Supervisors</a><br>
+    <a href="<?php echo $this->url('adminmentors'); ?>">Mentors</a><br>
 </div>
 
 <div  class="moh-content">
@@ -19,6 +20,7 @@
             if($cmp != $company['Company_Name']){
                 if($cmp != ""){
                 ?>
+                    </table>
                     </article>
                 <?php
                 }
@@ -26,17 +28,25 @@
             ?>
                 <article class="companylist">
                     <p style="margin: 0px; font-weight: bold;"><?php echo $company['Company_Name'] ?></p><hr>
+                    <table style="width: 95%; margin: auto;"  border="1" cellpadding="7">
+                        <tr>
+                            <th style="text-align: left;">Name</th>
+                            <th style="text-align: left;">Phone</th>
+                            <th style="text-align: left;">Email</th>
+                            <th style="text-align: left;">Branch</th>
+                        </tr>
             <?php
             }
             ?>
-                    <content class="companylistcontent">
-                        <p><?php echo $company['super_name']?></p> 
-                        <p><?php echo $company['phone']?></p> 
-                        <p><?php echo $company['e_mail']?></p> 
-                        <p><?php echo $company['branch']?></p>
-                    </content>
+                        <tr>
+                            <td width="25%" ><?php echo $company['super_name']?></td>
+                            <td width="30%"><?php echo $company['phone']?></td>
+                            <td width="30%" ><?php echo $company['e_mail']?></td>
+                            <td width="15%" ><?php echo $company['branch']?></td>
+                       </tr>  
             <?php              
         endforeach;
     ?>
-                </article>
+        </table>
+    </article>
 </div>

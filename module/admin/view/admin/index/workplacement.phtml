@@ -2,6 +2,7 @@
     <a href="<?php echo $this->url('adminwkp'); ?>">Students</a><br>
     <a href="<?php echo $this->url('adminwkplaces'); ?>">Work Places</a><br>
     <a href="<?php echo $this->url('adminsupervisors'); ?>">Supervisors</a><br>
+    <a href="<?php echo $this->url('adminmentors'); ?>">Mentors</a><br>
 </div>
 
 <div  class="moh-content">
@@ -82,11 +83,11 @@
                                     foreach ($this->supervisors as $supervisor) :
                                         if ($supervisor['supervisor_id'] == $student['super_id']){
                                 ?>
-                                        <option selected="selected" value="<?php echo $supervisor['supervisor_id'] ?>"><?php echo $supervisor['super_name'] ?></option>
+                                        <option selected="selected" value="<?php echo $supervisor['supervisor_id'] ?>"><?php echo $supervisor['Company_Name'].' - '.$supervisor['branch'].' - '.$supervisor['super_name'] ?></option>
                                 <?php
                                         }else{
                                 ?>
-                                        <option value="<?php echo $supervisor['supervisor_id'] ?>"><?php echo $supervisor['super_name'] ?></option>
+                                        <option value="<?php echo $supervisor['supervisor_id'] ?>"><?php echo $supervisor['Company_Name'].' - '.$supervisor['branch'].' - '.$supervisor['super_name'] ?></option>
                                 <?php
                                         }
                                     endforeach; 

@@ -24,12 +24,60 @@ class IndexController extends AbstractActionController
     protected $SectionTable;
     
     public function indexAction(){
+        
+        
+        
         $auth = new AuthenticationService();
         $container = new Container('username');
+        $sm =$this->getServiceLocator();
+        $dba = $sm->get($container->adapter);
+        $username = $container->id;
+        
         if ($auth->hasIdentity() && $container->type == 1){
-            $sm =$this->getServiceLocator();
-            $dba = $sm->get($container->adapter);
+              if($this->getRequest()->getPost('save-tprofile')){
+                $temail =$this->getRequest()->getPost('t-email');
+                $tmobile =$this->getRequest()->getPost('t-mobile');
+                $tpass =$this->getRequest()->getPost('tpass');
+                $id =$this->getRequest()->getPost('tidprofile');
+                
+                $config = $this->getServiceLocator()->get('Config');
+                $staticSalt = $config['static_salt'];
+                $md = MD5($tpass);
+                $passsault = $staticSalt.$md;
+
+                if ($tpass != ""){
+                    $data = array(
+                        't_e_mail' => $temail,
+                        't_phone' => $tmobile,
+                        'Teacher_pass' => $tpass,
+                        'Teacher_salt' => $passsault,
+                    );
+                }else{
+                    $data = array(
+                        't_e_mail' => $temail,
+                        't_phone' => $tmobile,
+                    );
+                }
+                
+                $sql = new Sql($dba);
+                $update = $sql->update();
+                $update->table('teacher');
+                $update->set($data);
+                $update->where(array('Teacher_id' => $id));
+                $statement = $sql->prepareStatementForSqlObject($update);
+                $statement->execute();
+            }
             $username = $container->id;
+            $sql ="SELECT * from teacher Where Teacher_id=".$username;
+                
+            $statement = $dba->query($sql, array(5));
+            $resultSet = new ResultSet;
+            $resultSet->initialize($statement);
+            
+            return new ViewModel(array(
+                'Teachertinfo' => $resultSet
+            ));            
+            /*
             $sql ="SELECT section FROM teacher_section WHERE computer_teacher=".$username." OR wk_teacher=".$username." OR english_teacher=".$username." OR math_teacher=".$username." OR arabic_teacher=".$username." ORDER BY section ASC";
             $statement = $dba->query($sql, array(5));
             $resultSet = new ResultSet;
@@ -41,12 +89,16 @@ class IndexController extends AbstractActionController
             return new ViewModel(array(
                 'sections' => $resultSet,
                 'teacher' => $resultSet2,
-             ));   
+             ));
+            */
+            
         }else{
             return $this->redirect()->toRoute('login',
             array('controller'=>'index',
                 'action' => 'login'));
         }
+         
+         
     }
 
     public function getSectionTable(){

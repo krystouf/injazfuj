@@ -2,8 +2,69 @@
     <a href="<?php echo $this->url('adminwkp'); ?>">Students</a><br>
     <a href="<?php echo $this->url('adminwkplaces'); ?>">Work Places</a><br>
     <a href="<?php echo $this->url('adminsupervisors'); ?>">Supervisors</a><br>
+    <a href="<?php echo $this->url('adminmentors'); ?>">Mentors</a><br>
 </div>
 
 <div  class="moh-content">
-    
+    <form style="width:50%; margin: auto;" method="post">
+        <h3 style="margin-bottom: 0px;">Add a new Supervisor</h3>
+        <hr>
+        <label style="width: 30%;">Name</label>
+        <input style="width: 100%;" type="text" id="stidpicker" name="new-sup-name" value="<?php echo $this->stid ?>" placeholder="Add a new work place" />
+        <br/><br/><label style="width: 30%;">Mobile</label>
+        <input style="width: 100%;" type="text" id="stidpicker" name="new-sup-phone" value="<?php echo $this->stid ?>" placeholder="Add a new work place" />
+        <br/><br/><label style="width: 30%;">Email</label>
+        <input style="width: 100%;" type="text" id="stidpicker" name="new-sup-mail" value="<?php echo $this->stid ?>" placeholder="Add a new work place" />
+        <br/><br/><label style="width: 30%;">Company</label>
+        <select name="new-sup-cmp" style="width:100%; margin-top: 10px; height: 30px;">
+                    <option value="0">No Company</option>
+            <?php 
+                foreach ($this->companies as $company) :
+            ?>
+                    <option value="<?php echo $company['Company_ID'] ?>"><?php echo $company['Company_Name'] ?></option>
+            <?php
+                endforeach; 
+            ?>
+        </select>
+        <br/><br/><label style="width: 30%;">Branch</label>
+        <input style="width: 100%;" type="text" id="stidpicker" name="new-sup-branch" value="<?php echo $this->stid ?>" placeholder="Add a new work place" />
+        <input style="width: 20%; margin-left: 40%;" type="submit" value="Add" name="add-cmp">
+    </form>
+    <h3 style="margin-top: 100px; margin-bottom: 0px; margin-top: 10px;">Supervisors</h3>
+    <hr>
+    <?php
+        $stud = "";
+        foreach ($this->students as $student) :
+            if($stud != $student['super_name']){
+                if($stud != ""){
+                ?>
+                    </table>
+                    </article>
+                <?php
+                }
+                $stud = $student['super_name'];
+            ?>
+            <article class="companylist">
+                <p style="margin: 0px; font-weight: bold;"><?php echo $student['Company_Name'].' - '.$student['branch'].' - '.$student['super_name'] ?></p>
+                <p style="margin: 0px;"><?php echo $student['phone'] ?></p>
+                <p style="margin: 0px;"><?php echo $student['e_mail'] ?></p><hr>
+                <table style="width: 95%; margin: auto;"  border="1" cellpadding="7">
+                    <tr>
+                        <th style="text-align: left;">Name</th>
+                        <th style="text-align: left;">Phone</th>
+                        <th style="text-align: left;">Email</th>
+                    </tr>
+            <?php
+            }
+            ?>
+                <tr>
+                    <td width="30%" ><?php echo $student['Student_Name']?></td>
+                    <td width="35%"><?php echo $student['smobile']?></td>
+                    <td width="35%" ><?php echo $student['semail']?></td>
+               </tr>  
+            <?php              
+        endforeach;
+    ?>
+        </table>
+    </article>
 </div>
