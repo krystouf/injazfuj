@@ -112,6 +112,7 @@ class IndexController extends AbstractActionController
         $sm =$this->getServiceLocator();
         $dba = $sm->get($container->adapter);
         $username = $container->id;
+      
         $sql ="SELECT * from students,teacher,supervisor,companies Where sid=".$username."
                AND supervisor_id = super_id
                AND 	supervisor.Company_ID = companies.Company_ID

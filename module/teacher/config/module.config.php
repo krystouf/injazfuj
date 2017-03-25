@@ -23,6 +23,7 @@ return array(
                     ),
                 ),
             ),
+           // my new work
             'toverview' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
@@ -34,6 +35,19 @@ return array(
                     ),
                 ),
             ),
+            
+              'stwp' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route'    => '/stwp',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'teacher\Controller',
+                        'controller'    => 'Index',
+                        'action'        => 'stwp',
+                    ),
+                ),
+            ),
+             // end my new work
             'students' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(

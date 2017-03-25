@@ -42,12 +42,11 @@ class IndexController extends AbstractActionController
              ));
        
     }
+  
     
     
     public function indexAction(){
-        
-        
-        
+              
         $auth = new AuthenticationService();
         $container = new Container('username');
         $sm =$this->getServiceLocator();
