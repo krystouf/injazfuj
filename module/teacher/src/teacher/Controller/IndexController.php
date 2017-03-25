@@ -23,6 +23,27 @@ class IndexController extends AbstractActionController
 {
     protected $SectionTable;
     
+    public function toverviewAction(){
+         $auth = new AuthenticationService();
+        $container = new Container('username');
+        $sm =$this->getServiceLocator();
+        $dba = $sm->get($container->adapter);
+        $username = $container->id;
+            $sql ="SELECT * from students,teacher,supervisor,companies Where Teacher_id=".$username."
+                   AND supervisor_id = super_id
+                   AND 	supervisor.Company_ID = companies.Company_ID
+                   AND  Teacher_id = mentor_id";
+            $statement = $dba->query($sql, array(5));
+            $resultSet = new ResultSet;
+            $resultSet->initialize($statement);
+            $resultSet->buffer();
+            return new ViewModel(array(
+                'info' => $resultSet,
+             ));
+       
+    }
+    
+    
     public function indexAction(){
         
         
@@ -77,21 +98,7 @@ class IndexController extends AbstractActionController
             return new ViewModel(array(
                 'Teachertinfo' => $resultSet
             ));            
-            /*
-            $sql ="SELECT section FROM teacher_section WHERE computer_teacher=".$username." OR wk_teacher=".$username." OR english_teacher=".$username." OR math_teacher=".$username." OR arabic_teacher=".$username." ORDER BY section ASC";
-            $statement = $dba->query($sql, array(5));
-            $resultSet = new ResultSet;
-            $resultSet->initialize($statement);
-            $sql2 ="SELECT * from teacher Where Teacher_id=".$username;
-            $statement2 = $dba->query($sql2, array(5));
-            $resultSet2 = new ResultSet;
-            $resultSet2->initialize($statement2);
-            return new ViewModel(array(
-                'sections' => $resultSet,
-                'teacher' => $resultSet2,
-             ));
-            */
-            
+                   
         }else{
             return $this->redirect()->toRoute('login',
             array('controller'=>'index',
@@ -379,26 +386,7 @@ class IndexController extends AbstractActionController
                
                     $step=3;
             }
-/*
- * for save the comment of teacher step 4
- *
-       if($this->getRequest()->getPost('submit-week')){
-             
-                    $step=4;
-               
-                }
-            }
-            $sql ="SELECT * FROM students WHERE computer_teacher=".$username." OR wk_teacher=".$username." OR english_teacher=".$username." OR math_teacher=".$username." OR arabic_teacher=".$username." ORDER BY section ASC";
-            $statement = $dba->query($sql, array(5));
-            $resultSet = new ResultSet;
-            $resultSet->initialize($statement);
-            $sql2 ="SELECT * from teacher Where Teacher_id=".$username;
-            $statement2 = $dba->query($sql2, array(5));
-            $resultSet2 = new ResultSet;
-            $resultSet2->initialize($statement2);
 
- * 
- */
             return new ViewModel(array(
                 'Students' => $resultSet,
                 'Weeks'    => $resultSet2,
