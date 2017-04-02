@@ -23,8 +23,8 @@ class IndexController extends AbstractActionController
 {
     protected $SectionTable;
     
-    public function toverviewAction(){
-         $auth = new AuthenticationService();
+    public function stwpAction(){
+        $auth = new AuthenticationService();
         $container = new Container('username');
         $sm =$this->getServiceLocator();
         $dba = $sm->get($container->adapter);
@@ -37,6 +37,34 @@ class IndexController extends AbstractActionController
             $resultSet = new ResultSet;
             $resultSet->initialize($statement);
             $resultSet->buffer();
+            
+        
+            
+            return new ViewModel(array(
+                'info' => $resultSet,
+             ));
+       
+    }
+    
+    
+    
+    
+    
+    public function toverviewAction(){
+        $auth = new AuthenticationService();
+        $container = new Container('username');
+        $sm =$this->getServiceLocator();
+        $dba = $sm->get($container->adapter);
+        $username = $container->id;
+            $sql ="SELECT * from students,teacher,supervisor,companies Where Teacher_id=".$username."
+                   AND supervisor_id = super_id
+                   AND 	supervisor.Company_ID = companies.Company_ID
+                   AND  Teacher_id = mentor_id";
+            $statement = $dba->query($sql, array(5));
+            $resultSet = new ResultSet;
+            $resultSet->initialize($statement);
+            $resultSet->buffer();
+            
             return new ViewModel(array(
                 'info' => $resultSet,
              ));
