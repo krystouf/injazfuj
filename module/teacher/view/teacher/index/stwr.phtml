@@ -30,12 +30,10 @@
 
          </form>
 
-        <a href="<?php echo $this->url('stwp', array(), array('query' => array('sid' => $this->sid)));?>"> Work plan</a><br>
+        <a href="<?php echo $this->url('stwp', array(), array('query' => array('sid' => $this->sid)));?>"> Work plan </a> <br>
         <a href="<?php echo $this->url('stwr', array(), array('query' => array('sid' => $this->sid)));?>"> Weekly Reports</a><br>
-        <a href="#"> Evaluation Reports</a><br>
-        <a href="#"> Final Evaluation Report</a><br>
-        <a href="#"> Project file </a><br>
-
+        <a href="<?php echo $this->url('ster', array(), array('query' => array('sid' => $this->sid)));?>"> Evaluation Reports</a><br>
+        <a href="<?php echo $this->url('stfe', array(), array('query' => array('sid' => $this->sid)));?>"> Final Evaluation Report</a><br>
      </div>
 
  <div  class="moh-content">

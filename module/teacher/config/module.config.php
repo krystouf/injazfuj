@@ -47,6 +47,30 @@ return array(
                 ),
             ),
             
+            'ster' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route'    => '/ster',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'teacher\Controller',
+                        'controller'    => 'Index',
+                        'action'        => 'ster',
+                    ),
+                ),
+            ),
+            
+            'stfe' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route'    => '/stfe',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'teacher\Controller',
+                        'controller'    => 'Index',
+                        'action'        => 'stfe',
+                    ),
+                ),
+            ),
+            
             'stwp' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(

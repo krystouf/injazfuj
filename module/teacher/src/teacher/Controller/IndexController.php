@@ -23,74 +23,146 @@ class IndexController extends AbstractActionController
 {
     protected $SectionTable;
     
+    public function sterAction(){
+        $auth = new AuthenticationService();
+        $container = new Container('username');
+        if ($auth->hasIdentity() && $container->type == 1){
+            $auth = new AuthenticationService();
+            $container = new Container('username');
+            $sm =$this->getServiceLocator();
+            $dba = $sm->get($container->adapter);
+            $username = $container->id;
+            $sid = $this->params()->fromQuery('sid');
+
+            $sql ="SELECT * from students,teacher,supervisor,companies Where Teacher_id=".$username."
+                   AND supervisor_id = super_id
+                   AND 	supervisor.Company_ID = companies.Company_ID
+                   AND  Teacher_id = mentor_id";
+            $statement = $dba->query($sql, array(5));
+            $resultSet = new ResultSet;
+            $resultSet->initialize($statement);
+            $resultSet->buffer();
+
+
+            return new ViewModel(array(
+                'info' => $resultSet,
+                'sid' => $sid
+            ));
+        }else{
+            return $this->redirect()->toRoute('login',
+            array('controller'=>'index',
+                'action' => 'login'));
+        }
+    }
+    
+    public function stfeAction(){
+        $auth = new AuthenticationService();
+        $container = new Container('username');
+        if ($auth->hasIdentity() && $container->type == 1){
+            $auth = new AuthenticationService();
+            $container = new Container('username');
+            $sm =$this->getServiceLocator();
+            $dba = $sm->get($container->adapter);
+            $username = $container->id;
+            $sid = $this->params()->fromQuery('sid');
+
+            $sql ="SELECT * from students,teacher,supervisor,companies Where Teacher_id=".$username."
+                   AND supervisor_id = super_id
+                   AND 	supervisor.Company_ID = companies.Company_ID
+                   AND  Teacher_id = mentor_id";
+            $statement = $dba->query($sql, array(5));
+            $resultSet = new ResultSet;
+            $resultSet->initialize($statement);
+            $resultSet->buffer();
+
+
+            return new ViewModel(array(
+                'info' => $resultSet,
+                'sid' => $sid
+             ));
+        }else{
+            return $this->redirect()->toRoute('login',
+            array('controller'=>'index',
+                'action' => 'login'));
+        }
+    }
+    
     public function stwrAction(){
         $auth = new AuthenticationService();
         $container = new Container('username');
-        $sm =$this->getServiceLocator();
-        $dba = $sm->get($container->adapter);
-        $username = $container->id;
-        $sid = $this->params()->fromQuery('sid');
-        
-        $sql ="SELECT * from students,teacher,supervisor,companies Where Teacher_id=".$username."
-               AND supervisor_id = super_id
-               AND 	supervisor.Company_ID = companies.Company_ID
-               AND  Teacher_id = mentor_id";
-        $statement = $dba->query($sql, array(5));
-        $resultSet = new ResultSet;
-        $resultSet->initialize($statement);
-        $resultSet->buffer();
-        
-        $found=0;
-        $tid='';
-        $tp='';
-        $ns='';
-        $cs='';
-        $sc='';
-        $mc='';
-        $weekid = $this->params()->fromQuery('wid');
+        if ($auth->hasIdentity() && $container->type == 1){
+            $auth = new AuthenticationService();
+            $container = new Container('username');
+            $sm =$this->getServiceLocator();
+            $dba = $sm->get($container->adapter);
+            $username = $container->id;
+            $sid = $this->params()->fromQuery('sid');
 
-        if  ($weekid >=1 && $weekid<=8){  
-            $weekid = $weekid;
-            $step=2;
-        }else{   
-            $weekid = 0;
-            $step  = 1;
+            $sql ="SELECT * from students,teacher,supervisor,companies Where Teacher_id=".$username."
+                   AND supervisor_id = super_id
+                   AND 	supervisor.Company_ID = companies.Company_ID
+                   AND  Teacher_id = mentor_id";
+            $statement = $dba->query($sql, array(5));
+            $resultSet = new ResultSet;
+            $resultSet->initialize($statement);
+            $resultSet->buffer();
+
+            $found=0;
+            $tid='';
+            $tp='';
+            $ns='';
+            $cs='';
+            $sc='';
+            $mc='';
+            $weekid = $this->params()->fromQuery('wid');
+
+            if  ($weekid >=1 && $weekid<=8){  
+                $weekid = $weekid;
+                $step=2;
+            }else{   
+                $weekid = 0;
+                $step  = 1;
+            }
+
+            $sql2 ="SELECT * from task  Where sid=$sid
+                   AND week_id =$weekid";
+            $statement2 = $dba->query($sql2, array(5));
+            $resultSet2 = new ResultSet;         
+            $resultSet2->initialize($statement2);
+            $resultSet2->buffer();
+
+            foreach ($resultSet2 as $task):
+                $tid=$task['task_id'];
+                $tp= $task['task_performed'];
+                $ns= $task['new_skills'];
+                $cs= $task['college_skills'];
+                $sc= $task['student_comment'];
+                $mc= $task['mentor_comment'];
+                $found=1;
+            endforeach;
+
+            if($this->getRequest()->getPost('submit-week')){
+                $this->updateweek($tid);
+                $step=4;
+            }
+
+            return new ViewModel(array(
+                'info' => $resultSet,
+                'sid' => $sid,
+                'weekid' =>  $weekid,
+                'step' =>  $step,
+                'tp'=> $tp,
+                'ns'=> $ns,
+                'cs'=> $cs,
+                'sc'=> $sc,
+                'mc' => $mc,
+                'found'=> $found
+             ));
+        }else{
+            return $this->redirect()->toRoute('login',
+            array('controller'=>'index',
+                'action' => 'login'));
         }
-
-        $sql2 ="SELECT * from task  Where sid=$sid
-               AND week_id =$weekid";
-        $statement2 = $dba->query($sql2, array(5));
-        $resultSet2 = new ResultSet;         
-        $resultSet2->initialize($statement2);
-        $resultSet2->buffer();
-
-        foreach ($resultSet2 as $task):
-            $tid=$task['task_id'];
-            $tp= $task['task_performed'];
-            $ns= $task['new_skills'];
-            $cs= $task['college_skills'];
-            $sc= $task['student_comment'];
-            $mc= $task['mentor_comment'];
-            $found=1;
-        endforeach;
-
-        if($this->getRequest()->getPost('submit-week')){
-            $this->updateweek($tid);
-            $step=4;
-        }
-
-        return new ViewModel(array(
-            'info' => $resultSet,
-            'sid' => $sid,
-            'weekid' =>  $weekid,
-            'step' =>  $step,
-            'tp'=> $tp,
-            'ns'=> $ns,
-            'cs'=> $cs,
-            'sc'=> $sc,
-            'mc' => $mc,
-            'found'=> $found
-         ));
     }
     
     public function updateweek ($taskid)  
@@ -121,39 +193,14 @@ class IndexController extends AbstractActionController
     public function stwpAction(){
         $auth = new AuthenticationService();
         $container = new Container('username');
-        $sm =$this->getServiceLocator();
-        $dba = $sm->get($container->adapter);
-        $username = $container->id;
-        $sid = $this->params()->fromQuery('sid');
-        
-        $sql ="SELECT * from students,teacher,supervisor,companies Where Teacher_id=".$username."
-               AND supervisor_id = super_id
-               AND 	supervisor.Company_ID = companies.Company_ID
-               AND  Teacher_id = mentor_id";
-        $statement = $dba->query($sql, array(5));
-        $resultSet = new ResultSet;
-        $resultSet->initialize($statement);
-        $resultSet->buffer();
-        
-        $sql2 ="SELECT * from workplan  Where sid=".$sid;
-        $statement2 = $dba->query($sql2, array(5));
-        $resultSet2 = new ResultSet;
-        $resultSet2->initialize($statement2);
-        $resultSet2->buffer();
+        if ($auth->hasIdentity() && $container->type == 1){
+            $auth = new AuthenticationService();
+            $container = new Container('username');
+            $sm =$this->getServiceLocator();
+            $dba = $sm->get($container->adapter);
+            $username = $container->id;
+            $sid = $this->params()->fromQuery('sid');
 
-        return new ViewModel(array(
-            'info' => $resultSet,
-            'sid' => $sid,
-            'stwkplan' => $resultSet2
-         ));
-    }
-    
-    public function toverviewAction(){
-        $auth = new AuthenticationService();
-        $container = new Container('username');
-        $sm =$this->getServiceLocator();
-        $dba = $sm->get($container->adapter);
-        $username = $container->id;
             $sql ="SELECT * from students,teacher,supervisor,companies Where Teacher_id=".$username."
                    AND supervisor_id = super_id
                    AND 	supervisor.Company_ID = companies.Company_ID
@@ -162,17 +209,54 @@ class IndexController extends AbstractActionController
             $resultSet = new ResultSet;
             $resultSet->initialize($statement);
             $resultSet->buffer();
-            
+
+            $sql2 ="SELECT * from workplan  Where sid=".$sid;
+            $statement2 = $dba->query($sql2, array(5));
+            $resultSet2 = new ResultSet;
+            $resultSet2->initialize($statement2);
+            $resultSet2->buffer();
+
+            return new ViewModel(array(
+                'info' => $resultSet,
+                'sid' => $sid,
+                'stwkplan' => $resultSet2
+             ));
+        }else{
+            return $this->redirect()->toRoute('login',
+            array('controller'=>'index',
+                'action' => 'login'));
+        }
+    }
+    
+    public function toverviewAction(){
+        $auth = new AuthenticationService();
+        $container = new Container('username');
+        if ($auth->hasIdentity() && $container->type == 1){
+            $auth = new AuthenticationService();
+            $container = new Container('username');
+            $sm =$this->getServiceLocator();
+            $dba = $sm->get($container->adapter);
+            $username = $container->id;
+            $sql ="SELECT * from students,teacher,supervisor,companies Where Teacher_id=".$username."
+                       AND supervisor_id = super_id
+                       AND 	supervisor.Company_ID = companies.Company_ID
+                       AND  Teacher_id = mentor_id";
+            $statement = $dba->query($sql, array(5));
+            $resultSet = new ResultSet;
+            $resultSet->initialize($statement);
+            $resultSet->buffer();
+
             return new ViewModel(array(
                 'info' => $resultSet,
              ));
-       
+        }else{
+            return $this->redirect()->toRoute('login',
+            array('controller'=>'index',
+                'action' => 'login'));
+        }
     }
-  
-    
-    
+      
     public function indexAction(){
-              
         $auth = new AuthenticationService();
         $container = new Container('username');
         $sm =$this->getServiceLocator();
@@ -228,9 +312,7 @@ class IndexController extends AbstractActionController
             return $this->redirect()->toRoute('login',
             array('controller'=>'index',
                 'action' => 'login'));
-        }
-         
-         
+        }         
     }
 
     public function getSectionTable(){
