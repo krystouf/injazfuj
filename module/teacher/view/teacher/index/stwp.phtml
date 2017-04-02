@@ -1,43 +1,75 @@
+<?php
+    $stname="";
+?>
+<div class="moh-left-nav" >
 
-   <div class="moh-left-nav" >
-           
-            <a href="<?php echo $this->url('toverview') ?>"> Over View</a><br>
-            <hr width="90%">
-            <form method="post" style="width: 90%; margin: auto;">
+         <a href="<?php echo $this->url('toverview') ?>"> Overview</a><br>
+         <hr width="90%">
+         <form method="post" style="width: 90%; margin: auto;">
 
-             <!-- Students names-->
-             <select id="students" name="student" style="width:100%;">
-                <?php 
-                    foreach ($this->info as $student) :
-                ?>
-                <option  value="<?php echo $student['sid'] ?>"> <?php echo $student['Student_Name'] ?> - </option>
+          <!-- Students names-->
+          <select id="studentslist" name="studentslist" onchange="changeStudent()" style="width:100%;">
+             <?php 
+                 foreach ($this->info as $student) :
+                     if ($this->sid == $student['sid']){
+                         $stname = $student['Student_Name'];
+             ?>
+
+             <option selected="selected" value="<?php echo $student['sid'] ?>"> <?php echo $student['Student_Name'] ?> - </option>
+             <?php
+                     }else{
+             ?>
+             <option value="<?php echo $student['sid'] ?>"> <?php echo $student['Student_Name'] ?> - </option>
+             <?php
+                     }
+                 endforeach; 
+
+             ?>
+         </select>
+         <br>
+
+         </form>
+
+        <a href="<?php echo $this->url('stwp', array(), array('query' => array('sid' => $this->sid)));?>"> Work plan</a><br>
+        <a href="<?php echo $this->url('stwr', array(), array('query' => array('sid' => $this->sid)));?>"> Weekly Reports</a><br>
+        <a href="#"> Evaluation Reports</a><br>
+        <a href="#"> Final Evaluation Report</a><br>
+        <a href="#"> Project file </a><br>
+
+     </div>
+
+ <div  class="moh-content">
+        <center><h3><?php echo $stname; ?></h3></center>
+        <center><h3>Work plan</h3></center>
+        
+        <table border="1" style="width:100%" cellpadding="7">
+            <tr>
+                <th>Week</th>
+                <th>Department</th>
+                <th>Work Assigned</th>
+                <th> Supervisor Department  </th>
+
+            </tr>
                 <?php
-                    endforeach; 
-                 
-                ?>
-            </select>
-            <br>
-  
-            </form>
-          
-          <a href="<?php // echo $this->url('stwp') ?>"> Work plan</a> <br>
-            <a href="#"> Weekly Report</a><br>
-            <a href="#"> Evaluation Reports</a><br>
-            <a href="#"> Final Evaluation Report</a><br>
-            <a href="#"> Project file </a><br>
-           
-        </div>
-    
-        <div  class="moh-content">
-                 
-            <center><h3> Student Work plan </h3></center>
-            
-                
-             
+                foreach ($this->stwkplan as $workplan){
 
-              
-       
-            
-            
-        </div>
+                ?>
+                <tr>
+
+                     <td width="5%" ><?php echo $workplan['week'] ?></td>
+                     <td width="25%"><?php echo $workplan['department'] ?></td>
+                     <td width="50%" > <textarea class="mohtext"><?php echo $workplan['work_assigned'] ?></textarea></td>
+                     <td width="20%" ><?php echo $workplan['s_department'] ?></td>
+                </tr>   
+                <?php
+                    } //foreach
+                ?>
+        </table>
+ </div>
  
+<script>
+    function changeStudent() {
+       var stlist = document.getElementById('studentslist');
+       window.location.replace("./stwp?sid="+stlist.value);
+    }
+</script>

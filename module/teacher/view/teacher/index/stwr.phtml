@@ -1,0 +1,134 @@
+<?php
+    $stname="";
+?>
+<div class="moh-left-nav" >
+
+         <a href="<?php echo $this->url('toverview') ?>"> Overview</a><br>
+         <hr width="90%">
+         <form method="post" style="width: 90%; margin: auto;">
+
+          <!-- Students names-->
+          <select id="studentslist" name="studentslist" onchange="changeStudent()" style="width:100%;">
+             <?php 
+                 foreach ($this->info as $student) :
+                     if ($this->sid == $student['sid']){
+                         $stname = $student['Student_Name'];
+             ?>
+
+             <option selected="selected" value="<?php echo $student['sid'] ?>"> <?php echo $student['Student_Name'] ?> - </option>
+             <?php
+                     }else{
+             ?>
+             <option value="<?php echo $student['sid'] ?>"> <?php echo $student['Student_Name'] ?> - </option>
+             <?php
+                     }
+                 endforeach; 
+
+             ?>
+         </select>
+         <br>
+
+         </form>
+
+        <a href="<?php echo $this->url('stwp', array(), array('query' => array('sid' => $this->sid)));?>"> Work plan</a><br>
+        <a href="<?php echo $this->url('stwr', array(), array('query' => array('sid' => $this->sid)));?>"> Weekly Reports</a><br>
+        <a href="#"> Evaluation Reports</a><br>
+        <a href="#"> Final Evaluation Report</a><br>
+        <a href="#"> Project file </a><br>
+
+     </div>
+
+ <div  class="moh-content">
+        <center><h3><?php echo $stname; ?></h3></center>
+        <center><h3>Weekly reports</h3></center>
+                <div class="sttabs">
+            <ul class="sttab-links">
+                 <?php 
+                       
+                  for ($i=1 ;$i<=8 ;$i++) 
+                  {   
+                    ?>
+
+                    <li >      
+                        <a href="<?php echo $this->url('stwr',array(), array('query' => array('sid' => $this->sid, 'wid' => $i ) ));?>">
+                            Week <?php echo $i ; ?></a></li>
+                  <?php } ?>     
+                   
+             </ul>
+        </div>
+        
+            
+        <?php
+
+            if ($this->weekid != "0"  && $this->step =="2") {
+                
+                if ($this->found=="0") {
+                ?>
+                 
+                <div> <!-- weekly detail --> 
+                    <hr>
+                    Weekly Report : <?php echo $this->weekid; ?>
+                    <hr>
+                    <form method="post" style="width: 100%; margin: auto;">
+                
+                    Tasks Performed: <br> <br>
+                    <textarea disabled name="txt_task_performed" ></textarea><hr>
+            
+                    New Skills Learned: <br><br>   
+                    <textarea disabled name="txt_new_skills" ></textarea><hr>
+            
+                    Skills you learned at college and applied during the training period: <br><br>
+                    <textarea disabled name="txt_college_skills" ></textarea><hr>
+            
+                 
+                    Comments <br><br>
+                    <textarea disabled name="txt_student_comment" ></textarea>
+            
+                    <input type="submit" value="Submit" name="submit-week">
+                   </form>
+            
+                </div> <!-- end  of weekly detail --> 
+                                
+        <?php 
+                } 
+             else if($this->found=="1") {
+                      
+                 ?>
+                  <div> <!-- weekly detail --> 
+                   <hr>
+                   Weekly Report : <?php echo $this->weekid; ?>
+                    <hr>
+                   <form method="post" style="width: 100%; margin: auto;">
+                
+                    Tasks Performed: <br><br>
+                      <textarea name="txt_task_performed" ><?php echo $this->tp; ?> </textarea><hr>
+            
+                    New Skills Learned: <br><br>   
+                     <textarea name="txt_new_skills" ><?php echo $this->ns; ?> </textarea><hr>
+            
+                    Skills you learned at college and applied during the training period: <br><br>
+                    <textarea name="txt_college_skills" ><?php echo $this->cs; ?> </textarea><hr>
+            
+                 
+                    Comments <br><br>
+                    <textarea name="txt_student_comment" > <?php echo $this->sc; ?> </textarea>
+            
+                    <input type="submit" value="Submit" name="submit-week">
+                   </form>
+            
+                </div> <!-- end  of weekly detail --> 
+              <?php  
+             } 
+            }              
+               if ( $this->step =="4") {
+                  echo 'update week data successfully ';
+              }
+        ?> 
+</div>
+
+<script>
+    function changeStudent() {
+       var stlist = document.getElementById('studentslist');
+       window.location.replace("./stwr?sid="+stlist.value);
+    }
+</script>

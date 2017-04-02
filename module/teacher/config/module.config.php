@@ -35,8 +35,19 @@ return array(
                     ),
                 ),
             ),
+            'stwr' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route'    => '/stwr',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'teacher\Controller',
+                        'controller'    => 'Index',
+                        'action'        => 'stwr',
+                    ),
+                ),
+            ),
             
-              'stwp' => array(
+            'stwp' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
                     'route'    => '/stwp',
