@@ -70,21 +70,19 @@
                     Weekly Report : <?php echo $this->weekid; ?>
                     <hr>
                     <form method="post" style="width: 100%; margin: auto;">
-                
-                    Tasks Performed: <br> <br>
-                    <textarea disabled name="txt_task_performed" ></textarea><hr>
-            
-                    New Skills Learned: <br><br>   
-                    <textarea disabled name="txt_new_skills" ></textarea><hr>
-            
-                    Skills you learned at college and applied during the training period: <br><br>
-                    <textarea disabled name="txt_college_skills" ></textarea><hr>
-            
-                 
-                    Comments <br><br>
-                    <textarea disabled name="txt_student_comment" ></textarea>
-            
-                    <input type="submit" value="Submit" name="submit-week">
+                        Tasks Performed: <br> <br>
+                        <textarea disabled="true" name="txt_task_performed" ></textarea><hr>
+
+                        New Skills Learned: <br><br>   
+                        <textarea disabled="true" name="txt_new_skills" ></textarea><hr>
+
+                        Skills you learned at college and applied during the training period: <br><br>
+                        <textarea disabled="true" name="txt_college_skills" ></textarea><hr>
+
+                        Comments <br><br>
+                        <textarea disabled="true" name="txt_student_comment" ></textarea>
+
+                        <input type="submit" value="Submit" name="submit-week">
                    </form>
             
                 </div> <!-- end  of weekly detail --> 
@@ -101,17 +99,19 @@
                    <form method="post" style="width: 100%; margin: auto;">
                 
                     Tasks Performed: <br><br>
-                      <textarea name="txt_task_performed" ><?php echo $this->tp; ?> </textarea><hr>
+                      <?php echo $this->tp; ?> <hr>
             
                     New Skills Learned: <br><br>   
-                     <textarea name="txt_new_skills" ><?php echo $this->ns; ?> </textarea><hr>
+                     <?php echo $this->ns; ?> <hr>
             
                     Skills you learned at college and applied during the training period: <br><br>
-                    <textarea name="txt_college_skills" ><?php echo $this->cs; ?> </textarea><hr>
-            
+                    <?php echo $this->cs; ?><hr>
                  
                     Comments <br><br>
-                    <textarea name="txt_student_comment" > <?php echo $this->sc; ?> </textarea>
+                    <?php echo $this->sc; ?><hr>
+                    
+                    Mentor's Comments <br><br>
+                    <textarea name="txt_mentor_comment" > <?php echo $this->mc; ?> </textarea>
             
                     <input type="submit" value="Submit" name="submit-week">
                    </form>

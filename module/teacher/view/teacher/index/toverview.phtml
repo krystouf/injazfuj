@@ -35,11 +35,10 @@
         <center><h3> Overview </h3></center>
         <table border="1" style="width:100%" cellpadding="7">
             <tr>
-                <th>Sr</th>
                 <th> Student ID          </th>
                 <th> Student Name        </th>
                 <th> Student Mobile      </th>
-           <!--     <th> Student Email       </th>  -->
+           <th> Student Email       </th>
                 <th> Employer            </th>
                 <th> Supervisor Name     </th>
                 <th> Supervisor Mobile   </th>
@@ -54,15 +53,14 @@
             ?>
             <tr>
 
-                 <td width="5%" > <?php echo  ++$conut ?></td>
-                 <td width="25%"> <?php echo $student['Student_id'] ?></td>
-                 <td width="50%"> <?php echo $student['Student_Name'] ?></td>
-                 <td width="50%"> <?php echo $student['smobile'] ?></td>
-
-                 <td width="50%"> <?php echo $student['Company_Name'] ?></td>
-                 <td width="50%"> <?php echo $student['super_name'] ?></td>
-                 <td width="50%"> <?php echo $student['phone'] ?></td>
-                 <td width="50%"> <?php echo $student['e_mail'] ?></td>
+                 <td> <?php echo $student['Student_id'] ?></td>
+                 <td> <?php echo $student['Student_Name'] ?></td>
+                 <td> <?php echo $student['smobile'] ?></td>
+                 <td> <?php echo $student['semail'] ?></td>
+                 <td> <?php echo $student['Company_Name'] ?></td>
+                 <td> <?php echo $student['super_name'] ?></td>
+                 <td> <?php echo $student['phone'] ?></td>
+                 <td> <?php echo $student['e_mail'] ?></td>
             </tr>   
         <?php
             } //foreach

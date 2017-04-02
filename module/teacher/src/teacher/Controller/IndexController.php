@@ -100,15 +100,10 @@ class IndexController extends AbstractActionController
         $container = new Container('username');
         $sm =$this->getServiceLocator();
         $dba = $sm->get($container->adapter);
-        if ($auth->hasIdentity() && $container->type == 2){
-            //  echo 'taskid ' .$taskid;
+        if ($auth->hasIdentity() && $container->type == 1){
             $data = array(
-            'task_performed'  => $this->getRequest()->getPost('txt_task_performed'),
-            'new_skills'  => $this->getRequest()->getPost('txt_new_skills'),
-            'college_skills'  => $this->getRequest()->getPost('txt_college_skills'),
-            'student_comment'  => $this->getRequest()->getPost('txt_student_comment')               
+                'mentor_comment'  => $this->getRequest()->getPost('txt_mentor_comment')               
             );
-            //   $username = $container->id;
             $sql = new Sql($dba);
             $update = $sql->update();
             $update->table('task');
