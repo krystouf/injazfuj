@@ -35,7 +35,20 @@
 <div  class="moh-content">
     <center><h3><?php echo $stname; ?></h3></center>
     <center><h3>Final evaluation</h3></center>
+        <?php
+    if ( $this->step == 2) {
+        echo 'Insert evaluation data successfull ';
+    }
+
+     if ( $this->step == 3) {
+        echo 'update evaluation data successfull ';
+    }
+    ?>
+
     <form method="post" style="width: 100%; margin: auto;">
+                <?php
+        if ($this->count == 0){
+        ?>
         <table border="1" style="width:100%" cellpadding="7">
             <tr>
                 <th>Question</th>
@@ -119,12 +132,403 @@
                 Additional comments (تعليقات أخرى): <textarea name="txt_comments" ></textarea>
                 </td>
             </tr>
+        </table>
+                <?php
+        }else{
+        ?>
+        <table border="1" style="width:100%" cellpadding="7">
+            <tr>
+                <th>Question</th>
+                <th>Outstanding</th>
+                <th>Significant</th>
+                <th>Satisfactory</th>
+                <th>Minimal</th>
+                <th>Bellow</th>
+            </tr>
+                <?php foreach ($this->review as $rev) : ?>
+            <tr>
+                <?php
+                if ($rev['Q1'] == 5){
+                ?>
+                <td width="50%">Attendance & punctuality</td>
+                <td width="10%" ><input type="radio" value="5" name="q1" checked="checked"></td>
+                <td width="10%" ><input type="radio" value="4" name="q1"></td>                   
+                <td width="10%" ><input type="radio" value="3" name="q1"></td>
+                <td width="10%" ><input type="radio" value="2" name="q1"></td>                   
+                <td width="10%" ><input type="radio" value="1" name="q1"></td>
+                <?php }
+                elseif ($rev['Q1'] == 4){
+                ?>
+                <td width="50%">Attendance & punctuality</td>
+                <td width="10%" ><input type="radio" value="5" name="q1"></td>
+                <td width="10%" ><input type="radio" value="4" name="q1" checked="checked"></td>                   
+                <td width="10%" ><input type="radio" value="3" name="q1"></td>
+                <td width="10%" ><input type="radio" value="2" name="q1"></td>                   
+                <td width="10%" ><input type="radio" value="1" name="q1"></td>
+                <?php }
+                elseif ($rev['Q1'] == 3){
+                ?>
+                <td width="50%">Attendance & punctuality</td>
+                <td width="10%" ><input type="radio" value="5" name="q1"></td>
+                <td width="10%" ><input type="radio" value="4" name="q1"></td>                   
+                <td width="10%" ><input type="radio" value="3" name="q1" checked="checked"></td>
+                <td width="10%" ><input type="radio" value="2" name="q1"></td>                   
+                <td width="10%" ><input type="radio" value="1" name="q1"></td>
+                <?php }
+                elseif ($rev['Q1'] == 2){
+                ?>
+                <td width="50%">Attendance & punctuality</td>
+                <td width="10%" ><input type="radio" value="5" name="q1"></td>
+                <td width="10%" ><input type="radio" value="4" name="q1"></td>                   
+                <td width="10%" ><input type="radio" value="3" name="q1"></td>
+                <td width="10%" ><input type="radio" value="2" name="q1" checked="checked"></td>                   
+                <td width="10%" ><input type="radio" value="1" name="q1"></td>
+                <?php }
+                else{
+                ?>
+                <td width="50%">Attendance & punctuality</td>
+                <td width="10%" ><input type="radio" value="5" name="q1"></td>
+                <td width="10%" ><input type="radio" value="4" name="q1"></td>                   
+                <td width="10%" ><input type="radio" value="3" name="q1"></td>
+                <td width="10%" ><input type="radio" value="2" name="q1"></td>                   
+                <td width="10%" ><input type="radio" value="1" name="q1" checked="checked"></td>
+                <?php
+                }
+                ?>
+            </tr> 
+            <tr>
+               <?php
+                if ($rev['Q2'] == 5){
+                ?>
+                <td width="50%">Organized & well prepared</td>
+                <td width="10%" ><input type="radio" value="5" name="q2" checked="checked"></td>
+                <td width="10%" ><input type="radio" value="4" name="q2"></td>                   
+                <td width="10%" ><input type="radio" value="3" name="q2"></td>
+                <td width="10%" ><input type="radio" value="2" name="q2"></td>                   
+                <td width="10%" ><input type="radio" value="1" name="q2"></td>
+                <?php }
+                elseif ($rev['Q2'] == 4){
+                ?>
+                <td width="50%">Organized & well prepared</td>
+                <td width="10%" ><input type="radio" value="5" name="q2"></td>
+                <td width="10%" ><input type="radio" value="4" name="q2" checked="checked"></td>                   
+                <td width="10%" ><input type="radio" value="3" name="q2"></td>
+                <td width="10%" ><input type="radio" value="2" name="q2"></td>                   
+                <td width="10%" ><input type="radio" value="1" name="q2"></td>
+                <?php }
+                elseif ($rev['Q2'] == 3){
+                ?>
+                <td width="50%">Organized & well prepared</td>
+                <td width="10%" ><input type="radio" value="5" name="q2"></td>
+                <td width="10%" ><input type="radio" value="4" name="q2"></td>                   
+                <td width="10%" ><input type="radio" value="3" name="q2" checked="checked"></td>
+                <td width="10%" ><input type="radio" value="2" name="q2"></td>                   
+                <td width="10%" ><input type="radio" value="1" name="q2"></td>
+                <?php }
+                elseif ($rev['Q2'] == 2){
+                ?>
+                <td width="50%">Organized & well prepared</td>
+                <td width="10%" ><input type="radio" value="5" name="q2"></td>
+                <td width="10%" ><input type="radio" value="4" name="q2"></td>                   
+                <td width="10%" ><input type="radio" value="3" name="q2"></td>
+                <td width="10%" ><input type="radio" value="2" name="q2" checked="checked"></td>                   
+                <td width="10%" ><input type="radio" value="1" name="q2"></td>
+                <?php }
+                else{
+                ?>
+                <td width="50%">Organized & well prepared</td>
+                <td width="10%" ><input type="radio" value="5" name="q2"></td>
+                <td width="10%" ><input type="radio" value="4" name="q2"></td>                   
+                <td width="10%" ><input type="radio" value="3" name="q2"></td>
+                <td width="10%" ><input type="radio" value="2" name="q2"></td>                   
+                <td width="10%" ><input type="radio" value="1" name="q2" checked="checked"></td>
+                <?php
+                }
+                ?>
+            </tr>
+            
+            <tr>
+               <?php
+                if ($rev['Q3'] == 5){
+                ?>
+
+                <td width="50%">Works independently & Shows initiative</td>
+                <td width="10%" ><input type="radio" value="5" name="q3" checked="checked"></td>
+                <td width="10%" ><input type="radio" value="4" name="q3"></td>                   
+                <td width="10%" ><input type="radio" value="3" name="q3"></td>
+                <td width="10%" ><input type="radio" value="2" name="q3"></td>                   
+                <td width="10%" ><input type="radio" value="1" name="q3"></td>
+                <?php }
+                elseif ($rev['Q3'] == 4){
+                ?>
+
+                <td width="50%">Works independently & Shows initiative</td>
+                <td width="10%" ><input type="radio" value="5" name="q3"></td>
+                <td width="10%" ><input type="radio" value="4" name="q3" checked="checked"></td>                   
+                <td width="10%" ><input type="radio" value="3" name="q3"></td>
+                <td width="10%" ><input type="radio" value="2" name="q3"></td>                   
+                <td width="10%" ><input type="radio" value="1" name="q3"></td>
+                <?php }
+                elseif ($rev['Q3'] == 3){
+                ?>
+
+                <td width="50%">Works independently & Shows initiative</td>
+                <td width="10%" ><input type="radio" value="5" name="q3"></td>
+                <td width="10%" ><input type="radio" value="4" name="q3"></td>                   
+                <td width="10%" ><input type="radio" value="3" name="q3" checked="checked"></td>
+                <td width="10%" ><input type="radio" value="2" name="q3"></td>                   
+                <td width="10%" ><input type="radio" value="1" name="q3"></td>
+                <?php }
+                elseif ($rev['Q3'] == 2){
+                ?>
+
+                <td width="50%">Works independently & Shows initiative</td>
+                <td width="10%" ><input type="radio" value="5" name="q3"></td>
+                <td width="10%" ><input type="radio" value="4" name="q3"></td>                   
+                <td width="10%" ><input type="radio" value="3" name="q3"></td>
+                <td width="10%" ><input type="radio" value="2" name="q3" checked="checked"></td>                   
+                <td width="10%" ><input type="radio" value="1" name="q3"></td>
+                <?php }
+                else{
+                ?>
+
+                <td width="50%">Works independently & Shows initiative</td>
+                <td width="10%" ><input type="radio" value="5" name="q3"></td>
+                <td width="10%" ><input type="radio" value="4" name="q3"></td>                   
+                <td width="10%" ><input type="radio" value="3" name="q3"></td>
+                <td width="10%" ><input type="radio" value="2" name="q3"></td>                   
+                <td width="10%" ><input type="radio" value="1" name="q3" checked="checked"></td>
+                <?php
+                }
+                ?>
+            </tr>
+            <tr>
+               <?php
+                if ($rev['Q4'] == 5){
+                ?>
+                <td width="50%">Meets deadlines</td>
+                <td width="10%" ><input type="radio" value="5" name="q4" checked="checked"></td>
+                <td width="10%" ><input type="radio" value="4" name="q4"></td>                   
+                <td width="10%" ><input type="radio" value="3" name="q4"></td>
+                <td width="10%" ><input type="radio" value="2" name="q4"></td>                   
+                <td width="10%" ><input type="radio" value="1" name="q4"></td>
+                <?php }
+                elseif ($rev['Q4'] == 4){
+                ?>
+                <td width="50%">Meets deadlines</td>
+                <td width="10%" ><input type="radio" value="5" name="q4"></td>
+                <td width="10%" ><input type="radio" value="4" name="q4" checked="checked"></td>                   
+                <td width="10%" ><input type="radio" value="3" name="q4"></td>
+                <td width="10%" ><input type="radio" value="2" name="q4"></td>                   
+                <td width="10%" ><input type="radio" value="1" name="q4"></td>
+                <?php }
+                elseif ($rev['Q4'] == 3){
+                ?>
+                <td width="50%">Meets deadlines</td>
+                <td width="10%" ><input type="radio" value="5" name="q4"></td>
+                <td width="10%" ><input type="radio" value="4" name="q4"></td>                   
+                <td width="10%" ><input type="radio" value="3" name="q4" checked="checked"></td>
+                <td width="10%" ><input type="radio" value="2" name="q4"></td>                   
+                <td width="10%" ><input type="radio" value="1" name="q4"></td>
+                <?php }
+                elseif ($rev['Q4'] == 2){
+                ?>
+                <td width="50%">Meets deadlines</td>
+                <td width="10%" ><input type="radio" value="5" name="q4"></td>
+                <td width="10%" ><input type="radio" value="4" name="q4"></td>                   
+                <td width="10%" ><input type="radio" value="3" name="q4"></td>
+                <td width="10%" ><input type="radio" value="2" name="q4" checked="checked"></td>                   
+                <td width="10%" ><input type="radio" value="1" name="q4"></td>
+                <?php }
+                else{
+                ?>
+                <td width="50%">Meets deadlines</td>
+                <td width="10%" ><input type="radio" value="5" name="q4"></td>
+                <td width="10%" ><input type="radio" value="4" name="q4"></td>                   
+                <td width="10%" ><input type="radio" value="3" name="q4"></td>
+                <td width="10%" ><input type="radio" value="2" name="q4"></td>                   
+                <td width="10%" ><input type="radio" value="1" name="q4" checked="checked"></td>
+                <?php
+                }
+                ?>
+            </tr>
+            <tr>
+               <?php
+                if ($rev['Q5'] == 5){
+                ?>
+                <td width="50%">Good team worker</td>
+                <td width="10%" ><input type="radio" value="5" name="q5" checked="checked"></td>
+                <td width="10%" ><input type="radio" value="4" name="q5"></td>                   
+                <td width="10%" ><input type="radio" value="3" name="q5"></td>
+                <td width="10%" ><input type="radio" value="2" name="q5"></td>                   
+                <td width="10%" ><input type="radio" value="1" name="q5"></td>
+                <?php }
+                elseif ($rev['Q5'] == 4){
+                ?>
+                <td width="50%">Good team worker</td>
+                <td width="10%" ><input type="radio" value="5" name="q5"></td>
+                <td width="10%" ><input type="radio" value="4" name="q5" checked="checked"></td>                   
+                <td width="10%" ><input type="radio" value="3" name="q5"></td>
+                <td width="10%" ><input type="radio" value="2" name="q5"></td>                   
+                <td width="10%" ><input type="radio" value="1" name="q5"></td>
+                <?php }
+                elseif ($rev['Q5'] == 3){
+                ?>
+                <td width="50%">Good team worker</td>
+                <td width="10%" ><input type="radio" value="5" name="q5"></td>
+                <td width="10%" ><input type="radio" value="4" name="q5"></td>                   
+                <td width="10%" ><input type="radio" value="3" name="q5" checked="checked"></td>
+                <td width="10%" ><input type="radio" value="2" name="q5"></td>                   
+                <td width="10%" ><input type="radio" value="1" name="q5"></td>
+                <?php }
+                elseif ($rev['Q5'] == 2){
+                ?>
+                <td width="50%">Good team worker</td>
+                <td width="10%" ><input type="radio" value="5" name="q5"></td>
+                <td width="10%" ><input type="radio" value="4" name="q5"></td>                   
+                <td width="10%" ><input type="radio" value="3" name="q5"></td>
+                <td width="10%" ><input type="radio" value="2" name="q5" checked="checked"></td>                   
+                <td width="10%" ><input type="radio" value="1" name="q5"></td>
+                <?php }
+                else{
+                ?>
+                <td width="50%">Good team worker</td>
+                <td width="10%" ><input type="radio" value="5" name="q5"></td>
+                <td width="10%" ><input type="radio" value="4" name="q5"></td>                   
+                <td width="10%" ><input type="radio" value="3" name="q5"></td>
+                <td width="10%" ><input type="radio" value="2" name="q5"></td>                   
+                <td width="10%" ><input type="radio" value="1" name="q5" checked="checked"></td>
+                <?php
+                }
+                ?>
+            </tr>
+            <tr>
+               <?php
+                if ($rev['Q6'] == 5){
+                ?>
+                <td width="50%">Attempts to acquire & apply new skills</td>
+                <td width="10%" ><input type="radio" value="5" name="q6" checked="checked"></td>
+                <td width="10%" ><input type="radio" value="4" name="q6"></td>                   
+                <td width="10%" ><input type="radio" value="3" name="q6"></td>
+                <td width="10%" ><input type="radio" value="2" name="q6"></td>                   
+                <td width="10%" ><input type="radio" value="1" name="q6"></td>
+                <?php }
+                elseif ($rev['Q6'] == 4){
+                ?>
+                <td width="50%">Attempts to acquire & apply new skills</td>
+                <td width="10%" ><input type="radio" value="5" name="q6"></td>
+                <td width="10%" ><input type="radio" value="4" name="q6" checked="checked"></td>                   
+                <td width="10%" ><input type="radio" value="3" name="q6"></td>
+                <td width="10%" ><input type="radio" value="2" name="q6"></td>                   
+                <td width="10%" ><input type="radio" value="1" name="q6"></td>
+                <?php }
+                elseif ($rev['Q6'] == 3){
+                ?>
+                <td width="50%">Attempts to acquire & apply new skills</td>
+                <td width="10%" ><input type="radio" value="5" name="q6"></td>
+                <td width="10%" ><input type="radio" value="4" name="q6"></td>                   
+                <td width="10%" ><input type="radio" value="3" name="q6" checked="checked"></td>
+                <td width="10%" ><input type="radio" value="2" name="q6"></td>                   
+                <td width="10%" ><input type="radio" value="1" name="q6"></td>
+                <?php }
+                elseif ($rev['Q6'] == 2){
+                ?>
+                <td width="50%">Attempts to acquire & apply new skills</td>
+                <td width="10%" ><input type="radio" value="5" name="q6"></td>
+                <td width="10%" ><input type="radio" value="4" name="q6"></td>                   
+                <td width="10%" ><input type="radio" value="3" name="q6"></td>
+                <td width="10%" ><input type="radio" value="2" name="q6" checked="checked"></td>                   
+                <td width="10%" ><input type="radio" value="1" name="q6"></td>
+                <?php }
+                else{
+                ?>
+                <td width="50%">Attempts to acquire & apply new skills</td>
+                <td width="10%" ><input type="radio" value="5" name="q6"></td>
+                <td width="10%" ><input type="radio" value="4" name="q6"></td>                   
+                <td width="10%" ><input type="radio" value="3" name="q6"></td>
+                <td width="10%" ><input type="radio" value="2" name="q6"></td>                   
+                <td width="10%" ><input type="radio" value="1" name="q6" checked="checked"></td>
+                 <?php
+                }
+                ?>
+            </tr>
+            <tr>
+               <?php
+                if ($rev['Q7'] == 5){
+                ?>
+                <td width="50%">Positive attitude & behaviour</td>
+                <td width="10%" ><input type="radio" value="5" name="q7"></td>
+                <td width="10%" ><input type="radio" value="4" name="q7" checked="checked"></td>                   
+                <td width="10%" ><input type="radio" value="3" name="q7"></td>
+                <td width="10%" ><input type="radio" value="2" name="q7"></td>                   
+                <td width="10%" ><input type="radio" value="1" name="q7"></td>
+                <?php }
+                elseif ($rev['Q7'] == 4){
+                ?>
+                <td width="50%">Positive attitude & behaviour</td>
+                <td width="10%" ><input type="radio" value="5" name="q7"></td>
+                <td width="10%" ><input type="radio" value="4" name="q7" checked="checked"></td>                   
+                <td width="10%" ><input type="radio" value="3" name="q7"></td>
+                <td width="10%" ><input type="radio" value="2" name="q7"></td>                   
+                <td width="10%" ><input type="radio" value="1" name="q7"></td>
+                <?php }
+                elseif ($rev['Q7'] == 3){
+                ?>
+                <td width="50%">Positive attitude & behaviour</td>
+                <td width="10%" ><input type="radio" value="5" name="q7"></td>
+                <td width="10%" ><input type="radio" value="4" name="q7"></td>                   
+                <td width="10%" ><input type="radio" value="3" name="q7" checked="checked"></td>
+                <td width="10%" ><input type="radio" value="2" name="q7"></td>                   
+                <td width="10%" ><input type="radio" value="1" name="q7"></td>
+                <?php }
+                elseif ($rev['Q7'] == 2){
+                ?>
+                <td width="50%">Positive attitude & behaviour</td>
+                <td width="10%" ><input type="radio" value="5" name="q7"></td>
+                <td width="10%" ><input type="radio" value="4" name="q7"></td>                   
+                <td width="10%" ><input type="radio" value="3" name="q7"></td>
+                <td width="10%" ><input type="radio" value="2" name="q7" checked="checked"></td>                   
+                <td width="10%" ><input type="radio" value="1" name="q7"></td>
+                <?php }
+                else{
+                ?>
+                <td width="50%">Positive attitude & behaviour</td>
+                <td width="10%" ><input type="radio" value="5" name="q7"></td>
+                <td width="10%" ><input type="radio" value="4" name="q7"></td>                   
+                <td width="10%" ><input type="radio" value="3" name="q7"></td>
+                <td width="10%" ><input type="radio" value="2" name="q7"></td>                   
+                <td width="10%" ><input type="radio" value="1" name="q7" checked="checked"></td>
+                <?php
+                }
+                ?>
+            </tr>
+            <tr>
+                <td width="50%" align="right">Average:</td>
+                <td  colspan="5" width="50%" ><input type="text" value="<?php $rev['AVG']?>" name="avg"></td>
+            </tr>
+            <tr>
+                <td colspan="1" >Number of days absent (عدد أيام الغياب): <input type="text" value="<?php $rev['Absent_Days']?>" name="absence"></td>
+                <td  colspan="5">Number of days late (عدد أيام التأخر): <input type="text" value="<?php $rev['Late_Times']?>" name="late"></td>
+            </tr>
+            <tr>
+                <td colspan="1" >Points of strength (نقاط القوة): <textarea name="txt_strength" value="<?php $rev['Strengths']?>" ></textarea></td>
+                <td colspan="5" >Points of Weakness (نقاط الضعف): <textarea name="txt_weakness" value="<?php $rev['Weaknesses']?>" ></textarea></td>
+            </tr>
             <tr>
                 <td colspan="6">
-                <input type="submit" value="Submit" name="submit-weekreport">
+                Additional comments (تعليقات أخرى): <textarea name="txt_comments" value="<?php $rev['Comments']?>" ></textarea>
                 </td>
             </tr>
+            <tr>
+            </tr>
+            <?php endforeach; ?>
         </table>
+        <?php
+        }
+        ?>
+        <td colspan="6">
+            <input type="submit" value="Submit" name="submit-finaleval">
+        </td>
     </form>    
 </div>
 

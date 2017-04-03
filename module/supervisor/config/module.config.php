@@ -54,7 +54,8 @@ return array(
                     ),
                 ),
             ),
-            
+                       // end of Weekly Report
+
             'supfinalreport' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
@@ -67,7 +68,6 @@ return array(
                 ),
             ),
             
-           // end of Weekly Report
            'supervisor' => array(
                 'type'    => 'Literal',
                 'options' => array(
