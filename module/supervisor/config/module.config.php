@@ -17,25 +17,10 @@ namespace supervisor;
 return array(
     'router' => array(
         'routes' => array(
-            //show students 
-            'supstudents' => array(
-                'type' => 'Zend\Mvc\Router\Http\Literal',
-                'options' => array(
-                    'route'    => '/supervisorshowstudents',
-                    'defaults' => array(
-                        '__NAMESPACE__' => 'supervisor\Controller',
-                        'controller'    => 'Index',
-                        'action'        => 'students',
-                    ),
-                ),
-            ),
-            //end  of show students   
-            //
-            
             'supworkplacement' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
-                    'route'    => '/workplacement',
+                    'route'    => '/supworkplacement',
                     'defaults' => array(
                         '__NAMESPACE__' => 'supervisor\Controller',
                         'controller'    => 'Index',
@@ -48,7 +33,7 @@ return array(
             'supworkplan' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
-                    'route'    => '/supervisorworkplan',
+                    'route'    => '/supworkplan',
                     'defaults' => array(
                         '__NAMESPACE__' => 'supervisor\Controller',
                         'controller'    => 'Index',
@@ -61,11 +46,23 @@ return array(
             'supweeklyreport' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
-                    'route'    => '/Weeklyreport',
+                    'route'    => '/supweeklyreport',
                     'defaults' => array(
                         '__NAMESPACE__' => 'supervisor\Controller',
                         'controller'    => 'Index',
-                        'action'        => 'Weeklyreport',
+                        'action'        => 'weeklyreport',
+                    ),
+                ),
+            ),
+            
+            'supfinalreport' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route'    => '/supfinalreport',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'supervisor\Controller',
+                        'controller'    => 'Index',
+                        'action'        => 'finalreport',
                     ),
                 ),
             ),

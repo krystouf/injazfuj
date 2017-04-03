@@ -38,26 +38,31 @@ class IndexController extends AbstractActionController
     }
  
     public function workplanAction(){
+        $auth = new AuthenticationService();
         $container = new Container('username');
-        $sm =$this->getServiceLocator();
-        $dba = $sm->get($container->adapter);
-        $username = $container->id;
-        $sql ="SELECT * from students,teacher,supervisor Where super_id=".$username."
-              AND sid = sid
-               AND  Teacher_id = mentor_id";
-        $statement = $dba->query($sql, array(5));
-        $resultSet = new ResultSet;
-        $resultSet->initialize($statement);
-        
-        $sql2 ="SELECT * from workplan  Where super_id=".$username;
-        $statement2 = $dba->query($sql2, array(5));
-        $resultSet2 = new ResultSet;
-        $resultSet2->initialize($statement2);
-        
-        return new ViewModel(array(
-            'Studentinfo' => $resultSet,
-             'workplans' => $resultSet2,
-         ));
+        if ($auth->hasIdentity() && $container->type == 3){
+            $sm =$this->getServiceLocator();
+            $dba = $sm->get($container->adapter);
+            $username = $container->id;
+            $sid = $this->params()->fromQuery('sid');
+            $sql ="SELECT * from students,teacher,supervisor,companies Where supervisor.supervisor_id=$username
+                   AND supervisor_id = super_id
+                   AND 	supervisor.Company_ID = companies.Company_ID
+                   AND  Teacher_id = mentor_id";
+            $statement = $dba->query($sql, array(5));
+            $resultSet = new ResultSet;
+            $resultSet->initialize($statement);
+            $resultSet->buffer();
+            
+            return new ViewModel(array(
+                'info' => $resultSet,
+                'sid' => $sid
+             ));
+        }else{
+            return $this->redirect()->toRoute('login',
+            array('controller'=>'index',
+                'action' => 'login'));
+        }
     }
        
     //  end of workplan Action 
@@ -78,7 +83,7 @@ class IndexController extends AbstractActionController
             $resultSet->buffer();
             
             return new ViewModel(array(
-                'info' => $resultSet,
+                'info' => $resultSet
              ));
         }else{
             return $this->redirect()->toRoute('login',
@@ -87,4 +92,59 @@ class IndexController extends AbstractActionController
         }
     }
      
+    public function weeklyreportAction(){
+        $auth = new AuthenticationService();
+        $container = new Container('username');
+        if ($auth->hasIdentity() && $container->type == 3){
+            $sm =$this->getServiceLocator();
+            $dba = $sm->get($container->adapter);
+            $username = $container->id;
+            $sid = $this->params()->fromQuery('sid');
+            $sql ="SELECT * from students,teacher,supervisor,companies Where supervisor.supervisor_id=$username
+                   AND supervisor_id = super_id
+                   AND 	supervisor.Company_ID = companies.Company_ID
+                   AND  Teacher_id = mentor_id";
+            $statement = $dba->query($sql, array(5));
+            $resultSet = new ResultSet;
+            $resultSet->initialize($statement);
+            $resultSet->buffer();
+            
+            return new ViewModel(array(
+                'info' => $resultSet,
+                'sid' => $sid
+             ));
+        }else{
+            return $this->redirect()->toRoute('login',
+            array('controller'=>'index',
+                'action' => 'login'));
+        }
+    }
+    
+    public function finalreportAction(){
+        $auth = new AuthenticationService();
+        $container = new Container('username');
+        if ($auth->hasIdentity() && $container->type == 3){
+            $sm =$this->getServiceLocator();
+            $dba = $sm->get($container->adapter);
+            $username = $container->id;
+            $sid = $this->params()->fromQuery('sid');
+            $sql ="SELECT * from students,teacher,supervisor,companies Where supervisor.supervisor_id=$username
+                   AND supervisor_id = super_id
+                   AND 	supervisor.Company_ID = companies.Company_ID
+                   AND  Teacher_id = mentor_id";
+            $statement = $dba->query($sql, array(5));
+            $resultSet = new ResultSet;
+            $resultSet->initialize($statement);
+            $resultSet->buffer();
+            
+            return new ViewModel(array(
+                'info' => $resultSet,
+                'sid' => $sid
+             ));
+        }else{
+            return $this->redirect()->toRoute('login',
+            array('controller'=>'index',
+                'action' => 'login'));
+        }
+    }
 }

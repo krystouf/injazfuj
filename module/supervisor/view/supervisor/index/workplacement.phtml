@@ -1,5 +1,10 @@
+<?php
+    $mentorname='';
+    $mentoremail='';
+    $mentormobile='';
+?>
 <div class="moh-left-nav" >
-    <a href="<?php echo $this->url('supervisor') ?>">Overview</a><br>
+    <a href="<?php echo $this->url('supworkplacement') ?>">Overview</a><br>
     <hr width="90%">
     <form method="post" style="width: 90%; margin: auto;">
         <!-- Students names-->
@@ -8,6 +13,9 @@
                foreach ($this->info as $student) :
                    if ($i == 0){
                        $studentlistid = $student['sid'];
+                       $mentorname=$student['Teacher_FirstName'].' '.$student['Teacher_LastName'];
+                       $mentoremail=$student['t_e_mail'];
+                       $mentormobile=$student['t_phone'];
                    }
                    $i++;
            ?>
@@ -19,7 +27,44 @@
        <br>
     </form>
 
-    <a href="<?php echo $this->url('stwp', array(), array('query' => array('sid' => $studentlistid)));?>"> Work plan </a> <br>
-    <a href="<?php echo $this->url('ster', array(), array('query' => array('sid' => $studentlistid)));?>"> Evaluation Reports</a><br>
-    <a href="<?php echo $this->url('stfe', array(), array('query' => array('sid' => $studentlistid)));?>"> Final Evaluation Report</a><br>
+    <a href="<?php echo $this->url('supworkplan', array(), array('query' => array('sid' => $studentlistid)));?>"> Work plan </a> <br>
+    <a href="<?php echo $this->url('supweeklyreport', array(), array('query' => array('sid' => $studentlistid)));?>"> Evaluation Reports</a><br>
+    <a href="<?php echo $this->url('supfinalreport', array(), array('query' => array('sid' => $studentlistid)));?>"> Final Evaluation Report</a><br>
 </div>
+
+<div  class="moh-content">
+    <center><h3> Overview </h3></center>
+    <b><?php echo $mentorname ?></b>
+    <br/><?php echo $mentoremail ?>
+    <br/><?php echo $mentormobile ?>
+    <hr>
+    <table border="1" style="width:100%" cellpadding="7">
+            <tr>
+                <th> Student ID          </th>
+                <th> Student Name        </th>
+                <th> Student Mobile      </th>
+                <th> Student Email       </th>
+            </tr>
+
+            <?php
+                $conut=0;
+                foreach ($this->info as $student){
+            ?>
+            <tr>
+                 <td> <?php echo $student['Student_id'] ?></td>
+                 <td> <?php echo $student['Student_Name'] ?></td>
+                 <td> <?php echo $student['smobile'] ?></td>
+                 <td> <?php echo $student['semail'] ?></td>
+            </tr>   
+        <?php
+            } //foreach
+        ?>
+    </table>
+</div>
+
+<script>
+    function changeStudent() {
+       var stlist = document.getElementById('studentslist');
+       window.location.replace("./supworkplan?sid="+stlist.value);
+    }
+</script>
