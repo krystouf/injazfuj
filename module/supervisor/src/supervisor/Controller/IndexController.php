@@ -61,31 +61,14 @@ class IndexController extends AbstractActionController
     }
        
     //  end of workplan Action 
-        public function workplacementAction(){
-       /*
-            $container = new Container('username');
-        $sm =$this->getServiceLocator();
-        $dba = $sm->get($container->adapter);
-        $username = $container->id;
-        $sql ="SELECT * from students,teacher,supervisor Where super_id=".$username."
-              AND sid = sid
-               AND  Teacher_id = mentor_id";
-        $statement = $dba->query($sql, array(5));
-        $resultSet = new ResultSet;
-        $resultSet->initialize($statement);
-        
-        $sql2 ="SELECT * from workplan  Where super_id=".$username;
-        $statement2 = $dba->query($sql2, array(5));
-        $resultSet2 = new ResultSet;
-        $resultSet2->initialize($statement2);
-        
-        return new ViewModel(array(
-            'Studentinfo' => $resultSet,
-             'workplans' => $resultSet2,
-         ));
-        * 
-        */
-            return new ViewModel();
+    public function workplacementAction(){
+        $auth = new AuthenticationService();
+        $container = new Container('username');
+        if ($auth->hasIdentity() && $container->type == 3){
+            
+        }else{
+            
+        }
     }
      
 }
