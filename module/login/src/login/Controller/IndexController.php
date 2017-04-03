@@ -90,7 +90,7 @@ class IndexController extends AbstractActionController
                 "MD5(CONCAT('$staticSalt', Teacher_salt))" // setCredentialTreatment(parametrized string) 'MD5(?)'
             );
         }else if ($table == "supervisor"){
-            $sql = "Select supervisor_id from supervisor where super_name='".$username."'";
+            $sql = "Select supervisor_id from supervisor where e_mail='".$username."'";
             $statement = $dba->query($sql, array(5));
             $resultSet = new ResultSet;
             $resultSet->initialize($statement);
