@@ -95,9 +95,17 @@ class IndexController extends AbstractActionController
             $statement = $dba->query($sql, array(5));
             $resultSet = new ResultSet;
             $resultSet->initialize($statement);
+            $count = $resultSet->count();
+            if ($count == 0){
+                $sql ="SELECT * from students Where sid=$username";
+                $statement = $dba->query($sql, array(5));
+                $resultSet = new ResultSet;
+                $resultSet->initialize($statement);
+            }
 
             return new ViewModel(array(
                 'Studentinfo' => $resultSet,
+                'count' => $count
              ));
         }else{
             return $this->redirect()->toRoute('login',

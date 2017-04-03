@@ -29,7 +29,48 @@ class IndexController extends AbstractActionController
         $sm =$this->getServiceLocator();
         $dba = $sm->get($container->adapter);
         if ($auth->hasIdentity() && $container->type == 3){
-            return new ViewModel(); 
+            if($this->getRequest()->getPost('save-supprofile')){
+                $supemail =$this->getRequest()->getPost('sup-email');
+                $supmobile =$this->getRequest()->getPost('sup-mobile');
+                $suppass =$this->getRequest()->getPost('suppass');
+                $id =$this->getRequest()->getPost('supidprofile');
+                
+                $config = $this->getServiceLocator()->get('Config');
+                $staticSalt = $config['static_salt'];
+                $md = MD5($suppass);
+                $passsault = $staticSalt.$md;
+
+                if ($suppass != ""){
+                    $data = array(
+                        'e_mail' => $supemail,
+                        'phone' => $supmobile,
+                        'super_pass' => $suppass,
+                        'super_salt' => $passsault,
+                    );
+                }else{
+                    $data = array(
+                        'e_mail' => $supemail,
+                        'phone' => $supmobile,
+                    );
+                }
+                
+                $sql = new Sql($dba);
+                $update = $sql->update();
+                $update->table('supervisor');
+                $update->set($data);
+                $update->where(array('supervisor_id' => $id));
+                $statement = $sql->prepareStatementForSqlObject($update);
+                $statement->execute();
+            }
+            $username = $container->id;
+            $sql ="SELECT * from supervisor Where supervisor_id=$username";
+            $statement = $dba->query($sql, array(5));
+            $resultSet = new ResultSet;
+            $resultSet->initialize($statement);
+            
+            return new ViewModel(array(
+                'Supinfo' => $resultSet
+            ));
         }else{
             return $this->redirect()->toRoute('login',
             array('controller'=>'index',
