@@ -246,17 +246,142 @@ class IndexController extends AbstractActionController
             $resultSet->initialize($statement);
             $resultSet->buffer();
             
-            return new ViewModel(array(
-                'info' => $resultSet,
-                'sid' => $sid,
-                'wid' => $wid
-             ));
+            $sid = $this->params()->fromQuery('sid');
+            $wid = $this->params()->fromQuery('wid');
+            $step =1;
+            
+            if ($wid==3 || $wid==6){
+                
+                $sql2 ="SELECT * from weeklyreviews Where sid=$sid"
+                        . " AND wid=$wid";
+                $statement2 = $dba->query($sql2, array(5));
+                $resultSet2 = new ResultSet;
+                $resultSet2->initialize($statement2);
+                $resultSet2->buffer();
+                $count = $resultSet2->count();
+                if ($this->getRequest()->getPost('submit-weekeval')){
+                    if ($count==0){
+                        $step = 2;
+                        $this->insertweekeval($sid, $wid);
+                    }else{
+                        $step = 3;
+                        $this->updateweekeval($sid, $wid);
+                    }
+                }
+                
+                $sql2 ="SELECT * from weeklyreviews Where sid=$sid"
+                        . " AND wid=$wid";
+                $statement2 = $dba->query($sql2, array(5));
+                $resultSet2 = new ResultSet;
+                $resultSet2->initialize($statement2);
+                $resultSet2->buffer();
+                $count = $resultSet2->count();
+                
+                if ($count==0){
+                    return new ViewModel(array(
+                        'info' => $resultSet,
+                        'sid' => $sid,
+                        'step' => $step,
+                        'count' => $count,
+                        'wid' => $wid
+                     ));
+                }else{
+                    return new ViewModel(array(
+                        'info' => $resultSet,
+                        'review' => $resultSet2,
+                        'sid' => $sid,
+                        'step' => $step,
+                        'count' => $count,
+                        'wid' => $wid
+                     ));
+                }
+            }else{
+                return new ViewModel(array(
+                    'info' => $resultSet,
+                    'sid' => $sid,
+                    'step' => $step,
+                    'count' => 0,
+                    'wid' => $wid
+                 ));
+            }
         }else{
             return $this->redirect()->toRoute('login',
             array('controller'=>'index',
                 'action' => 'login'));
         }
     }
+    
+    public function insertweekeval($sid, $wid){
+        date_default_timezone_set('Asia/Dubai');
+        $auth = new AuthenticationService();
+        $container = new Container('username');
+        $sm =$this->getServiceLocator();
+        $dba = $sm->get($container->adapter);
+        if ($auth->hasIdentity() && $container->type == 3){
+            $q1 =$this->getRequest()->getPost('q1');
+            $q2 =$this->getRequest()->getPost('q2');
+            $q3 =$this->getRequest()->getPost('q3');
+            $q4 =$this->getRequest()->getPost('q4');
+            $q5 =$this->getRequest()->getPost('q5');
+            $q6 =$this->getRequest()->getPost('q6');
+            $q7 =$this->getRequest()->getPost('q7');
+
+            $sql = new Sql($dba);
+            $insert = $sql->insert('weeklyreviews');
+            //mentor_comment	
+            $newData = array('sid'=> $sid,
+                'Q1' => $q1,
+                'Q2' => $q2,
+                'Q3' => $q3,
+                'Q4' => $q4,
+                'Q5' => $q5,
+                'Q6' => $q6,
+                'Q7' => $q7,
+                'wid' => $wid,
+            );
+            $insert->values($newData);
+            $Query = $sql->getSqlStringForSqlObject($insert);
+            $statement = $dba->query($Query);
+            $statement->execute();  
+        }else{
+            return $this->redirect()->toRoute('login',
+            array('controller'=>'index',
+                'action' => 'login'));
+        }        
+    }
+    
+    public function updateweekeval($sid, $wid){
+        date_default_timezone_set('Asia/Dubai');
+        $auth = new AuthenticationService();
+        $container = new Container('username');
+        $sm =$this->getServiceLocator();
+        $dba = $sm->get($container->adapter);
+        if ($auth->hasIdentity() && $container->type == 3){
+            $data = array(
+                'Q1'  => $this->getRequest()->getPost('q1'),     
+                'Q2'  => $this->getRequest()->getPost('q2'),     
+                'Q3'  => $this->getRequest()->getPost('q3'),     
+                'Q4'  => $this->getRequest()->getPost('q4'),     
+                'Q5'  => $this->getRequest()->getPost('q5'),     
+                'Q6'  => $this->getRequest()->getPost('q6'),     
+                'Q7'  => $this->getRequest()->getPost('q7'),    
+            );      
+
+            $username = $container->id;
+
+            $sql = new Sql($dba);
+            $update = $sql->update();
+            $update->table('weeklyreviews');
+            $update->set($data);
+            $update->where(array('wid' => $wid, 'sid' => $sid));
+            $statement = $sql->prepareStatementForSqlObject($update);
+            $statement->execute();
+        }else{
+            return $this->redirect()->toRoute('login',
+            array('controller'=>'index',
+                'action' => 'login'));
+        }
+     }
     
     public function finalreportAction(){
         $auth = new AuthenticationService();
