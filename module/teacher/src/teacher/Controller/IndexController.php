@@ -41,11 +41,34 @@ class IndexController extends AbstractActionController
             $resultSet->initialize($statement);
             $resultSet->buffer();
 
+            
+            $sid = $this->params()->fromQuery('sid');
+            $wid = $this->params()->fromQuery('wid');
+            $count = 0;
+            
+            if ($wid==3 || $wid==6){
+                $sql2 ="SELECT * from weeklyreviews Where sid=$sid"
+                    . " AND wid=$wid";
+                $statement2 = $dba->query($sql2, array(5));
+                $resultSet2 = new ResultSet;
+                $resultSet2->initialize($statement2);
+                $resultSet2->buffer();
+                $count = $resultSet2->count();
 
-            return new ViewModel(array(
-                'info' => $resultSet,
-                'sid' => $sid
-            ));
+                return new ViewModel(array(
+                    'info' => $resultSet,
+                    'review' => $resultSet2,
+                    'sid' => $sid,
+                    'count' => $count,
+                    'wid' => $wid
+                 ));
+            }else{
+                return new ViewModel(array(
+                    'info' => $resultSet,
+                    'sid' => $sid,
+                    'count' => $count
+                 ));
+            }
         }else{
             return $this->redirect()->toRoute('login',
             array('controller'=>'index',

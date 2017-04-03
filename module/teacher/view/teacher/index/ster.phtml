@@ -39,6 +39,208 @@
  <div  class="moh-content">
         <center><h3><?php echo $stname; ?></h3></center>
         <center><h3>Evaluation reports</h3></center>
+        
+        <div class="sttabs">
+            <ul class="sttab-links">
+                    <li >      
+                        <a href="<?php echo $this->url('ster',array(), array('query' => array('sid' => $this->sid, 'wid' => 3 ) ));?>"> Week 3</a>
+                    </li>      
+                    <li >      
+                        <a href="<?php echo $this->url('ster',array(), array('query' => array('sid' => $this->sid, 'wid' => 6 ) ));?>"> Week 6</a>
+                    </li>   
+             </ul>
+        </div>
+        
+        <?php
+
+            if ($this->wid == "3"  || $this->wid == "6") {
+                
+                ?>
+                 
+                <div> <!-- weekly report --> 
+                    <hr>
+                    <h3>Week <?php echo $this->wid; ?> evaluation</h3>
+                    <hr>
+    <form method="post" style="width: 100%; margin: auto;">
+        <?php
+        if ($this->count == 0){
+        ?>
+        <table border="1" style="width:100%" cellpadding="7">
+            <tr>
+                <th>Question</th>
+                <th>Satisfactory</th>
+                <th>Needs to improve</th>
+            </tr>
+            <tr>
+                <td width="70%">Demonstrates a positive attitude towards the workplace (تظهر موقفا إيجابيا تجاه مكان العمل)</td>
+                <td width="15%" ><input disabled="disabled" type="radio" value="0" name="q1"></td>
+                <td width="15%" ><input disabled="disabled" type="radio" value="1" name="q1"></td>                   
+            </tr> 
+            <tr>
+                <td width="70%">Act in an appropriate manner for the workplace (تتصرف بالطريقة التي تناسب مكان العمل)</td>
+                <td width="15%" ><input disabled="disabled" type="radio" value="0" name="q2"></td>
+                <td width="15%" ><input disabled="disabled" type="radio" value="1" name="q2"></td>                   
+            </tr>
+            <tr>
+                <td width="70%">Can adecutualy demonstrate the work task undertaken (تظهر القدرة المناسبة للقيام بالمهام المنوطة إليها) </td>
+                <td width="15%" ><input disabled="disabled" type="radio" value="0" name="q3"></td>
+                <td width="15%" ><input disabled="disabled" type="radio" value="1" name="q3"></td>                   
+            </tr>
+            <tr>
+                <td width="70%">Can identify own strength and weakness (تظهر القدرة على تحديد نقاط قوتها وضعفها)</td>
+                <td width="15%" ><input disabled="disabled" type="radio" value="0" name="q4"></td>
+                <td width="15%" ><input disabled="disabled" type="radio" value="1" name="q4"></td>                   
+            </tr>
+            <tr>
+                <td width="70%">Apperance in appropriate for the workplace (تتحلى بالمظهر الذي يناسب مكان العمل)</td>
+                <td width="15%" ><input disabled="disabled" type="radio" value="0" name="q5"></td>
+                <td width="15%" ><input disabled="disabled" type="radio" value="1" name="q5"></td>                   
+            </tr>
+            <tr>
+                <td width="70%">Responds promptely to mentors communication (تستجيب فورا لتعليمات مشرف العمل)</td>
+                <td width="15%" ><input disabled="disabled" type="radio" value="0" name="q6"></td>
+                <td width="15%" ><input disabled="disabled" type="radio" value="1" name="q6"></td>                   
+            </tr>
+            <tr>
+                <td width="70%">Deals with workplace issues in a matter and resposibole manner (تظهر نضجا ومسؤولية في التعامل مع المسائل التي تعترضها في مكان العمل)</td>
+                <td width="15%" ><input disabled="disabled" type="radio" value="0" name="q7"></td>
+                <td width="15%" ><input disabled="disabled" type="radio" value="1" name="q7"></td>                   
+            </tr>
+        </table>
+        <?php
+        }else{
+        ?>
+        <table border="1" style="width:100%" cellpadding="7">
+            <tr>
+                <th>Question</th>
+                <th>Satisfactory</th>
+                <th>Needs to improve</th>
+            </tr>
+            <?php foreach ($this->review as $rev) : ?>
+            <tr>
+                <td width="70%">Demonstrates a positive attitude towards the workplace (تظهر موقفا إيجابيا تجاه مكان العمل)</td>
+                <?php
+                if ($rev['Q1'] == 0){
+                ?>
+                <td width="15%" ><input disabled="disabled" type="radio" value="0" name="q1" checked="checked"></td>
+                <td width="15%" ><input disabled="disabled" type="radio" value="1" name="q1"></td>     
+                <?php
+                }else{
+                ?>
+                <td width="15%" ><input disabled="disabled" type="radio" value="0" name="q1"></td>
+                <td width="15%" ><input disabled="disabled" type="radio" value="1" name="q1" checked="checked"></td>    
+                <?php
+                }
+                ?>
+            </tr> 
+            <tr>
+                <td width="70%">Act in an appropriate manner for the workplace (تتصرف بالطريقة التي تناسب مكان العمل)</td>
+                <?php
+                if ($rev['Q2'] == 0){
+                ?>
+                <td width="15%" ><input disabled="disabled" type="radio" value="0" name="q2" checked="checked"></td>
+                <td width="15%" ><input disabled="disabled" type="radio" value="1" name="q2"></td>     
+                <?php
+                }else{
+                ?>
+                <td width="15%" ><input disabled="disabled" type="radio" value="0" name="q2"></td>
+                <td width="15%" ><input disabled="disabled" type="radio" value="1" name="q2" checked="checked"></td>    
+                <?php
+                }
+                ?>                 
+            </tr>
+            <tr>
+                <td width="70%">Can adecutualy demonstrate the work task undertaken (تظهر القدرة المناسبة للقيام بالمهام المنوطة إليها) </td>
+                <?php
+                if ($rev['Q3'] == 0){
+                ?>
+                <td width="15%" ><input disabled="disabled" type="radio" value="0" name="q3" checked="checked"></td>
+                <td width="15%" ><input disabled="disabled" type="radio" value="1" name="q3"></td>     
+                <?php
+                }else{
+                ?>
+                <td width="15%" ><input disabled="disabled" type="radio" value="0" name="q3"></td>
+                <td width="15%" ><input disabled="disabled" type="radio" value="1" name="q3" checked="checked"></td>    
+                <?php
+                }
+                ?>                 
+            </tr>
+            <tr>
+                <td width="70%">Can identify own strength and weakness (تظهر القدرة على تحديد نقاط قوتها وضعفها)</td>
+                <?php
+                if ($rev['Q4'] == 0){
+                ?>
+                <td width="15%" ><input disabled="disabled" type="radio" value="0" name="q4" checked="checked"></td>
+                <td width="15%" ><input disabled="disabled" type="radio" value="1" name="q4"></td>     
+                <?php
+                }else{
+                ?>
+                <td width="15%" ><input disabled="disabled" type="radio" value="0" name="q4"></td>
+                <td width="15%" ><input disabled="disabled" type="radio" value="1" name="q4" checked="checked"></td>    
+                <?php
+                }
+                ?>                 
+            </tr>
+            <tr>
+                <td width="70%">Apperance in appropriate for the workplace (تتحلى بالمظهر الذي يناسب مكان العمل)</td>
+                <?php
+                if ($rev['Q5'] == 0){
+                ?>
+                <td width="15%" ><input disabled="disabled" type="radio" value="0" name="q5" checked="checked"></td>
+                <td width="15%" ><input disabled="disabled" type="radio" value="1" name="q5"></td>     
+                <?php
+                }else{
+                ?>
+                <td width="15%" ><input disabled="disabled" type="radio" value="0" name="q5"></td>
+                <td width="15%" ><input disabled="disabled" type="radio" value="1" name="q5" checked="checked"></td>    
+                <?php
+                }
+                ?>               
+            </tr>
+            <tr>
+                <td width="70%">Responds promptely to mentors communication (تستجيب فورا لتعليمات مشرف العمل)</td>
+                <?php
+                if ($rev['Q6'] == 0){
+                ?>
+                <td width="15%" ><input disabled="disabled" type="radio" value="0" name="q6" checked="checked"></td>
+                <td width="15%" ><input disabled="disabled" type="radio" value="1" name="q6"></td>     
+                <?php
+                }else{
+                ?>
+                <td width="15%" ><input disabled="disabled" type="radio" value="0" name="q6"></td>
+                <td width="15%" ><input disabled="disabled" type="radio" value="1" name="q6" checked="checked"></td>    
+                <?php
+                }
+                ?>                 
+            </tr>
+            <tr>
+                <td width="70%">Deals with workplace issues in a matter and resposibole manner (تظهر نضجا ومسؤولية في التعامل مع المسائل التي تعترضها في مكان العمل)</td>
+                <?php
+                if ($rev['Q7'] == 0){
+                ?>
+                <td width="15%" ><input disabled="disabled" type="radio" value="0" name="q7" checked="checked"></td>
+                <td width="15%" ><input disabled="disabled" type="radio" value="1" name="q7"></td>     
+                <?php
+                }else{
+                ?>
+                <td width="15%" ><input disabled="disabled" type="radio" value="0" name="q7"></td>
+                <td width="15%" ><input disabled="disabled" type="radio" value="1" name="q7" checked="checked"></td>    
+                <?php
+                }
+                ?>                 
+            </tr>
+            <?php endforeach; ?>
+        </table>
+        <?php
+        }
+        ?>
+    </form>
+                    </div>
+     <?php 
+                } 
+                else { ?><h3>Please choose week first</h3><?php 
+             }
+                 ?>
  </div>
  
 <script>
