@@ -9,7 +9,6 @@
 
 namespace supervisor;
 
-
             // The following is a route to simplify getting started creating
             // new controllers and actions without needing to create a new
             // module. Simply drop new controllers in, and you can access them
@@ -19,7 +18,7 @@ return array(
     'router' => array(
         'routes' => array(
             //show students 
-             'students' => array(
+            'supstudents' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
                     'route'    => '/supervisorshowstudents',
@@ -33,7 +32,7 @@ return array(
             //end  of show students   
             //
             
-            'workplacement' => array(
+            'supworkplacement' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
                     'route'    => '/workplacement',
@@ -46,7 +45,7 @@ return array(
             ),
             //
             //work plan 
-             'workplan' => array(
+            'supworkplan' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
                     'route'    => '/supervisorworkplan',
@@ -59,7 +58,7 @@ return array(
             ),
             //end  of work plan     
            // Weekly Report
-            'weeklyreport' => array(
+            'supweeklyreport' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
                     'route'    => '/Weeklyreport',
