@@ -167,16 +167,13 @@ class IndexController extends AbstractActionController
             $statement = $dba->query($sql, array(5));
             $resultSet = new ResultSet;         
             $resultSet->initialize($statement);
-
+            $found = $resultSet->count();
             foreach ($resultSet as $task):
                 $tid=$task['task_id'];
                 $tp= $task['task_performed'];
                 $ns= $task['new_skills'];
                 $cs= $task['college_skills'];
                 $sc= $task['student_comment'];
-                //    $step =4;
-               //     $weekid=1;
-                $found=1;
             endforeach;
                   /*
              if ($found =="0")        

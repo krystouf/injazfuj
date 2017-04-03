@@ -54,9 +54,34 @@ class IndexController extends AbstractActionController
             $resultSet->initialize($statement);
             $resultSet->buffer();
             
+            $sql2 ="SELECT * from workplan  Where sid=".$sid;
+            $statement2 = $dba->query($sql2, array(5));
+            $resultSet2 = new ResultSet;
+            $resultSet2->initialize($statement2);
+            $resultSet2->buffer();
+            $count = $resultSet2->count();
+            $step = 1;
+            if($this->getRequest()->getPost('wkplan-but')){
+                if ($count == 0){
+                    $this->insertwkplan($sid);
+                    $step=2;
+                }else{
+                    $this->updatewkplan($sid);
+                    $step=3;
+                }
+            }
+            
+            $sql2 ="SELECT * from workplan  Where sid=".$sid;
+            $statement2 = $dba->query($sql2, array(5));
+            $resultSet2 = new ResultSet;
+            $resultSet2->initialize($statement2);
+            $resultSet2->buffer();
+            
             return new ViewModel(array(
                 'info' => $resultSet,
-                'sid' => $sid
+                'sid' => $sid,
+                'step' => $step,
+                'stwkplan' => $resultSet2
              ));
         }else{
             return $this->redirect()->toRoute('login',
@@ -64,8 +89,78 @@ class IndexController extends AbstractActionController
                 'action' => 'login'));
         }
     }
+    
+    public function insertwkplan($sid){
+        date_default_timezone_set('Asia/Dubai');
+        $auth = new AuthenticationService();
+        $container = new Container('username');
+        $sm =$this->getServiceLocator();
+        $dba = $sm->get($container->adapter);
+        if ($auth->hasIdentity() && $container->type == 3){
+            $i =0;
+            while ($i<8){
+                $i++;
+                $dep =$this->getRequest()->getPost('dep'.$i);
+                $wkassign =$this->getRequest()->getPost('wkassign'.$i);   
+                $sdep =$this->getRequest()->getPost('sdep'.$i);  
+
+                $username = $container->id;
+
+                $sql = new Sql($dba);
+                $insert = $sql->insert('workplan');
+                //mentor_comment	
+                $newData = array('week'=> $i,
+                    'department' => $dep,
+                    's_department'=> $sdep,
+                    'work_assigned'=>  $wkassign,  
+                    'supervisor_id'=> $username,
+                    'sid' => $sid,
+                );
+                $insert->values($newData);
+                $Query = $sql->getSqlStringForSqlObject($insert);
+                $statement = $dba->query($Query);
+                $statement->execute();  
+            }
+        }else{
+            return $this->redirect()->toRoute('login',
+            array('controller'=>'index',
+                'action' => 'login'));
+        }        
+    }
+    
+     public function updatewkplan($sid){
+        date_default_timezone_set('Asia/Dubai');
+        $auth = new AuthenticationService();
+        $container = new Container('username');
+        $sm =$this->getServiceLocator();
+        $dba = $sm->get($container->adapter);
+        if ($auth->hasIdentity() && $container->type == 3){
+            $i =0;
+            while ($i<8){
+                $i++;
+                $data = array(
+                    'department'  => $this->getRequest()->getPost('dep'.$i),
+                    's_department'  => $this->getRequest()->getPost('sdep'.$i),
+                    'work_assigned'  => $this->getRequest()->getPost('wkassign'.$i)           
+                );      
+                
+                $username = $container->id;
+                
+                $sql = new Sql($dba);
+                $update = $sql->update();
+                $update->table('workplan');
+                $update->set($data);
+                $update->where(array('week' => $i, 'sid' => $sid, 'supervisor_id' => $username));
+                $statement = $sql->prepareStatementForSqlObject($update);
+                $statement->execute();
+            }
+        }else{
+            return $this->redirect()->toRoute('login',
+            array('controller'=>'index',
+                'action' => 'login'));
+        }
+     }
        
-    //  end of workplan Action 
     public function workplacementAction(){
         $auth = new AuthenticationService();
         $container = new Container('username');

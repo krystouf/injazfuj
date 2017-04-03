@@ -124,7 +124,7 @@ class IndexController extends AbstractActionController
             $resultSet2 = new ResultSet;         
             $resultSet2->initialize($statement2);
             $resultSet2->buffer();
-
+            $found = $resultSet2->count();
             foreach ($resultSet2 as $task):
                 $tid=$task['task_id'];
                 $tp= $task['task_performed'];
@@ -132,12 +132,18 @@ class IndexController extends AbstractActionController
                 $cs= $task['college_skills'];
                 $sc= $task['student_comment'];
                 $mc= $task['mentor_comment'];
-                $found=1;
             endforeach;
 
             if($this->getRequest()->getPost('submit-week')){
-                $this->updateweek($tid);
-                $step=4;
+                if ($found =="0"){
+                      //      echo "found = 00000";echo 'taskid ' .$tid;
+                    $this->insertweek($weekid, $sid);
+                    $step=3;
+                }else{
+                     //   echo "found = 11111";
+                    $this->updateweek($tid);
+                    $step=4;
+                }
             }
 
             return new ViewModel(array(
@@ -182,6 +188,36 @@ class IndexController extends AbstractActionController
             array('controller'=>'index',
                 'action' => 'login'));
         }
+    }
+    
+    public function insertweek($wid, $sid)
+            {
+        date_default_timezone_set('Asia/Dubai');
+        $auth = new AuthenticationService();
+        $container = new Container('username');
+        $sm =$this->getServiceLocator();
+        $dba = $sm->get($container->adapter);
+        if ($auth->hasIdentity() && $container->type == 1){
+            $txt_mentor_comment =$this->getRequest()->getPost('txt_mentor_comment');
+
+            $sql = new Sql($dba);
+            $insert = $sql->insert('task');
+            //mentor_comment	
+            $newData = array('sid'=> $sid,
+                'week_id' => $wid,
+                'mentor_comment' => $txt_mentor_comment,
+            );
+            $insert->values($newData);
+            $Query = $sql->getSqlStringForSqlObject($insert);
+            $statement = $dba->query($Query);
+            $statement->execute();  
+        }else{
+            return $this->redirect()->toRoute('login',
+            array('controller'=>'index',
+                'action' => 'login'));
+        }
+        
+              
     }
     
     public function stwpAction(){

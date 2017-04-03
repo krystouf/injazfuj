@@ -35,6 +35,57 @@
 <div  class="moh-content">
     <center><h3><?php echo $stname; ?></h3></center>
     <center><h3>Work plan</h3></center>
+    <?php
+    if ( $this->step == 2) {
+        echo 'Insert work plan data successfully ';
+    }
+
+     if ( $this->step == 3) {
+        echo 'update work plan data successfully ';
+    }
+    ?>
+    <form method="post" style="width: 100%; margin: auto;">
+        <table border="1" style="width:100%" cellpadding="7">
+            <tr>
+                <th>Week</th>
+                <th>Department</th>
+                <th>Work Assigned</th>
+                <th> Supervisor Department  </th>
+
+            </tr>
+                <?php
+                $i = 0;
+                foreach ($this->stwkplan as $workplan){
+                    if ($workplan['week'] != ''){
+                    $i++;
+                ?>
+                <tr>
+                    <td width="10%" style="text-align: center;" >Week <?php echo $workplan['week'] ?></td>
+                    <td width="20%"><textarea name="<?php echo 'dep'.$i ?>" class="mohtext"><?php echo $workplan['department'] ?></textarea></td>
+                    <td width="30%" ><textarea name="<?php echo 'wkassign'.$i ?>" class="mohtext"><?php echo $workplan['work_assigned'] ?></textarea></td>
+                    <td width="30%" ><textarea name="<?php echo 'sdep'.$i ?>" class="mohtext"><?php echo $workplan['s_department'] ?></textarea></td>
+                </tr>   
+                <?php
+                    }
+                }
+
+                if ($i<8){
+                    while($i<8){
+                        $i++;
+                ?>        
+                <tr>
+                    <td width="10%" style="text-align: center;" >Week <?php echo $i ?></td>
+                    <td width="20%"><textarea name="<?php echo 'dep'.$i ?>" class="mohtext"></textarea></td>
+                    <td width="30%" ><textarea name="<?php echo 'wkassign'.$i ?>" class="mohtext"></textarea></td>
+                    <td width="30%" ><textarea name="<?php echo 'sdep'.$i ?>" class="mohtext"></textarea></td>
+                </tr>
+                <?php
+                    }
+                }
+                ?>
+        </table>
+        <input type="submit" value="Save" name="wkplan-but" style="width: 50%; margin: 25px 25% 0px 25%;">
+    </form>
 </div>
 
 <script>

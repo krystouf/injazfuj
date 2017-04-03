@@ -80,6 +80,9 @@
                         Comments <br><br>
                         <textarea disabled="true" name="txt_student_comment" ></textarea>
 
+                        Mentor's Comments <br><br>
+                        <textarea name="txt_mentor_comment" > <?php echo $this->mc; ?></textarea>
+                        
                         <input type="submit" value="Submit" name="submit-week">
                    </form>
             
@@ -88,7 +91,6 @@
         <?php 
                 } 
              else if($this->found=="1") {
-                      
                  ?>
                   <div> <!-- weekly detail --> 
                    <hr>
@@ -97,19 +99,19 @@
                    <form method="post" style="width: 100%; margin: auto;">
                 
                     Tasks Performed: <br><br>
-                      <?php echo $this->tp; ?> <hr>
+                      <textarea disabled="true" name="txt_task_performed" ><?php echo $this->tp; ?></textarea><hr>
             
                     New Skills Learned: <br><br>   
-                     <?php echo $this->ns; ?> <hr>
+                     <textarea disabled="true" name="txt_new_skills" ><?php echo $this->ns; ?></textarea><hr>
             
                     Skills you learned at college and applied during the training period: <br><br>
-                    <?php echo $this->cs; ?><hr>
+                    <textarea disabled="true" name="txt_college_skills" ><?php echo $this->cs; ?></textarea><hr>
                  
                     Comments <br><br>
-                    <?php echo $this->sc; ?><hr>
+                    <textarea disabled="true" name="txt_student_comment" ><?php echo $this->sc; ?></textarea><hr>
                     
                     Mentor's Comments <br><br>
-                    <textarea name="txt_mentor_comment" > <?php echo $this->mc; ?> </textarea>
+                    <textarea name="txt_mentor_comment" > <?php echo $this->mc; ?></textarea>
             
                     <input type="submit" value="Submit" name="submit-week">
                    </form>
@@ -118,6 +120,10 @@
               <?php  
              } 
             }              
+               if ( $this->step =="3") {
+                  echo 'Insert week data successfully ';
+              }
+              
                if ( $this->step =="4") {
                   echo 'update week data successfully ';
               }
