@@ -100,7 +100,7 @@ class IndexController extends AbstractActionController
             }
             $authAdapter = new AuthAdapter($dba,
                 $table, // there is a method setTableName to do the same
-                'super_name', // there is a method setIdentityColumn to do the same
+                'e_mail', // there is a method setIdentityColumn to do the same
                 'super_pass', // there is a method setCredentialColumn to do the same
                 "MD5(CONCAT('$staticSalt', super_salt))" // setCredentialTreatment(parametrized string) 'MD5(?)'
             );
