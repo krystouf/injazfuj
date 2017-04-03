@@ -63,7 +63,7 @@
                 <td width="50%">Attendance & punctuality</td>
                 <td width="10%" ><input type="radio" value="5" name="q1"></td>
                 <td width="10%" ><input type="radio" value="4" name="q1"></td>                   
-                <td width="10%" ><input type="radio" value="3" name="q1"></td>
+                <td width="10%" ><input type="radio" value="3" name="q1" checked="checked"></td>
                 <td width="10%" ><input type="radio" value="2" name="q1"></td>                   
                 <td width="10%" ><input type="radio" value="1" name="q1"></td>
             </tr> 
@@ -71,7 +71,7 @@
                 <td width="50%">Organized & well prepared</td>
                 <td width="10%" ><input type="radio" value="5" name="q2"></td>
                 <td width="10%" ><input type="radio" value="4" name="q2"></td>                   
-                <td width="10%" ><input type="radio" value="3" name="q2"></td>
+                <td width="10%" ><input type="radio" value="3" name="q2" checked="checked"></td>
                 <td width="10%" ><input type="radio" value="2" name="q2"></td>                   
                 <td width="10%" ><input type="radio" value="1" name="q2"></td>
             </tr>
@@ -79,7 +79,7 @@
                 <td width="50%">Works independently & Shows initiative</td>
                 <td width="10%" ><input type="radio" value="5" name="q3"></td>
                 <td width="10%" ><input type="radio" value="4" name="q3"></td>                   
-                <td width="10%" ><input type="radio" value="3" name="q3"></td>
+                <td width="10%" ><input type="radio" value="3" name="q3" checked="checked"></td>
                 <td width="10%" ><input type="radio" value="2" name="q3"></td>                   
                 <td width="10%" ><input type="radio" value="1" name="q3"></td>
             </tr>
@@ -87,7 +87,7 @@
                 <td width="50%">Meets deadlines</td>
                 <td width="10%" ><input type="radio" value="5" name="q4"></td>
                 <td width="10%" ><input type="radio" value="4" name="q4"></td>                   
-                <td width="10%" ><input type="radio" value="3" name="q4"></td>
+                <td width="10%" ><input type="radio" value="3" name="q4" checked="checked"></td>
                 <td width="10%" ><input type="radio" value="2" name="q4"></td>                   
                 <td width="10%" ><input type="radio" value="1" name="q4"></td>
             </tr>
@@ -95,7 +95,7 @@
                 <td width="50%">Good team worker</td>
                 <td width="10%" ><input type="radio" value="5" name="q5"></td>
                 <td width="10%" ><input type="radio" value="4" name="q5"></td>                   
-                <td width="10%" ><input type="radio" value="3" name="q5"></td>
+                <td width="10%" ><input type="radio" value="3" name="q5" checked="checked"></td>
                 <td width="10%" ><input type="radio" value="2" name="q5"></td>                   
                 <td width="10%" ><input type="radio" value="1" name="q5"></td>
             </tr>
@@ -103,7 +103,7 @@
                 <td width="50%">Attempts to acquire & apply new skills</td>
                 <td width="10%" ><input type="radio" value="5" name="q6"></td>
                 <td width="10%" ><input type="radio" value="4" name="q6"></td>                   
-                <td width="10%" ><input type="radio" value="3" name="q6"></td>
+                <td width="10%" ><input type="radio" value="3" name="q6" checked="checked"></td>
                 <td width="10%" ><input type="radio" value="2" name="q6"></td>                   
                 <td width="10%" ><input type="radio" value="1" name="q6"></td>
             </tr>
@@ -111,7 +111,7 @@
                 <td width="50%">Positive attitude & behaviour</td>
                 <td width="10%" ><input type="radio" value="5" name="q7"></td>
                 <td width="10%" ><input type="radio" value="4" name="q7"></td>                   
-                <td width="10%" ><input type="radio" value="3" name="q7"></td>
+                <td width="10%" ><input type="radio" value="3" name="q7" checked="checked"></td>
                 <td width="10%" ><input type="radio" value="2" name="q7"></td>                   
                 <td width="10%" ><input type="radio" value="1" name="q7"></td>
             </tr>
@@ -504,19 +504,19 @@
             </tr>
             <tr>
                 <td width="50%" align="right">Average:</td>
-                <td  colspan="5" width="50%" ><input type="text" value="<?php $rev['AVG']?>" name="avg"></td>
+                <td  colspan="5" width="50%" ><input type="text" value="<?php echo $rev['AVG']; ?>" name="avg"></td>
             </tr>
             <tr>
-                <td colspan="1" >Number of days absent (عدد أيام الغياب): <input type="text" value="<?php $rev['Absent_Days']?>" name="absence"></td>
-                <td  colspan="5">Number of days late (عدد أيام التأخر): <input type="text" value="<?php $rev['Late_Times']?>" name="late"></td>
+                <td colspan="1" >Number of days absent (عدد أيام الغياب): <input type="text" value="<?php echo $rev['Absent_Days']; ?>" name="absence"></td>
+                <td  colspan="5">Number of days late (عدد أيام التأخر): <input type="text" value="<?php echo $rev['Late_Times']; ?>" name="late"></td>
             </tr>
             <tr>
-                <td colspan="1" >Points of strength (نقاط القوة): <textarea name="txt_strength" value="<?php $rev['Strengths']?>" ></textarea></td>
-                <td colspan="5" >Points of Weakness (نقاط الضعف): <textarea name="txt_weakness" value="<?php $rev['Weaknesses']?>" ></textarea></td>
+                <td colspan="1" >Points of strength (نقاط القوة): <textarea name="txt_strength" ><?php echo $rev['Strengths']; ?></textarea></td>
+                <td colspan="5" >Points of Weakness (نقاط الضعف): <textarea name="txt_weakness" ><?php echo $rev['Weaknesses']; ?></textarea></td>
             </tr>
             <tr>
                 <td colspan="6">
-                Additional comments (تعليقات أخرى): <textarea name="txt_comments" value="<?php $rev['Comments']?>" ></textarea>
+                Additional comments (تعليقات أخرى): <textarea name="txt_comments" ><?php echo $rev['Comments']; ?></textarea>
                 </td>
             </tr>
             <tr>

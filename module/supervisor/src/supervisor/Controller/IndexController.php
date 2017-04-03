@@ -402,58 +402,50 @@ class IndexController extends AbstractActionController
             $sid = $this->params()->fromQuery('sid');
             $step =1;
                             
-                $sql2 ="SELECT * from finalreviews Where sid=$sid";
-                $statement2 = $dba->query($sql2, array(5));
-                $resultSet2 = new ResultSet;
-                $resultSet2->initialize($statement2);
-                $resultSet2->buffer();
-                $count = $resultSet2->count();
-                if ($this->getRequest()->getPost('submit-finaleval')){
-                    if ($count==0){
-                        $step = 2;
-                        $this->insertfinaleval($sid);
-                    }else{
-                        $step = 3;
-                        $this->updatefinaleval($sid);
-                    }
-                }
-                
-                $sql2 ="SELECT * from finalreviews Where sid=$sid";
-                $statement2 = $dba->query($sql2, array(5));
-                $resultSet2 = new ResultSet;
-                $resultSet2->initialize($statement2);
-                $resultSet2->buffer();
-                $count = $resultSet2->count();
-                
+            $sql2 ="SELECT * from finalreviews Where sid=$sid";
+            $statement2 = $dba->query($sql2, array(5));
+            $resultSet2 = new ResultSet;
+            $resultSet2->initialize($statement2);
+            $resultSet2->buffer();
+            $count = $resultSet2->count();
+            if ($this->getRequest()->getPost('submit-finaleval')){
                 if ($count==0){
-                    return new ViewModel(array(
-                        'info' => $resultSet,
-                        'sid' => $sid,
-                        'step' => $step,
-                        'count' => $count
-                     ));
+                    $step = 2;
+                    $this->insertfinaleval($sid);
                 }else{
-                    return new ViewModel(array(
-                        'info' => $resultSet,
-                        'review' => $resultSet2,
-                        'sid' => $sid,
-                        'step' => $step,
-                        'count' => $count
-                     ));
+                    $step = 3;
+                    $this->updatefinaleval($sid);
                 }
-            }else{
+            }
+
+            $sql2 ="SELECT * from finalreviews Where sid=$sid";
+            $statement2 = $dba->query($sql2, array(5));
+            $resultSet2 = new ResultSet;
+            $resultSet2->initialize($statement2);
+            $resultSet2->buffer();
+            $count = $resultSet2->count();
+
+            if ($count==0){
                 return new ViewModel(array(
                     'info' => $resultSet,
                     'sid' => $sid,
                     'step' => $step,
-                    'count' => 0,
+                    'count' => $count
+                 ));
+            }else{
+                return new ViewModel(array(
+                    'info' => $resultSet,
+                    'review' => $resultSet2,
+                    'sid' => $sid,
+                    'step' => $step,
+                    'count' => $count
                  ));
             }
-//}else{
-//            return $this->redirect()->toRoute('login',
-//            array('controller'=>'index',
-//                'action' => 'login'));
-//        }
+        }else{
+            return $this->redirect()->toRoute('login',
+            array('controller'=>'index',
+                'action' => 'login'));
+       }
     }
     
     public function insertfinaleval($sid){
@@ -470,12 +462,12 @@ class IndexController extends AbstractActionController
             $q5 =$this->getRequest()->getPost('q5');
             $q6 =$this->getRequest()->getPost('q6');
             $q7 =$this->getRequest()->getPost('q7');
-            $avg =$this->getRequest()->getPost('AVG');
-            $absent =$this->getRequest()->getPost('Absent_Days');
-            $late =$this->getRequest()->getPost('Late_Times');
-            $strengths =$this->getRequest()->getPost('Strengths');
-            $weaknesses =$this->getRequest()->getPost('Weaknesses');
-            $comments =$this->getRequest()->getPost('Comments');
+            $avg =$this->getRequest()->getPost('avg');
+            $absent =$this->getRequest()->getPost('absence');
+            $late =$this->getRequest()->getPost('late');
+            $strengths =$this->getRequest()->getPost('txt_strength');
+            $weaknesses =$this->getRequest()->getPost('txt_weakness');
+            $comments =$this->getRequest()->getPost('txt_comments');
             $sql = new Sql($dba);
             $insert = $sql->insert('finalreviews');
             //mentor_comment	
@@ -521,11 +513,11 @@ class IndexController extends AbstractActionController
                 'Q6'  => $this->getRequest()->getPost('q6'),     
                 'Q7'  => $this->getRequest()->getPost('q7'),
                 'AVG' =>  $this->getRequest()->getPost('avg'),
-                'Absent_Days' =>  $this->getRequest()->getPost('absent'),
+                'Absent_Days' =>  $this->getRequest()->getPost('absence'),
                 'Late_Times' =>  $this->getRequest()->getPost('late'),
-                'Strengths' =>  $this->getRequest()->getPost('strengths'),
-                'Weaknesses' =>  $this->getRequest()->getPost('weaknesses'),
-                'Comments' =>  $this->getRequest()->getPost('comments'),
+                'Strengths' =>  $this->getRequest()->getPost('txt_strength'),
+                'Weaknesses' =>  $this->getRequest()->getPost('txt_weakness'),
+                'Comments' =>  $this->getRequest()->getPost('txt_comments'),
 
             );      
 
