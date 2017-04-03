@@ -65,9 +65,25 @@ class IndexController extends AbstractActionController
         $auth = new AuthenticationService();
         $container = new Container('username');
         if ($auth->hasIdentity() && $container->type == 3){
+            $sm =$this->getServiceLocator();
+            $dba = $sm->get($container->adapter);
+            $username = $container->id;
+            $sql ="SELECT * from students,teacher,supervisor,companies Where supervisor.supervisor_id=$username
+                   AND supervisor_id = super_id
+                   AND 	supervisor.Company_ID = companies.Company_ID
+                   AND  Teacher_id = mentor_id";
+            $statement = $dba->query($sql, array(5));
+            $resultSet = new ResultSet;
+            $resultSet->initialize($statement);
+            $resultSet->buffer();
             
+            return new ViewModel(array(
+                'info' => $resultSet,
+             ));
         }else{
-            
+            return $this->redirect()->toRoute('login',
+            array('controller'=>'index',
+                'action' => 'login'));
         }
     }
      

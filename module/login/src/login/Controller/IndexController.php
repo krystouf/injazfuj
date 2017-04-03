@@ -173,7 +173,7 @@ class IndexController extends AbstractActionController
                         array('controller'=>'index',
                               'action' => 'index'));
                     }else if ($table == "supervisor"){
-                        $container->id = $superid;
+                        $container->id = $tid;
                         $container->type= 3;
                         $storage = $auth->getStorage();
                         $storage->write($authAdapter->getResultRowObject(

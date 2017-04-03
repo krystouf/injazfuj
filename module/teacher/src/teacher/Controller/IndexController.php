@@ -27,8 +27,6 @@ class IndexController extends AbstractActionController
         $auth = new AuthenticationService();
         $container = new Container('username');
         if ($auth->hasIdentity() && $container->type == 1){
-            $auth = new AuthenticationService();
-            $container = new Container('username');
             $sm =$this->getServiceLocator();
             $dba = $sm->get($container->adapter);
             $username = $container->id;
@@ -59,8 +57,6 @@ class IndexController extends AbstractActionController
         $auth = new AuthenticationService();
         $container = new Container('username');
         if ($auth->hasIdentity() && $container->type == 1){
-            $auth = new AuthenticationService();
-            $container = new Container('username');
             $sm =$this->getServiceLocator();
             $dba = $sm->get($container->adapter);
             $username = $container->id;
@@ -91,8 +87,6 @@ class IndexController extends AbstractActionController
         $auth = new AuthenticationService();
         $container = new Container('username');
         if ($auth->hasIdentity() && $container->type == 1){
-            $auth = new AuthenticationService();
-            $container = new Container('username');
             $sm =$this->getServiceLocator();
             $dba = $sm->get($container->adapter);
             $username = $container->id;
@@ -194,8 +188,6 @@ class IndexController extends AbstractActionController
         $auth = new AuthenticationService();
         $container = new Container('username');
         if ($auth->hasIdentity() && $container->type == 1){
-            $auth = new AuthenticationService();
-            $container = new Container('username');
             $sm =$this->getServiceLocator();
             $dba = $sm->get($container->adapter);
             $username = $container->id;
@@ -232,8 +224,6 @@ class IndexController extends AbstractActionController
         $auth = new AuthenticationService();
         $container = new Container('username');
         if ($auth->hasIdentity() && $container->type == 1){
-            $auth = new AuthenticationService();
-            $container = new Container('username');
             $sm =$this->getServiceLocator();
             $dba = $sm->get($container->adapter);
             $username = $container->id;
