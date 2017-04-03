@@ -1,0 +1,102 @@
+
+        <div class="moh-left-nav" >
+            <a href="<?php echo $this->url('workplacement') ?>"> Information</a><br>
+            <a href="<?php echo $this->url('workplan') ?>"> Work plan</a> <br>
+            <a href="<?php echo $this->url('weeklyreport') ?>"> Weekly Report</a><br>            
+        </div>
+    
+        <div  class="moh-content">
+           <center> <h2> Student Weekly Report </h2> </center>            
+        <div class="sttabs">
+            <ul class="sttab-links">
+                 <?php 
+                       
+                  for ($i=1 ;$i<=8 ;$i++) 
+                  {   
+                    ?>
+
+                    <li >      
+                        <a href="<?php echo $this->url('weeklyreport',array(), array('query' => array( 'wid' => $i ) ));?>">
+                            Week <?php echo $i ; ?></a></li>
+                  <?php } ?>     
+                   
+             </ul>
+        </div>
+        
+            
+        <?php
+     //   echo 'step =' . $this->step.'<br>';
+    //    echo 'week =' . $this->weekid.'<br>';
+    //    echo 'found =' . $this->found.'<br>';
+            if ($this->weekid != "0"  && $this->step =="2") {
+                
+                if ($this->found=="0") {
+                ?>
+                 
+                <div> <!-- weekly detail --> 
+                   <hr>
+                   Weekly Report : <?php echo $this->weekid; ?>
+                    <hr>
+                   <form method="post" style="width: 100%; margin: auto;">
+                
+                    Tasks Performed: <br> <br>
+                      <textarea name="txt_task_performed" ></textarea><hr>
+            
+                    New Skills Learned: <br><br>   
+                     <textarea name="txt_new_skills" ></textarea><hr>
+            
+                    Skills you learned at college and applied during the training period: <br><br>
+                    <textarea name="txt_college_skills" ></textarea><hr>
+            
+                 
+                    Comments <br><br>
+                    <textarea name="txt_student_comment" ></textarea>
+            
+                    <input type="submit" value="Submit" name="submit-week">
+                   </form>
+            
+                </div> <!-- end  of weekly detail --> 
+                                
+        <?php 
+                } //found=0
+             else if($this->found=="1") {
+                  //$res1 ($this->resst->
+                      
+                 ?>
+                  <div> <!-- weekly detail --> 
+                   <hr>
+                   Weekly Report : <?php echo $this->weekid; ?>
+                    <hr>
+                   <form method="post" style="width: 100%; margin: auto;">
+                
+                    Tasks Performed: <br><br>
+                      <textarea name="txt_task_performed" ><?php echo $this->tp; ?> </textarea><hr>
+            
+                    New Skills Learned: <br><br>   
+                     <textarea name="txt_new_skills" ><?php echo $this->ns; ?> </textarea><hr>
+            
+                    Skills you learned at college and applied during the training period: <br><br>
+                    <textarea name="txt_college_skills" ><?php echo $this->cs; ?> </textarea><hr>
+            
+                 
+                    Comments <br><br>
+                    <textarea name="txt_student_comment" > <?php echo $this->sc; ?> </textarea>
+            
+                    <input type="submit" value="Submit" name="submit-week">
+                   </form>
+            
+                </div> <!-- end  of weekly detail --> 
+              <?php  
+              //endforeach; 
+             } //found=1
+            }
+              if ( $this->step =="3") {
+                  echo 'Insert week data successfully ';
+              }
+              
+               if ( $this->step =="4") {
+                  echo 'update week data successfully ';
+              }
+        ?>       
+            
+    </div><!-- end  of  moh-content -->   

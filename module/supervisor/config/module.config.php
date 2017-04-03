@@ -9,14 +9,70 @@
 
 namespace supervisor;
 
-return array(
-    'router' => array(
-        'routes' => array(
+
             // The following is a route to simplify getting started creating
             // new controllers and actions without needing to create a new
             // module. Simply drop new controllers in, and you can access them
             // using the path /application/:controller/:action
-            'supervisor' => array(
+            
+return array(
+    'router' => array(
+        'routes' => array(
+            //show students 
+             'students' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route'    => '/supervisorshowstudents',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'supervisor\Controller',
+                        'controller'    => 'Index',
+                        'action'        => 'students',
+                    ),
+                ),
+            ),
+            //end  of show students   
+            //
+            
+            'workplacement' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route'    => '/workplacement',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'supervisor\Controller',
+                        'controller'    => 'Index',
+                        'action'        => 'workplacement',
+                    ),
+                ),
+            ),
+            //
+            //work plan 
+             'workplan' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route'    => '/supervisorworkplan',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'supervisor\Controller',
+                        'controller'    => 'Index',
+                        'action'        => 'workplan',
+                    ),
+                ),
+            ),
+            //end  of work plan     
+           // Weekly Report
+            'weeklyreport' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route'    => '/Weeklyreport',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'supervisor\Controller',
+                        'controller'    => 'Index',
+                        'action'        => 'Weeklyreport',
+                    ),
+                ),
+            ),
+            
+           // end of Weekly Report
+           'supervisor' => array(
                 'type'    => 'Literal',
                 'options' => array(
                     'route'    => '/supervisor',
@@ -26,6 +82,7 @@ return array(
                         'action'        => 'index',
                     ),
                 ),
+
                 'may_terminate' => true,
                 'child_routes' => array(
                     'default' => array(
