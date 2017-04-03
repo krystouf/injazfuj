@@ -100,6 +100,7 @@ class IndexController extends AbstractActionController
             $dba = $sm->get($container->adapter);
             $username = $container->id;
             $sid = $this->params()->fromQuery('sid');
+            $wid = $this->params()->fromQuery('wid');
             $sql ="SELECT * from students,teacher,supervisor,companies Where supervisor.supervisor_id=$username
                    AND supervisor_id = super_id
                    AND 	supervisor.Company_ID = companies.Company_ID
@@ -111,7 +112,8 @@ class IndexController extends AbstractActionController
             
             return new ViewModel(array(
                 'info' => $resultSet,
-                'sid' => $sid
+                'sid' => $sid,
+                'wid' => $wid
              ));
         }else{
             return $this->redirect()->toRoute('login',
