@@ -158,6 +158,7 @@ class IndexController extends AbstractActionController
             $ns='';
             $cs='';
             $sc='';
+            $tc='';
             // echo 'found =' . $found;
             $weekid = $this->params()->fromQuery('wid');
 
@@ -182,6 +183,7 @@ class IndexController extends AbstractActionController
                 $ns= $task['new_skills'];
                 $cs= $task['college_skills'];
                 $sc= $task['student_comment'];
+                $tc= $task['mentor_comment'];
             endforeach;
                   /*
              if ($found =="0")        
@@ -208,7 +210,9 @@ class IndexController extends AbstractActionController
                 'ns'=> $ns,
                 'cs'=> $cs,
                 'sc'=> $sc,
+                'tc'=> $tc,
                 'found'=> $found,
+                
             ));
         }else{
             return $this->redirect()->toRoute('login',
