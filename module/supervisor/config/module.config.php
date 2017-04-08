@@ -41,7 +41,21 @@ return array(
                     ),
                 ),
             ),
-            //end  of work plan     
+            //end  of work plan 
+//stu weekly report 
+            'supstwr' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route'    => '/supstwr',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'supervisor\Controller',
+                        'controller'    => 'Index',
+                        'action'        => 'stwr',
+                    ),
+                ),
+            ),
+            //end  of stu weekly report
+            //   
            // Weekly Report
             'supweeklyreport' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',

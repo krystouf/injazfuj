@@ -536,7 +536,148 @@ class IndexController extends AbstractActionController
                 'action' => 'login'));
         }
      }    
-    /* public function finalreportAction(){
+    
+    public function stwrAction(){
+        $auth = new AuthenticationService();
+        $container = new Container('username');
+        if ($auth->hasIdentity() && $container->type == 3){
+            $sm =$this->getServiceLocator();
+            $dba = $sm->get($container->adapter);
+            $username = $container->id;
+            $sid = $this->params()->fromQuery('sid');
+
+            $sql ="SELECT * from students,teacher,supervisor,companies Where supervisor.supervisor_id=".$username."
+                   AND supervisor_id = super_id
+                   AND 	supervisor.Company_ID = companies.Company_ID
+                   AND  Teacher_id = mentor_id";
+            $statement = $dba->query($sql, array(5));
+            $resultSet = new ResultSet;
+            $resultSet->initialize($statement);
+            $resultSet->buffer();
+
+            $found=0;
+            $tid='';
+            $tp='';
+            $ns='';
+            $cs='';
+            $sc='';
+            $mc='';
+            $superc='';
+            $weekid = $this->params()->fromQuery('wid');
+
+            if  ($weekid >=1 && $weekid<=8){  
+                $weekid = $weekid;
+                $step=2;
+            }else{   
+                $weekid = 0;
+                $step  = 1;
+            }
+
+            $sql2 ="SELECT * from task Where sid=$sid
+                   AND week_id=$weekid";
+            $statement2 = $dba->query($sql2, array(5));
+            $resultSet2 = new ResultSet;         
+            $resultSet2->initialize($statement2);
+            $resultSet2->buffer();
+            $found = $resultSet2->count();
+            foreach ($resultSet2 as $task):
+                $tid=$task['task_id'];
+                $tp= $task['task_performed'];
+                $ns= $task['new_skills'];
+                $cs= $task['college_skills'];
+                $sc= $task['student_comment'];
+                $mc= $task['mentor_comment'];
+                $superc= $task['supervisor_comment'];
+            endforeach;
+
+            if($this->getRequest()->getPost('submit-week')){
+                if ($found =="0"){
+                      //      echo "found = 00000";echo 'taskid ' .$tid;
+                    $this->insertweek($weekid, $sid);
+                    $step=3;
+                }else{
+                     //   echo "found = 11111";
+                    $this->updateweek($tid);
+                    $step=4;
+                }
+            }
+
+            return new ViewModel(array(
+                'info' => $resultSet,
+                'sid' => $sid,
+                'weekid' =>  $weekid,
+                'step' =>  $step,
+                'tp'=> $tp,
+                'ns'=> $ns,
+                'cs'=> $cs,
+                'sc'=> $sc,
+                'mc' => $mc,
+                'superc' => $superc,
+                'found'=> $found
+             ));
+        }else{
+            return $this->redirect()->toRoute('login',
+            array('controller'=>'index',
+                'action' => 'login'));
+        }
+    }
+    
+    public function updateweek ($taskid)  
+    {
+        date_default_timezone_set('Asia/Dubai');
+        $auth = new AuthenticationService();
+        $container = new Container('username');
+        $sm =$this->getServiceLocator();
+        $dba = $sm->get($container->adapter);
+        if ($auth->hasIdentity() && $container->type == 3){
+            $data = array(
+                'supervisor_comment'  => $this->getRequest()->getPost('txt_super_comment')               
+            );
+            $sql = new Sql($dba);
+            $update = $sql->update();
+            $update->table('task');
+            $update->set($data);
+            $update->where(array('task_id' => $taskid));
+            $statement = $sql->prepareStatementForSqlObject($update);
+            $statement->execute();
+        }else{
+            return $this->redirect()->toRoute('login',
+            array('controller'=>'index',
+                'action' => 'login'));
+        }
+    }
+    
+    public function insertweek($wid, $sid)
+            {
+        date_default_timezone_set('Asia/Dubai');
+        $auth = new AuthenticationService();
+        $container = new Container('username');
+        $sm =$this->getServiceLocator();
+        $dba = $sm->get($container->adapter);
+        if ($auth->hasIdentity() && $container->type == 3){
+            $txt_super_comment =$this->getRequest()->getPost('txt_super_comment');
+
+            $sql = new Sql($dba);
+            $insert = $sql->insert('task');
+            //mentor_comment	
+            $newData = array('sid'=> $sid,
+                'week_id' => $wid,
+                'supervisor_comment' => $txt_super_comment,
+            );
+            $insert->values($newData);
+            $Query = $sql->getSqlStringForSqlObject($insert);
+            $statement = $dba->query($Query);
+            $statement->execute();  
+        }else{
+            return $this->redirect()->toRoute('login',
+            array('controller'=>'index',
+                'action' => 'login'));
+        }
+        
+              
+    }
+
+     /* public function finalreportAction(){
         $auth = new AuthenticationService();
         $container = new Container('username');
         if ($auth->hasIdentity() && $container->type == 3){
