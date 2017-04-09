@@ -537,7 +537,7 @@ class IndexController extends AbstractActionController
         }
      }    
     
-    public function stwrAction(){
+    public function supstwrAction(){
         $auth = new AuthenticationService();
         $container = new Container('username');
         if ($auth->hasIdentity() && $container->type == 3){
@@ -593,11 +593,11 @@ class IndexController extends AbstractActionController
             if($this->getRequest()->getPost('submit-week')){
                 if ($found =="0"){
                       //      echo "found = 00000";echo 'taskid ' .$tid;
-                    $this->insertweek($weekid, $sid);
+                    $this->supinsertweek($weekid, $sid);
                     $step=3;
                 }else{
                      //   echo "found = 11111";
-                    $this->updateweek($tid);
+                    $this->supupdateweek($tid);
                     $step=4;
                 }
             }
@@ -622,7 +622,7 @@ class IndexController extends AbstractActionController
         }
     }
     
-    public function updateweek ($taskid)  
+    public function supupdateweek ($taskid)  
     {
         date_default_timezone_set('Asia/Dubai');
         $auth = new AuthenticationService();
@@ -647,7 +647,7 @@ class IndexController extends AbstractActionController
         }
     }
     
-    public function insertweek($wid, $sid)
+    public function supinsertweek($wid, $sid)
             {
         date_default_timezone_set('Asia/Dubai');
         $auth = new AuthenticationService();

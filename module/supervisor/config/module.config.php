@@ -50,7 +50,7 @@ return array(
                     'defaults' => array(
                         '__NAMESPACE__' => 'supervisor\Controller',
                         'controller'    => 'Index',
-                        'action'        => 'stwr',
+                        'action'        => 'supstwr',
                     ),
                 ),
             ),
