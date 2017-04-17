@@ -89,7 +89,7 @@ class IndexController extends AbstractActionController
         if ($auth->hasIdentity() && $container->type == 2){
             $username = $container->id;
             $sql ="SELECT * from students,teacher,supervisor,companies Where sid=".$username."
-                   AND supervisor_id = super_id
+                   AND  supervisor_id = super_id 
                    AND 	supervisor.Company_ID = companies.Company_ID
                    AND  Teacher_id = mentor_id";
             $statement = $dba->query($sql, array(5));
@@ -97,7 +97,8 @@ class IndexController extends AbstractActionController
             $resultSet->initialize($statement);
             $count = $resultSet->count();
             if ($count == 0){
-                $sql ="SELECT * from students Where sid=$username";
+                $sql ="SELECT * from students,teacher Where sid=".$username."
+                          AND  Teacher_id = mentor_id";
                 $statement = $dba->query($sql, array(5));
                 $resultSet = new ResultSet;
                 $resultSet->initialize($statement);
