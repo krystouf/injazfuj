@@ -131,6 +131,7 @@ class IndexController extends AbstractActionController
             $cs='';
             $sc='';
             $mc='';
+            $subdate='';
             $weekid = $this->params()->fromQuery('wid');
 
             if  ($weekid >=1 && $weekid<=8){  
@@ -155,6 +156,7 @@ class IndexController extends AbstractActionController
                 $cs= $task['college_skills'];
                 $sc= $task['student_comment'];
                 $mc= $task['mentor_comment'];
+                $subdate=$task['sub_date'];
             endforeach;
 
             if($this->getRequest()->getPost('submit-week')){
@@ -179,6 +181,7 @@ class IndexController extends AbstractActionController
                 'cs'=> $cs,
                 'sc'=> $sc,
                 'mc' => $mc,
+                'subdate'=> $subdate,
                 'found'=> $found
              ));
         }else{
@@ -289,7 +292,8 @@ class IndexController extends AbstractActionController
             $sql ="SELECT * from students,teacher,supervisor,companies Where Teacher_id=".$username."
                        AND supervisor_id = super_id
                        AND 	supervisor.Company_ID = companies.Company_ID
-                       AND  Teacher_id = mentor_id";
+                       AND  Teacher_id = mentor_id
+                       ORDER by Company_Name,Student_Name ASC";
             $statement = $dba->query($sql, array(5));
             $resultSet = new ResultSet;
             $resultSet->initialize($statement);

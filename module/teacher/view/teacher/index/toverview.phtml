@@ -37,39 +37,42 @@
         
         
         <center><h3> Overview </h3></center>
-        <table border="1" style="width:100%" cellpadding="7">
-            <tr>
-                <th> Student ID          </th>
-                <th> Student Name        </th>
-                <th> Student Mobile      </th>
-           <th> Student Email       </th>
-                <th> Employer            </th>
-                <th> Supervisor Name     </th>
-                <th> Supervisor Mobile   </th>
-                <th> Supervisor Email    </th> 
-
-            </tr>
-
-            <?php
-                $conut=0;
-                foreach ($this->info as $student){
-
+    <?php
+        $stud = "";
+        foreach ($this->info as $student) :
+            if($stud != $student['Company_Name']){
+                if($stud != ""){
+                ?>
+                    </table>
+                    </article>
+                <?php
+                }
+                $stud = $student['Company_Name'];
             ?>
-            <tr>
-
-                 <td> <?php echo $student['Student_id'] ?></td>
-                 <td> <?php echo $student['Student_Name'] ?></td>
-                 <td> <?php echo $student['smobile'] ?></td>
-                 <td> <?php echo $student['semail'] ?></td>
-                 <td> <?php echo $student['Company_Name'] ?></td>
-                 <td> <?php echo $student['super_name'] ?></td>
-                 <td> <?php echo $student['phone'] ?></td>
-                 <td> <?php echo $student['e_mail'] ?></td>
-            </tr>   
-        <?php
-            } //foreach
-        ?>
+            <article class="companylist">
+                <p style="margin: 0px; font-weight: bold;"><?php echo $student['Company_Name'] ?></p>
+                <p style="margin: 0px;"><?php echo $student['super_name'] ?></p>
+                <p style="margin: 0px;"><?php echo $student['phone'] ?></p>
+                <p style="margin: 0px;"><?php echo $student['e_mail'] ?></p><hr>
+                <table style="width: 95%; margin: auto;"  border="1" cellpadding="7">
+                    <tr>
+                        <th style="text-align: left;">Name</th>
+                        <th style="text-align: left;">Phone</th>
+                        <th style="text-align: left;">Email</th>
+                    </tr>
+            <?php
+            }
+            ?>
+                <tr>
+                    <td width="30%" ><?php echo $student['Student_Name']?></td>
+                    <td width="35%"><?php  echo $student['smobile']?></td>
+                    <td width="35%" ><?php echo $student['semail']?></td>
+               </tr>  
+            <?php              
+        endforeach;
+    ?>
         </table>
+    </article>
 </div>
  
 <script>

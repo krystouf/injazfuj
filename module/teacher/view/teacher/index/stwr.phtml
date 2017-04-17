@@ -1,5 +1,6 @@
 <?php
     $stname="";
+    
 ?>
 <div class="moh-left-nav" >
 
@@ -37,6 +38,7 @@
      </div>
 
  <div  class="moh-content">
+     
         <center><h3><?php echo $stname; ?></h3></center>
         <center><h3>Weekly reports</h3></center>
                 <div class="sttabs">
@@ -66,6 +68,7 @@
                 <div> <!-- weekly detail --> 
                     <hr>
                     Weekly Report : <?php echo $this->weekid; ?>
+                    Submit date  : <?php echo $this->subdate; ?> 
                     <hr>
                     <form method="post" style="width: 100%; margin: auto;">
                         Tasks Performed: <br> <br>
@@ -94,7 +97,8 @@
                  ?>
                   <div> <!-- weekly detail --> 
                    <hr>
-                   Weekly Report : <?php echo $this->weekid; ?>
+                   Weekly Report : <?php echo $this->weekid; ?> <br>
+                   Submit date  : <?php echo $this->subdate; ?> 
                     <hr>
                    <form method="post" style="width: 100%; margin: auto;">
                 
