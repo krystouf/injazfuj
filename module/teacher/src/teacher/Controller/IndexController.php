@@ -93,12 +93,29 @@ class IndexController extends AbstractActionController
             $resultSet = new ResultSet;
             $resultSet->initialize($statement);
             $resultSet->buffer();
+            
+            
+            $sql2 ="SELECT * from finalreviews Where sid=$sid";
+            $statement2 = $dba->query($sql2, array(5));
+            $resultSet2 = new ResultSet;
+            $resultSet2->initialize($statement2);
+            $resultSet2->buffer();
+            $count = $resultSet2->count();
 
-
-            return new ViewModel(array(
-                'info' => $resultSet,
-                'sid' => $sid
-             ));
+            if ($count==0){
+                return new ViewModel(array(
+                    'info' => $resultSet,
+                    'sid' => $sid,
+                    'count' => $count
+                 ));
+            }else{
+                return new ViewModel(array(
+                    'info' => $resultSet,
+                    'review' => $resultSet2,
+                    'sid' => $sid,
+                    'count' => $count
+                 ));
+            }
         }else{
             return $this->redirect()->toRoute('login',
             array('controller'=>'index',
