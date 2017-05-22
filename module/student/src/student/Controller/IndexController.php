@@ -295,65 +295,39 @@ class IndexController extends AbstractActionController
                 'action' => 'login'));
         }
      }
-     public function uploadAction()
-    {   
-         $step= 0;
-         
-        
-    if($this->getRequest()->getPost('upload'))
-        {
-           $container = new Container('username');
-           $sm =$this->getServiceLocator();
-           $dba = $sm->get($container->adapter);
-           $username = $container->id;
-         
-           $f_name=$this->getRequest()->getPost('file_name');
-          
-         
-       //    $upload = new Zend_File_Transfer_Adapter_Http();
      
-        //   $upload->setDestination('C:\work');
-           
-           /*
-           $host = 'localhost';
-            $usr = '';
-            $pwd = '';
- 
-            // file to move:
-            $local_file = $f_name;
-            $ftp_path = $f_name;
- 
-            // connect to FTP server (port 21)
-            $conn_id = ftp_connect($host,80) or die ("Cannot connect to host");
+    public function uploadAction(){   
+        date_default_timezone_set('Asia/Dubai');
+        $auth = new AuthenticationService();
+        $container = new Container('username');
+        $sm =$this->getServiceLocator();
+        $dba = $sm->get($container->adapter);
+        if ($auth->hasIdentity() && $container->type == 2){
+            $username = $container->id;
+            $sql ="SELECT * from students,teacher,supervisor,companies Where sid=".$username."
+                   AND  supervisor_id = super_id 
+                   AND 	supervisor.Company_ID = companies.Company_ID
+                   AND  Teacher_id = mentor_id";
+            $statement = $dba->query($sql, array(5));
+            $resultSet = new ResultSet;
+            $resultSet->initialize($statement);
+            $count = $resultSet->count();
+            if ($count == 0){
+                $sql ="SELECT * from students,teacher Where sid=".$username."
+                          AND  Teacher_id = mentor_id";
+                $statement = $dba->query($sql, array(5));
+                $resultSet = new ResultSet;
+                $resultSet->initialize($statement);
+            }
 
-            // send access parameters
-            ftp_login($conn_id, $usr, $pwd) or die("Cannot login");
-
-            // turn on passive mode transfers (some servers need this)
-            // ftp_pasv ($conn_id, true);
-
-            // perform file upload
-            $upload = ftp_put($conn_id, $ftp_path, $local_file, FTP_ASCII);
-*/
-         //   echo $fileName ;
-            
-               $sql = new Sql($dba);
-               $insert = $sql->insert('projectfiles');
-               $newData = array('sid'=> $username,
-                   'file_name' =>  $f_name,
-
-               );
-               $insert->values($newData);
-               $Query = $sql->getSqlStringForSqlObject($insert);
-               $statement = $dba->query($Query);
-               $statement->execute();  
-               $step= 1;
+            return new ViewModel(array(
+                'Studentinfo' => $resultSet,
+                'count' => $count
+             ));
+        }else{
+            return $this->redirect()->toRoute('login',
+            array('controller'=>'index',
+                'action' => 'login'));
         }
-
-         return new ViewModel(array(
-             'step'=> $step,
-         ));
-         
     }
-   
 }

@@ -1,5 +1,5 @@
 
-       <div class="moh-left-nav" >
+        <div class="moh-left-nav" >
             <a href="<?php echo $this->url('workplacement') ?>"> Information</a><br>
             <a href="<?php echo $this->url('workplan') ?>"> Work plan</a> <br>
             <a href="<?php echo $this->url('weeklyreport') ?>"> Weekly Report</a><br>
@@ -11,30 +11,16 @@
             <a href="./files/stbook.docx" > Student logbook </a><br><br>
             <a href="./files/project.docx" > Project guidelines </a><br><br>
             <hr>
-           <?php 
-           if ($this->step =="1")
-           {
-               echo '<h3>File inserted successfully</h3>';
-           }
-           else {
-           ?>
-        
-           
-            <form method="post" style="width: 100%; margin: auto;">
-		 <b>Upload the Project file : </b><br>
-                <table width="50%" border="0" cellpadding="1" cellspacing="1" >
-                  
-                    <tr> 
-			<td width="50%">
-                            <input type="hidden" name="MAX_FILE_SIZE" value="2000000">
-                            <input name="file_name" type="file" id="userfile"> 
-			</td>
-                        <td width="15%"><input name="upload" type="submit"  id="upload" value=" Upload "></td>
-                    </tr>
-						
-		</table>
-            </form>
-            
-	<?php  } ?>
+ 
+            <?php 
+                if ($this->count != 0){
+                    foreach ($this->Studentinfo as $student) :
+                        echo 'Please send your presentation to this email address : '.$student['t_e_mail'].'<br/><br/>';
+                    endforeach; 
+                }
+            ?>
             
         </div>
+    
+   <!-- <div class="clear"> </div> -->
+ 
