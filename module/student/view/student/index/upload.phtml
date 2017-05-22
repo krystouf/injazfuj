@@ -15,7 +15,7 @@
             <?php 
                 if ($this->count != 0){
                     foreach ($this->Studentinfo as $student) :
-                        echo 'Please send your presentation to the following email address : '.$student['t_e_mail'].'<br/><br/>';
+                        echo 'Please send your presentation to the following email address : <a href="mailto:'.$student['t_e_mail'].'">'.$student['t_e_mail'].'</a><br/><br/>';
                     endforeach; 
                 }
             ?>
